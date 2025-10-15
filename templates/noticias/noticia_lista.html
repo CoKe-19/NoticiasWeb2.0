@@ -1,0 +1,31 @@
+{% extends 'noticias/base.html' %}
+{% block title %}Noticias | Vox Campus{% endblock %}
+
+{% block content %}
+<h2>Noticias</h2>
+<a href="{% url 'noticia_crear' %}" class="btn btn-primary mb-3">Crear Nueva Noticia</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for noticia in noticias %}
+        <tr>
+            <td>{{ noticia.id }}</td>
+            <td>{{ noticia.titulo }}</td>
+            <td>{{ noticia.autor }}</td>
+            <td>
+                <a href="{% url 'noticia_detalle' noticia.id %}" class="btn btn-info btn-sm">Ver</a>
+                <a href="{% url 'noticia_editar' noticia.id %}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{% url 'noticia_eliminar' noticia.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

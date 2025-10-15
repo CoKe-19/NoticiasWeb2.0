@@ -1,0 +1,12 @@
+{% extends 'noticias/base.html' %}
+{% block title %}Eliminar Categoría | Vox Campus{% endblock %}
+
+{% block content %}
+<h2>Eliminar Categoría</h2>
+<p>¿Estás seguro que deseas eliminar la categoría "{{ categoria.nombre }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="{% url 'categoria_lista' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

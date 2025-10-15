@@ -1,0 +1,28 @@
+{% extends 'noticias/base.html' %}
+{% block title %}Categorías | Vox Campus{% endblock %}
+
+{% block content %}
+<h2>Categorías</h2>
+<a href="{% url 'categoria_crear' %}" class="btn btn-primary mb-3">Crear Nueva Categoría</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for categoria in categorias %}
+        <tr>
+            <td>{{ categoria.id }}</td>
+            <td>{{ categoria.nombre }}</td>
+            <td>
+                <a href="{% url 'categoria_editar' categoria.id %}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{% url 'categoria_eliminar' categoria.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

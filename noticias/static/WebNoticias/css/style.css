@@ -1,0 +1,409 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #212529;
+    scroll-behavior: smooth;
+    margin: 0;
+    background: linear-gradient(145deg, #fdfbfb, #f0f4ff);
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+    background-size: auto;
+    background-attachment: fixed;
+}
+
+/* ============================
+   Navbar
+============================ */
+.navbar {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 1px 1px 4px rgba(13,27,76,0.3);
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+    color: #212529;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #0d1b4c !important;
+    text-shadow: 0 0 5px rgba(13,27,76,0.4);
+}
+
+/* ============================
+   Botones
+============================ */
+.btn-premium {
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: #fff !important;
+}
+
+/* ============================
+   Login Premium Mejorado
+============================ */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
+    padding: 30px 15px;
+    background: linear-gradient(135deg, #f0f4ff, #ffffff);
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+}
+
+.login-title {
+    font-family: 'Montserrat', sans-serif;
+    color: #d32f2f;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.login-form .form-control {
+    border-radius: 12px;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.login-form .form-control:focus {
+    border-color: #d32f2f;
+    box-shadow: 0 0 12px rgba(211,47,47,0.3);
+    outline: none;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
+    color: #fff !important;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 0.65rem 1.8rem;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #ff3d3d, #ff1a1a);
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+
+/* Logout (solo barra superior) */
+.btn-logout {
+    background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
+}
+.btn-logout:hover {
+    background: linear-gradient(135deg, #ff3d3d, #ff1a1a);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+
+/* ============================
+   Panel CRUD
+============================ */
+.panel-crud {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    padding: 25px 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    margin: 30px auto;
+    max-width: 920px;
+    transition: all 0.3s ease;
+}
+
+.panel-crud:hover {
+    box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    transform: translateY(-3px);
+}
+
+/* CRUD Buttons por tipo */
+.btn-crud {
+    border-radius: 12px;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+/* Crear - Verde */
+.btn-crud.crear {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+}
+.btn-crud.crear:hover {
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Editar - Azul */
+.btn-crud.editar {
+    background: linear-gradient(135deg, #2196f3, #1565c0);
+}
+.btn-crud.editar:hover {
+    background: linear-gradient(135deg, #1565c0, #0d47a1);
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Eliminar - Rojo */
+.btn-crud.eliminar {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+.btn-crud.eliminar:hover {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Ver - Naranja */
+.btn-crud.ver {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+.btn-crud.ver:hover {
+    background: linear-gradient(135deg, #f57c00, #e65100);
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Íconos botones CRUD */
+.btn-crud i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+.btn-crud:hover i {
+    transform: rotate(10deg) scale(1.2);
+}
+
+/* ============================
+   Cards
+============================ */
+.card {
+    border-radius: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #ffffffee;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.card-img-top {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    object-fit: cover;
+    width: 100%;
+    height: 250px;
+    transition: transform 0.3s ease;
+}
+
+.card-img-top:hover {
+    transform: scale(1.05);
+}
+
+/* ============================
+   Formularios
+============================ */
+form input, form textarea, form select {
+    border-radius: 0.5rem;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+form input:focus, form textarea:focus, form select:focus {
+    border-color: #d32f2f;
+    box-shadow: 0 0 12px rgba(211,47,47,0.3);
+    outline: none;
+}
+
+/* ============================
+   Footer
+============================ */
+.footer-premium {
+    background: linear-gradient(135deg, #d32f2f, #e53935);
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    padding: 15px 0;
+}
+
+.footer-premium .social-icon {
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin: 0 12px;
+    transition: all 0.3s ease;
+}
+
+.footer-premium .social-icon:hover {
+    color: #ffeb3b;
+    transform: scale(1.2);
+    text-shadow: 0 0 8px rgba(255,235,59,0.6);
+}
+
+.footer-premium p {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: #f5f5f5;
+}
+
+/* ============================
+   Tipografía
+============================ */
+h1, h2, h3, h4, h5 { color: #d32f2f; font-weight: 700; }
+.lead { font-size: 1.05rem; color: #333333; }
+.text-danger { color: #d32f2f !important; }
+
+a { text-decoration: none; transition: all 0.2s ease; }
+a:hover { text-decoration: none; color: #b71c1c; }
+
+/* ============================
+   Responsive
+============================ */
+@media (max-width: 992px) {
+    .col-md-4 { flex: 1 1 calc(50% - 1rem); }
+    .card-img-top { height: 220px; }
+}
+@media (max-width: 768px) {
+    .navbar-nav .nav-link { margin-right: 0; margin-bottom: 0.5rem; }
+    .col-md-4 { flex: 1 1 100%; }
+    .card-img-top { height: 200px; }
+}
+
+/* Contenedor del login centrado */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 30px 15px;
+    background: linear-gradient(145deg, #fdfbfb, #f0f4ff);
+}
+
+/* Tarjeta del login */
+.login-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 40px 35px;
+    border-radius: 25px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 45px rgba(0,0,0,0.35);
+}
+
+/* Título del login */
+.login-title {
+    font-family: 'Montserrat', sans-serif;
+    color: #d32f2f;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+/* Inputs del login */
+.login-form input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #ced4da;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.login-form input:focus {
+    border-color: #d32f2f;
+    box-shadow: 0 0 12px rgba(211,47,47,0.3);
+    outline: none;
+}
+
+/* Botón login */
+.btn-login {
+    background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
+    color: #fff !important;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 0.65rem 1.8rem;
+    border: none;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #ff3d3d, #ff1a1a);
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+/* Link de olvidar contraseña */
+.login-form a {
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-form a:hover {
+    color: #b71c1c;
+    text-decoration: underline;
+}

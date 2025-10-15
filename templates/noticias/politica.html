@@ -1,0 +1,44 @@
+{% extends 'noticias/base.html' %}
+
+{% block title %}Política | Vox Campus{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="fw-bold text-danger mb-4">Noticias de Política</h1>
+
+    <div class="row g-4">
+        <div class="col-md-4 noticia-card">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1581091215361-3f42b3a7e7c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" class="card-img-top" alt="Noticia Política 1">
+                <div class="card-body">
+                    <h5 class="card-title">Nuevo Proyecto de Ley Aprobado</h5>
+                    <p class="card-text">El Congreso aprobó hoy un proyecto de ley que busca modernizar la infraestructura pública en las principales ciudades del país.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 noticia-card">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1588776814546-0c8efc451b72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" class="card-img-top" alt="Noticia Política 2">
+                <div class="card-body">
+                    <h5 class="card-title">Debate Presidencial Genera Expectativa</h5>
+                    <p class="card-text">El debate presidencial de esta semana ha generado gran interés entre los ciudadanos, con temas que abarcan economía y educación.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 noticia-card">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1601582589810-3c76f0b8d1a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" class="card-img-top" alt="Noticia Política 3">
+                <div class="card-body">
+                    <h5 class="card-title">Encuestas Muestran Cambios en Opinión Pública</h5>
+                    <p class="card-text">Las últimas encuestas muestran un cambio significativo en la percepción pública sobre la gestión gubernamental, destacando la economía y la seguridad.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

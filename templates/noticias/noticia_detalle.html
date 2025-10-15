@@ -1,0 +1,30 @@
+{% extends 'noticias/base.html' %}
+{% block title %}{{ noticia.titulo }} | WebNoticias{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="fw-bold mb-3">{{ noticia.titulo }}</h1>
+    <p class="text-muted mb-4">Por {{ noticia.autor.username }} | {{ noticia.fecha_creacion|date:"d M Y" }} | Categoría: {{ noticia.categoria.nombre }}</p>
+
+    {% if noticia.imagen %}
+    <img src="{{ noticia.imagen.url }}" class="img-fluid rounded mb-4" alt="{{ noticia.titulo }}">
+    {% endif %}
+
+    <p class="lead">{{ noticia.contenido }}</p>
+
+    <!-- Comentarios -->
+    <div class="mt-5">
+        <h4 class="fw-bold text-danger mb-3"><i class="bi bi-chat-left-text me-2"></i>Comentarios</h4>
+        {% for comentario in noticia.comentarios.all %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <p class="mb-1"><strong>{{ comentario.autor.username }}</strong> <small class="text-muted">{{ comentario.fecha_creacion|date:"d M Y H:i" }}</small></p>
+                <p class="mb-0">{{ comentario.contenido }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No hay comentarios aún. Sé el primero en comentar.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
