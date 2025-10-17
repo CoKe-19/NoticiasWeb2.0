@@ -1,7 +1,7 @@
 {% extends 'noticias/base.html' %}
 {% block title %}Noticias | Vox Campus{% endblock %}
 {% block content %}
-<h2>Noticias</h2>
+<h2>Noticias Generales</h2>
 {% if user.is_superuser %}
 <a href="{% url 'noticia_crear' %}" class="btn btn-primary mb-3">Crear Nueva Noticia</a>
 {% endif %}

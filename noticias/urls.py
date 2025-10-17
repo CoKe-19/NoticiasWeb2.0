@@ -5,8 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.inicio, name='index'),
 
-    # Detalles noticias
-    path('detalle/<int:pk>/', views.noticia_detalle, name='noticia_detalle'),
 
     # Páginas estáticas
     path('contacto/', views.contacto, name='contacto'),
@@ -28,7 +26,7 @@ urlpatterns = [
     path('noticias/crear/', views.noticia_crear, name='noticia_crear'),
     path('noticias/<int:pk>/editar/', views.noticia_editar, name='noticia_editar'),
     path('noticias/<int:pk>/eliminar/', views.noticia_eliminar, name='noticia_eliminar'),
-    path('noticia/<int:id>/', views.detalle_noticia, name='detalle_noticia'),
+    path('noticia/<int:id>/', views.noticia_detalle, name='noticia_detalle'),
 
     # CRUD Respuestas
     path('respuestas/', views.lista_respuestas, name='lista_respuestas'),

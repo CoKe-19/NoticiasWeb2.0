@@ -1,16 +1,21 @@
-from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Noticia, Categoria , Respuesta ,Reporte
-from .forms import NoticiaForm, CategoriaForm ,RespuestaForm , ReporteForm , RegistroForm ,ContactoForm
 from django.contrib.auth.views import LoginView
-from .forms import CustomAuthenticationForm
-from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.forms import UserCreationForm
+from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.db.models import ProtectedError
 from django.urls import reverse
+from .models import Noticia, Categoria, Respuesta, Reporte
+from .forms import (
+    NoticiaForm, CategoriaForm, RespuestaForm, ReporteForm, RegistroForm, ContactoForm, CustomAuthenticationForm
+)
 
+
+
+# ===========================
+# Noticias
+# ===========================
 def inicio(request):
     noticias_destacadas = Noticia.objects.order_by('-fecha_creacion')[:3]
     ultimas_noticias = Noticia.objects.order_by('-fecha_creacion')[:6]
@@ -19,23 +24,101 @@ def inicio(request):
         'ultimas_noticias': ultimas_noticias
     })
 
-def categoria(request, categoria_id):
-    categoria = get_object_or_404(Categoria, id=categoria_id)
-    noticias = Noticia.objects.filter(categoria=categoria)
-    return render(request, 'noticias/categoria.html', {
-        'categoria': categoria,
-        'noticias': noticias
+def noticia_lista(request):
+    noticias = Noticia.objects.all().order_by('-fecha_creacion')
+    return render(request, 'noticias/noticia_lista.html', {'noticias': noticias})
+
+@login_required
+def noticia_crear(request):
+    if request.method == 'POST':
+        form = NoticiaForm(request.POST, request.FILES)
+        if form.is_valid():
+            noticia = form.save(commit=False)
+            noticia.autor = request.user
+            noticia.save()
+            messages.success(request, '¡Noticia creada correctamente!')
+            return redirect('noticia_lista')
+        else:
+            messages.error(request, 'Hubo un error al crear la noticia.')
+    else:
+        form = NoticiaForm()
+    return render(request, 'noticias/form.html', {
+        'form': form,
+        'titulo': 'Crear Noticia',
+        'boton_texto': 'Crear',
+        'cancelar_url': '/noticias/'  
     })
 
-def politica(request):
-    return render(request, 'noticias/politica.html')
+@login_required
+def noticia_editar(request, pk):
+    noticia = get_object_or_404(Noticia, pk=pk)
+    if request.user != noticia.autor:
+        messages.error(request, 'No tienes permiso para editar esta noticia.')
+        return redirect('noticia_lista')
+    if request.method == 'POST':
+        form = NoticiaForm(request.POST, request.FILES, instance=noticia)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '¡Noticia editada correctamente!')
+            return redirect('noticia_detalle', pk=pk)
+        else:
+            messages.error(request, 'Hubo un error al editar la noticia.')
+    else:
+        form = NoticiaForm(instance=noticia)
+    return render(request, 'noticias/form.html', {
+        'form': form,
+        'titulo': 'Editar Noticia',
+        'boton_texto': 'Guardar cambios',
+        'cancelar_url': reverse('noticia_detalle', args=[pk])
+    })
 
-def detalle_noticia(request, noticia_id):
-    noticia = get_object_or_404(Noticia, id=noticia_id)
-    return render(request, 'noticias/noticia_detalle.html', {'noticia': noticia})
+def noticia_detalle(request, id):
+    noticia = get_object_or_404(Noticia, id=id)
+    respuestas = noticia.respuestas.all()
+    if request.method == 'POST' and request.user.is_authenticated:
+        form = RespuestaForm(request.POST)
+        if form.is_valid():
+            respuesta = form.save(commit=False)
+            respuesta.noticia = noticia
+            respuesta.autor = request.user
+            respuesta.save()
+            return redirect('noticia_detalle', id=id)
+    else:
+        form = RespuestaForm()
+    return render(request, 'noticias/noticia_detalle.html', {
+        'noticia': noticia,
+        'respuestas': respuestas,
+        'form': form
+    })
 
-def inicio_privado(request):
-    return render(request, 'noticias/inicio_privado.html')
+@login_required(login_url="login")
+def noticia_eliminar(request, pk): 
+    noticia = get_object_or_404(Noticia, pk=pk)
+
+    # Verificar permisos
+    if request.user != noticia.autor and not request.user.is_staff:
+        return HttpResponse("No tienes permiso para eliminar esta noticia.", status=403)
+
+    # Redirigir al eliminar según tipo de usuario
+    if request.method == "POST":
+        noticia.delete()
+        messages.success(request, "Noticia eliminada correctamente.")
+        if request.user.is_staff:
+            return redirect('noticia_lista')  # admin
+        else:
+            return redirect('mis_noticias')  # usuario normal
+
+    # Definir la URL de cancelar según tipo de usuario
+    if request.user.is_staff:
+        cancelar_url = reverse('noticia_lista')
+    else:
+        cancelar_url = reverse('mis_noticias')
+
+    return render(request, 'noticias/confirm_delete.html', {
+        'objeto': noticia,
+        'tipo': 'Noticia',
+        'cancelar_url': cancelar_url
+    })
 
 @login_required
 def mis_noticias(request):
@@ -44,7 +127,6 @@ def mis_noticias(request):
         noticia_id = request.POST.get("noticia_id")
         action = request.POST.get("action")
         noticia = get_object_or_404(Noticia, id=noticia_id, autor=request.user)
-
         if action == "eliminar":
             noticia.delete()
             messages.success(request, f'La noticia "{noticia.titulo}" fue eliminada correctamente.')
@@ -54,42 +136,30 @@ def mis_noticias(request):
             return redirect('mis_noticias')
     return render(request, 'noticias/mis_noticias.html', {'noticias': noticias})
 
-
-def contacto(request):
-    if request.method == 'POST':
-        form = ContactoForm(request.POST)
-        if form.is_valid():
-            nombre = form.cleaned_data['nombre']
-            correo = form.cleaned_data['correo']
-            asunto = form.cleaned_data['asunto']
-            mensaje = form.cleaned_data['mensaje']
-            messages.success(request, '¡Tu mensaje ha sido enviado correctamente!')
-            return redirect('contacto')
-        else:
-            messages.error(request, 'Por favor corrige los errores en el formulario.')
-    else:
-        form = ContactoForm()
-
-    return render(request, 'noticias/form.html', {
-        'form': form,
-        'titulo': 'Contáctanos',
-        'boton_texto': 'Enviar mensaje',
-        'cancelar_url': '/'
+@login_required
+def confirmar_eliminar_noticia(request, noticia_id):
+    noticia = get_object_or_404(Noticia, id=noticia_id, autor=request.user)
+    cancelar_url = request.META.get('HTTP_REFERER', reverse('mis_noticias'))
+    if request.method == "POST":
+        noticia.delete()
+        messages.success(request, f'La noticia "{noticia.titulo}" fue eliminada correctamente.')
+        return redirect('mis_noticias')
+    return render(request, 'noticias/confirm_delete.html', {
+        'objeto': noticia,
+        'tipo': 'Noticia',
+        'cancelar_url': cancelar_url
     })
-    return render(request, 'noticias/contacto.html')
 
-def sobre(request):
-    return render(request, 'noticias/sobre.html')
-
-def deportes(request):
-    return render(request,'noticias/deportes.html')
-
-def videos(request):
-    return render(request,'noticias/videos.html')
-
-def chile(request):
-    return render(request,'noticias/noticia_chile.html')
-
+# ===========================
+# Categorías
+# ===========================
+def categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+    noticias = Noticia.objects.filter(categoria=categoria)
+    return render(request, 'noticias/categoria.html', {
+        'categoria': categoria,
+        'noticias': noticias
+    })
 
 @login_required
 def categoria_lista(request):
@@ -108,7 +178,6 @@ def categoria_crear(request):
             messages.error(request, 'Hubo un error al crear la categoría.')
     else:
         form = CategoriaForm()
-
     return render(request, 'noticias/form.html', {
         'form': form,
         'titulo': 'Crear Categoría',
@@ -142,108 +211,36 @@ def categoria_eliminar(request, pk):
     if categoria.noticias.exists():
         messages.error(request, 'No se puede eliminar esta categoría porque tiene noticias asociadas.')
         return redirect('categoria_lista')
-
     if request.method == 'POST':
         categoria.delete()
         messages.success(request, '¡Categoría eliminada correctamente!')
         return redirect('categoria_lista')
-
     return render(request, 'noticias/confirm_delete.html', {
         'objeto': categoria,
         'cancelar_url': '/categorias/'
     })
 
-def noticia_lista(request):
-    noticias = Noticia.objects.all().order_by('-fecha_creacion')
-    return render(request, 'noticias/noticia_lista.html', {'noticias': noticias})
-
-def noticia_detalle(request, pk):
-    noticia = get_object_or_404(Noticia, pk=pk)
-    respuestas = noticia.respuestas.all()
-    if request.method == 'POST' and request.user.is_authenticated:
-        form = RespuestaForm(request.POST)
-        if form.is_valid():
-            respuesta = form.save(commit=False)
-            respuesta.noticia = noticia
-            respuesta.autor = request.user
-            respuesta.save()
-            return redirect('noticia_detalle', pk=pk)
-    else:
-        form = RespuestaForm()
-    return render(request, 'noticias/noticia_detalle.html', {'noticia': noticia, 'respuestas': respuestas, 'form': form})
-
-@login_required
-def noticia_crear(request):
-    if request.method == 'POST':
-        form = NoticiaForm(request.POST, request.FILES)
-        if form.is_valid():
-            noticia = form.save(commit=False)
-            noticia.autor = request.user
-            noticia.save()
-            messages.success(request, '¡Noticia creada correctamente!')
-            return redirect('noticia_lista')
-        else:
-            messages.error(request, 'Hubo un error al crear la noticia.')
-    else:
-        form = NoticiaForm()
-
-    return render(request, 'noticias/form.html', {
-        'form': form,
-        'titulo': 'Crear Noticia',
-        'boton_texto': 'Crear',
-        'cancelar_url': '/noticias/'  
-    })
-
-@login_required
-def noticia_editar(request, pk):
-    noticia = get_object_or_404(Noticia, pk=pk)
-    if request.user != noticia.autor:
-        messages.error(request, 'No tienes permiso para editar esta noticia.')
-        return redirect('noticia_lista')
-
-    if request.method == 'POST':
-        form = NoticiaForm(request.POST, request.FILES, instance=noticia)
-        if form.is_valid():
-            form.save()
-            messages.success(request, '¡Noticia editada correctamente!')
-            return redirect('noticia_detalle', pk=pk)
-        else:
-            messages.error(request, 'Hubo un error al editar la noticia.')
-    else:
-        form = NoticiaForm(instance=noticia)
-    return render(request, 'noticias/form.html', {
-        'form': form,
-        'titulo': 'Editar Noticia',
-        'boton_texto': 'Guardar cambios',
-        'cancelar_url': reverse('noticia_detalle', args=[pk])
-    })
-
 @login_required(login_url="login")
-def noticia_eliminar(request, pk):
-    noticia = get_object_or_404(Noticia, id=pk)
-
-    if request.user != noticia.autor and not request.user.is_staff:
-        return HttpResponse("No tienes permiso para eliminar esta noticia.", status=403)
-
-    if request.method == "POST":
-        noticia.delete()
-        messages.success(request, "Noticia eliminada correctamente.")
-        return redirect('noticia_lista')  
-
-    return render(request, 'noticias/confirm_delete.html', {
-        'objeto': noticia,
-        'tipo': 'Noticia',
-        'cancelar_url': f"/noticias/{noticia.id}/"  
+def confirmar_eliminar_categoria(request, categoria_id):
+    if not request.user.is_staff:
+        return HttpResponse("No tienes permiso.", status=403)
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+    if categoria.noticias.exists():
+        messages.error(request, "No se puede eliminar la categoría porque tiene noticias asociadas.")
+        return redirect('categoria_lista')
+    if request.method == 'POST':
+        categoria.delete()
+        messages.success(request, "Categoría eliminada correctamente.")
+        return redirect('categoria_lista')
+    return render(request, 'noticias/categoria_confirm_delete.html', {
+        'objeto': categoria,
+        'tipo': 'Categoría',
+        'cancelar_url': reverse('categoria_lista')
     })
 
-class CustomLoginView(LoginView):
-    template_name = 'registration/login.html'
-    authentication_form = CustomAuthenticationForm
-
-def lista_respuestas(request):
-    respuestas = Respuesta.objects.select_related('noticia').order_by('-fecha_creacion')
-    return render(request, 'noticias/respuestas_list.html', {'respuestas': respuestas})
-
+# ===========================
+# Respuestas
+# ===========================
 @login_required
 def crear_respuesta(request, noticia_id):
     noticia = get_object_or_404(Noticia, id=noticia_id)
@@ -260,7 +257,6 @@ def crear_respuesta(request, noticia_id):
             messages.error(request, 'Hubo un error al crear el comentario.')
     else:
         form = RespuestaForm()
-
     return render(request, 'noticias/form.html', {
         'form': form,
         'titulo': 'Agregar Respuesta',
@@ -274,68 +270,47 @@ def editar_respuesta(request, id):
     noticia = respuesta.noticia
     if request.user != respuesta.autor and not request.user.is_superuser:
         messages.error(request, 'No tienes permiso para editar este comentario.')
-        return redirect('detalle_noticia', id=noticia.id)
-
+        return redirect('noticia_detalle', id=noticia.id)
     if request.method == 'POST':
         form = RespuestaForm(request.POST, instance=respuesta)
         if form.is_valid():
             form.save()
             messages.success(request, '¡Comentario editado correctamente!')
-            return redirect('detalle_noticia', id=noticia.id)
+            return redirect('noticia_detalle', id=noticia.id)
         else:
             messages.error(request, 'Hubo un error al editar el comentario.')
     else:
         form = RespuestaForm(instance=respuesta)
-    
     return render(request, 'noticias/form.html', {
         'form': form,
         'titulo': 'Editar Respuesta',
         'boton_texto': 'Guardar cambios',
-        'cancelar_url': reverse('detalle_noticia', args=[noticia.id])
+        'cancelar_url': reverse('noticia_detalle', args=[noticia.id])
     })
 
 @login_required(login_url="login")
 def eliminar_respuesta(request, id):
     respuesta = get_object_or_404(Respuesta, id=id)
-
     if request.user != respuesta.autor and not request.user.is_staff:
         return HttpResponse("No tienes permiso para eliminar esta respuesta.", status=403)
-
     if request.method == "POST":
         respuesta.delete()
         messages.success(request, "Respuesta eliminada correctamente.")
-        return redirect('detalle_noticia', id=respuesta.noticia.id)
-
+        return redirect('noticia_detalle', id=respuesta.noticia.id)
+    cancelar_url = reverse('noticia_detalle', kwargs={'id': respuesta.noticia.id})
     return render(request, 'noticias/confirm_delete.html', {
         'objeto': respuesta,
         'tipo': 'Respuesta',
-        'cancelar_url': f"/noticias/{respuesta.noticia.id}/"
+        'cancelar_url': cancelar_url
     })
 
-def detalle_noticia(request, id):
-    noticia = get_object_or_404(Noticia, id=id)
-    respuestas = noticia.respuestas.all().order_by('-fecha_creacion')
+def lista_respuestas(request):
+    respuestas = Respuesta.objects.select_related('noticia').order_by('-fecha_creacion')
+    return render(request, 'noticias/respuestas_list.html', {'respuestas': respuestas})
 
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            form = RespuestaForm(request.POST)
-            if form.is_valid():
-                respuesta = form.save(commit=False)
-                respuesta.noticia = noticia
-                respuesta.autor = request.user
-                respuesta.save()
-                return redirect('detalle_noticia', id=noticia.id)
-        else:
-            return redirect('login')
-    else:
-        form = RespuestaForm()
-
-    return render(request, 'noticias/noticia_detalle.html', {
-        'noticia': noticia,
-        'respuestas': respuestas,
-        'form': form,
-    })
-
+# ===========================
+# Reportes
+# ===========================
 @login_required
 def reportar_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticia, id=noticia_id)
@@ -358,7 +333,6 @@ def reportar_noticia(request, noticia_id):
         'objetivo': noticia,
         'tipo_objetivo': tipo_objetivo
     })
-
 
 @login_required
 def reportar_respuesta(request, respuesta_id):
@@ -383,6 +357,12 @@ def reportar_respuesta(request, respuesta_id):
         'tipo_objetivo': tipo_objetivo
     })
 
+# ===========================
+# Autenticación / Usuarios
+# ===========================
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'
+    authentication_form = CustomAuthenticationForm
 
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -395,29 +375,42 @@ def registrar_usuario(request):
         form = RegistroForm()
     return render(request, 'registration/registro.html', {'form': form})
 
-
-@login_required(login_url="login")
-def confirmar_eliminar_categoria(request, categoria_id):
-    if not request.user.is_staff:
-        return HttpResponse("No tienes permiso.", status=403)
-
-    categoria = get_object_or_404(Categoria, id=categoria_id)
-
-    if categoria.noticias.exists():
-        messages.error(request, "No se puede eliminar la categoría porque tiene noticias asociadas.")
-        return redirect('categoria_lista')
-
+# ===========================
+# Contacto y Otros
+# ===========================
+def contacto(request):
     if request.method == 'POST':
-        categoria.delete()
-        messages.success(request, "Categoría eliminada correctamente.")
-        return redirect('categoria_lista')
-
-    return render(request, 'noticias/categoria_confirm_delete.html', {
-        'objeto': categoria,
-        'tipo': 'Categoría',
-        'cancelar_url': reverse('categoria_lista')
+        form = ContactoForm(request.POST)
+        if form.is_valid():
+            messages.success(request, '¡Tu mensaje ha sido enviado correctamente!')
+            return redirect('contacto')
+        else:
+            messages.error(request, 'Por favor corrige los errores en el formulario.')
+    else:
+        form = ContactoForm()
+    return render(request, 'noticias/form.html', {
+        'form': form,
+        'titulo': 'Contáctanos',
+        'boton_texto': 'Enviar mensaje',
+        'cancelar_url': '/'
     })
 
+def sobre(request):
+    return render(request, 'noticias/sobre.html')
+
+def deportes(request):
+    return render(request,'noticias/deportes.html')
+
+def videos(request):
+    return render(request,'noticias/videos.html')
+
+def chile(request):
+    return render(request,'noticias/noticia_chile.html')
+
+@login_required
+def categoria_lista(request):
+    categorias = Categoria.objects.all()
+    return render(request, 'noticias/categoria_lista.html', {'categorias': categorias})
 
 def buscar(request):
     query = request.GET.get('q', '')
@@ -429,18 +422,8 @@ def buscar(request):
         'resultados': resultados
     })
 
-@login_required
-def confirmar_eliminar_noticia(request, noticia_id):
-    noticia = get_object_or_404(Noticia, id=noticia_id, autor=request.user)
-    cancelar_url = request.META.get('HTTP_REFERER', reverse('mis_noticias'))
+def inicio_privado(request):
+    return render(request, 'noticias/inicio_privado.html')
 
-    if request.method == "POST":
-        noticia.delete()
-        messages.success(request, f'La noticia "{noticia.titulo}" fue eliminada correctamente.')
-        return redirect('mis_noticias')
-
-    return render(request, 'noticias/confirm_delete.html', {
-        'objeto': noticia,
-        'tipo': 'Noticia',
-        'cancelar_url': cancelar_url
-    })
+def politica(request):
+    return render(request, 'noticias/politica.html')

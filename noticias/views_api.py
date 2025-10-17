@@ -8,7 +8,7 @@ from .serializers import NoticiaSerializer, CategoriaSerializer, RespuestaSerial
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # lectura para todos, CRUD solo autenticados
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly] 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = {"nombre": ["exact", "icontains"]}
     search_fields = ["nombre"]
