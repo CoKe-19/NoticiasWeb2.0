@@ -1,0 +1,83 @@
+{% extends 'noticias/base.html' %}
+{% load static %}
+{% block title %}Deportes | Vox Campus{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="fw-bold text-success mb-4">Noticias de Deportes Chilenos</h1>
+
+    <div class="row g-4">
+        <!-- Noticia 1 -->
+        <div class="col-md-4 noticia-card">
+            <div class="card shadow-sm">
+                <img src="{% static 'WebNoticias/img/colo.jpg' %}" class="card-img-top" alt="Colo Colo campeón">
+                <div class="card-body">
+                    <h5 class="card-title">Colo Colo se Corona Campeón del Torneo Nacional</h5>
+                    <p class="card-text">El cuadro albo se impuso en una emocionante final ante la Universidad de Chile, sumando una nueva estrella a su palmarés.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Noticia 2 -->
+        <div class="col-md-4 noticia-card">
+            <div class="card shadow-sm">
+                <img src="{% static 'WebNoticias/img/laroja.png' %}" class="card-img-top" alt="Selección chilena">
+                <div class="card-body">
+                    <h5 class="card-title">La Roja se Prepara para la Eliminatoria Sudamericana</h5>
+                    <p class="card-text">El técnico nacional presentó la nómina para enfrentar los próximos desafíos, destacando la presencia de jóvenes promesas.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Noticia 3 -->
+        <div class="col-md-4 noticia-card">
+            <div class="card shadow-sm">
+                <img src="{% static 'WebNoticias/img/tenista.jpg' %}" class="card-img-top" alt="Tenis chileno">
+                <div class="card-body">
+                    <h5 class="card-title">Tenistas Chilenos Brillan en Torneo Internacional</h5>
+                    <p class="card-text">Nicolás Jarry y Cristian Garin avanzan a las rondas finales tras impresionantes actuaciones en el circuito ATP.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Noticia 4 -->
+        <div class="col-md-4 noticia-card">
+            <div class="card shadow-sm">
+                <img src="{% static 'WebNoticias/img/maraton.png' %}" class="card-img-top" alt="Maratón de Santiago">
+                <div class="card-body">
+                    <h5 class="card-title">Miles Participan en la Maratón de Santiago 2025</h5>
+                    <p class="card-text">Más de 20 mil corredores se dieron cita en la capital en una jornada marcada por la alegría y la vida saludable.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Noticia 5 -->
+        <div class="col-md-4 noticia-card">
+            <div class="card shadow-sm">
+                <img src="{% static 'WebNoticias/img/chilenos.png' %}" class="card-img-top" alt="Ciclismo chileno">
+                <div class="card-body">
+                    <h5 class="card-title">Ciclistas Chilenos Destacan en Vuelta de San Juan</h5>
+                    <p class="card-text">El equipo nacional logró ubicarse en el top 5 general, demostrando el progreso del ciclismo en Chile.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Noticia 6 -->
+        <div class="col-md-4 noticia-card">
+            <div class="card shadow-sm">
+                <img src="{% static 'WebNoticias/img/surf.jpg' %}" class="card-img-top" alt="Surf en Pichilemu">
+                <div class="card-body">
+                    <h5 class="card-title">Pichilemu Recibe Campeonato Internacional de Surf</h5>
+                    <p class="card-text">Las olas de Punta de Lobos fueron el escenario perfecto para recibir a los mejores surfistas del continente.</p>
+                    <a href="#" class="btn btn-crud">Leer más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

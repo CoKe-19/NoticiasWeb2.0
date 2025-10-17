@@ -11,97 +11,162 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- CSS personalizado -->
-  <link rel="stylesheet" href="{% static 'webnoticias/css/style.css' %}?v=v9">
+  <link rel="stylesheet" href="{% static 'webnoticias/css/style.css' %}?v=v15">
 </head>
 <body>
 
-  <!-- Navbar principal -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="{% url 'index' %}">Vox Campus</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'politica' %}">Política</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'categoria' 2 %}">Deportes</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'sobre' %}">Sobre Nosotros</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+<!-- Toasts -->
+<div id="toast-container" class="position-fixed top-0 start-50 translate-middle-x mt-3 zindex-tooltip">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="toast-message {{ message.tags }}">
+            {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+</div>
 
-          {% if user.is_authenticated %}
-            <!-- Logout en barra superior con nombre -->
-            <li class="nav-item dropdown ms-3">
-              <a class="nav-link dropdown-toggle btn-login px-3 py-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ user.username }}
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li>
-                  <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="dropdown-item">Cerrar Sesión</button>
-                  </form>
-                </li>
-              </ul>
-            </li>
-          {% else %}
-            <li class="nav-item ms-3">
-              <a class="btn btn-login fw-bold px-4 py-2" href="{% url 'login' %}">Iniciar Sesión</a>
-            </li>
-          {% endif %}
-        </ul>
-      </div>
+<!-- Navbar principal -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'index' %}">Vox Campus
+      <img src="{% static 'WebNoticias/img/logo.png' %}" alt="Logo Vox Campus">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'politica' %}">Política</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'deportes' %}">Deportes</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'videos' %}">Videos</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'sobre' %}">Sobre Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+                <!-- Buscador pequeño y bonito a la derecha de "Contacto" -->
+                        <li class="nav-item d-flex align-items-center ms-2">
+                          <form class="d-flex" role="search" method="get" action="{% url 'buscar' %}" style="min-width:120px;">
+                            <input class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
+                                  type="search"
+                                  placeholder="Buscar..."
+                                  aria-label="Buscar"
+                                  name="q"
+                                  required
+                                  style="width: 110px; background: #fff8f8;">
+                            <button class="btn btn-light btn-sm rounded-pill px-2 py-0" type="submit" style="height:32px;">
+                              <i class="bi bi-search text-danger"></i>
+                            </button>
+                          </form>
+                        </li>
+
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown ms-3">
+            <a class="nav-link dropdown-toggle btn-login px-3 py-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{ user.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <form method="POST" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="dropdown-item">Cerrar Sesión</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        {% else %}
+      <li class="nav-item ms-3">
+          <a class="btn btn-login fw-bold px-4 py-2" href="{% url 'login' %}">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item ms-2">
+          <a href="{% url 'registro' %}" class="btn-register">Regístrate</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-  </nav>
-
-  <!-- Panel CRUD (solo si está autenticado) -->
-  {% if user.is_authenticated %}
-  <div class="panel-crud my-4">
-    <a href="{% url 'categoria_lista' %}" class="btn-crud ver">
-      <i class="bi bi-card-list"></i> Ver Categorías
-    </a>
-    <a href="{% url 'categoria_crear' %}" class="btn-crud crear">
-      <i class="bi bi-plus-circle"></i> Crear Categoría
-    </a>
-    <a href="{% url 'noticia_lista' %}" class="btn-crud ver">
-      <i class="bi bi-card-list"></i> Ver Noticias
-    </a>
-    <a href="{% url 'noticia_crear' %}" class="btn-crud crear">
-      <i class="bi bi-file-earmark-plus"></i> Crear Noticia
-    </a>
   </div>
+</nav>
+{% if user.is_authenticated %}
+<div class="panel-crud my-4 text-center">
+  <a href="{% url 'noticia_lista' %}" class="btn-crud ver"><i class="bi bi-card-list"></i> Ver Noticias Privadas</a>
+  {% if user.is_superuser %}
+    <a href="{% url 'categoria_lista' %}" class="btn-crud ver"><i class="bi bi-card-list"></i> Ver Categorías</a>
+    <a href="{% url 'categoria_crear' %}" class="btn-crud crear"><i class="bi bi-plus-circle"></i> Crear Categoría</a>
+    <a href="{% url 'noticia_crear' %}" class="btn-crud crear"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a>
   {% endif %}
+</div>
+{% endif %}
 
-  <!-- Contenido principal -->
-  <main class="container my-4">
-    {% block content %}{% endblock %}
-  </main>
+<main class="container my-4">
+  {% block content %}{% endblock %}
+</main>
 
-  <!-- Footer premium -->
-  <footer class="footer-premium py-5">
-    <div class="container text-center">
-      <div class="mb-4">
-        <a href="https://www.instagram.com" target="_blank" class="social-icon">
-          <i class="bi bi-instagram"></i>
-        </a>
-        <a href="https://discord.com" target="_blank" class="social-icon">
-          <i class="bi bi-discord"></i>
-        </a>
-        <a href="https://www.youtube.com" target="_blank" class="social-icon">
-          <i class="bi bi-youtube"></i>
-        </a>
-        <a href="https://twitter.com" target="_blank" class="social-icon">
-          <i class="bi bi-twitter"></i>
-        </a>
-      </div>
-      <p class="mb-0">&copy; 2025 Vox Campus — Todos los derechos reservados</p>
+<!-- Puedes colocar este formulario justo antes del cierre de </footer> o donde prefieras en base.html -->
+
+<div class="container my-5">
+  <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+    <div class="card-body">
+      <h5 class="card-title text-center mb-3 text-danger">¿Quieres trabajar con nosotros?</h5>
+      <form method="post" action="#">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="mensaje" class="form-label">Cuéntanos por qué quieres unirte</label>
+          <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-danger w-100">Enviar</button>
+      </form>
     </div>
-  </footer>
+  </div>
+</div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- JS personalizado -->
-  <script src="{% static 'webnoticias/js/script.js' %}" defer></script>
+<footer class="footer-premium py-5">
+  <div class="container text-center">
+    <div class="mb-4">
+      <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+      <a href="https://discord.com" target="_blank" class="social-icon"><i class="bi bi-discord"></i></a>
+      <a href="https://www.youtube.com" target="_blank" class="social-icon"><i class="bi bi-youtube"></i></a>
+      <a href="https://twitter.com" target="_blank" class="social-icon"><i class="bi bi-twitter"></i></a>
+    </div>
+    <p class="mb-0">&copy; 2025 Vox Campus — Todos los derechos reservados</p>
+  </div>
+  <!-- Botones de enlaces rápidos debajo del footer -->
+    <div class="py-4">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-6 col-md-3 mb-3">
+            <a href="{% url 'sobre' %}" class="text-white text-decoration-none d-block mb-2">Nosotros</a>
+            <a href="#" class="text-white text-decoration-none d-block mb-2">Quiénes somos</a>
+          </div>
+          <div class="col-6 col-md-3 mb-3">
+            <a href="#" class="text-white text-decoration-none d-block mb-2">Venta de suscripciones</a>
+            <a href="https://tusitio.com/codigo-etica" target="_blank" rel="noopener" class="text-white text-decoration-none d-block mb-2">Código de ética</a>
+          </div>
+          <div class="col-6 col-md-3 mb-3">
+            <a href="#" class="text-white text-decoration-none d-block mb-2">Cuenta</a>
+            <a href="#" class="text-white text-decoration-none d-block mb-2">Papel Digital</a>
+          </div>
+          <div class="col-6 col-md-3 mb-3">
+            <a href="#" class="text-white text-decoration-none d-block mb-2">Preguntas Frecuentes</a>
+            <a href="#" class="text-white text-decoration-none d-block mb-2">Newsletter Tecnología</a>
+          </div>
+        </div>
+      </div>
+</div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JS personalizado -->
+<script src="{% static 'webnoticias/js/script.js' %}" defer></script>
 </body>
 </html>

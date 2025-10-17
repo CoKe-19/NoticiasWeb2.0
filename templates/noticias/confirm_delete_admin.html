@@ -1,0 +1,16 @@
+{% extends 'noticias/base.html' %}
+
+{% block title %}Eliminar Categoría | Admin{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-danger">Confirmar eliminación</h2>
+    <p>¿Estás seguro de que deseas eliminar la categoría: <strong>{{ categoria.nombre }}</strong>?</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'categoria_lista' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

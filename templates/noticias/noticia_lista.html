@@ -3,7 +3,11 @@
 
 {% block content %}
 <h2>Noticias</h2>
+
+{% if user.is_superuser %}
 <a href="{% url 'noticia_crear' %}" class="btn btn-primary mb-3">Crear Nueva Noticia</a>
+{% endif %}
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -20,9 +24,14 @@
             <td>{{ noticia.titulo }}</td>
             <td>{{ noticia.autor }}</td>
             <td>
+                <!-- Todos los usuarios logeados pueden ver la noticia -->
                 <a href="{% url 'noticia_detalle' noticia.id %}" class="btn btn-info btn-sm">Ver</a>
+                
+                {% if user.is_superuser %}
+                <!-- Solo superuser puede editar o eliminar -->
                 <a href="{% url 'noticia_editar' noticia.id %}" class="btn btn-warning btn-sm">Editar</a>
                 <a href="{% url 'noticia_eliminar' noticia.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}

@@ -1,0 +1,19 @@
+{% extends 'noticias/base.html' %}
+{% block title %}Buscar: {{ query }} | WebNoticias{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="mb-4">Resultados para: <span class="text-danger">{{ query }}</span></h2>
+  {% if resultados %}
+    <ul class="list-group">
+      {% for noticia in resultados %}
+        <li class="list-group-item">
+          <a href="{% url 'detalle_noticia' noticia.id %}">{{ noticia.titulo }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-warning mt-4">No se encontraron resultados.</div>
+  {% endif %}
+</div>
+{% endblock %}

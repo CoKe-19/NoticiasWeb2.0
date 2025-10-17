@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -20,15 +21,20 @@ body {
     backdrop-filter: blur(10px);
 }
 
+/* Vox Campus navbar brand aún más bonito */
 .navbar-brand {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 1px;
-    font-weight: 700;
-    color: #ffffff;
-    text-shadow: 1px 1px 4px rgba(13,27,76,0.3);
+    font-family: 'Bebas Neue', 'Montserrat', Arial, sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    color: #fff !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    transition: transform 0.2s, text-shadow 0.3s;
+    padding-right: 8px;
 }
-
+.navbar-brand:hover {
+    transform: scale(1.08);
+    text-shadow: 0 4px 16px rgba(255,255,255,0.35), 0 2px 8px #d32f2f;
+}
 .navbar-nav .nav-link {
     font-weight: 500;
     font-size: 1rem;
@@ -129,7 +135,6 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,0.35);
 }
 
-
 /* Logout (solo barra superior) */
 .btn-logout {
     background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
@@ -178,54 +183,20 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Crear - Verde */
-.btn-crud.crear {
-    background: linear-gradient(135deg, #4caf50, #388e3c);
-}
-.btn-crud.crear:hover {
-    background: linear-gradient(135deg, #388e3c, #2e7d32);
-    transform: scale(1.05);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-}
+.btn-crud.crear { background: linear-gradient(135deg, #4caf50, #388e3c); }
+.btn-crud.crear:hover { background: linear-gradient(135deg, #388e3c, #2e7d32); transform: scale(1.05); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 
-/* Editar - Azul */
-.btn-crud.editar {
-    background: linear-gradient(135deg, #2196f3, #1565c0);
-}
-.btn-crud.editar:hover {
-    background: linear-gradient(135deg, #1565c0, #0d47a1);
-    transform: scale(1.05);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-}
+.btn-crud.editar { background: linear-gradient(135deg, #2196f3, #1565c0); }
+.btn-crud.editar:hover { background: linear-gradient(135deg, #1565c0, #0d47a1); transform: scale(1.05); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 
-/* Eliminar - Rojo */
-.btn-crud.eliminar {
-    background: linear-gradient(135deg, #f44336, #d32f2f);
-}
-.btn-crud.eliminar:hover {
-    background: linear-gradient(135deg, #d32f2f, #b71c1c);
-    transform: scale(1.05);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-}
+.btn-crud.eliminar { background: linear-gradient(135deg, #f44336, #d32f2f); }
+.btn-crud.eliminar:hover { background: linear-gradient(135deg, #d32f2f, #b71c1c); transform: scale(1.05); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 
-/* Ver - Naranja */
-.btn-crud.ver {
-    background: linear-gradient(135deg, #ff9800, #f57c00);
-}
-.btn-crud.ver:hover {
-    background: linear-gradient(135deg, #f57c00, #e65100);
-    transform: scale(1.05);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-}
+.btn-crud.ver { background: linear-gradient(135deg, #ff9800, #f57c00); }
+.btn-crud.ver:hover { background: linear-gradient(135deg, #f57c00, #e65100); transform: scale(1.05); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 
-/* Íconos botones CRUD */
-.btn-crud i {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
-.btn-crud:hover i {
-    transform: rotate(10deg) scale(1.2);
-}
+.btn-crud i { font-size: 1.2rem; transition: transform 0.3s ease; }
+.btn-crud:hover i { transform: rotate(10deg) scale(1.2); }
 
 /* ============================
    Cards
@@ -254,9 +225,7 @@ body {
     transition: transform 0.3s ease;
 }
 
-.card-img-top:hover {
-    transform: scale(1.05);
-}
+.card-img-top:hover { transform: scale(1.05); }
 
 /* ============================
    Formularios
@@ -298,11 +267,7 @@ form input:focus, form textarea:focus, form select:focus {
     text-shadow: 0 0 8px rgba(255,235,59,0.6);
 }
 
-.footer-premium p {
-    margin-top: 10px;
-    font-size: 0.95rem;
-    color: #f5f5f5;
-}
+.footer-premium p { margin-top: 10px; font-size: 0.95rem; color: #f5f5f5; }
 
 /* ============================
    Tipografía
@@ -327,83 +292,48 @@ a:hover { text-decoration: none; color: #b71c1c; }
     .card-img-top { height: 200px; }
 }
 
-/* Contenedor del login centrado */
-.login-container {
+/* ============================
+   Toasts / Mensajes simplificados
+============================ */
+#toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1050;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    padding: 30px 15px;
-    background: linear-gradient(145deg, #fdfbfb, #f0f4ff);
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* Tarjeta del login */
-.login-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    padding: 40px 35px;
-    border-radius: 25px;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
-    transition: all 0.3s ease;
-}
-
-.login-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 45px rgba(0,0,0,0.35);
-}
-
-/* Título del login */
-.login-title {
-    font-family: 'Montserrat', sans-serif;
-    color: #d32f2f;
-    font-weight: 700;
-    font-size: 2rem;
-}
-
-/* Inputs del login */
-.login-form input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    border: 1px solid #ced4da;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    transition: all 0.3s ease;
-}
-
-.login-form input:focus {
-    border-color: #d32f2f;
-    box-shadow: 0 0 12px rgba(211,47,47,0.3);
-    outline: none;
-}
-
-/* Botón login */
-.btn-login {
-    background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
-    color: #fff !important;
-    font-weight: 700;
-    border-radius: 50px;
-    padding: 0.65rem 1.8rem;
-    border: none;
-    font-size: 1.05rem;
-    transition: all 0.3s ease;
-}
-
-.btn-login:hover {
-    background: linear-gradient(135deg, #ff3d3d, #ff1a1a);
-    transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
-}
-
-/* Link de olvidar contraseña */
-.login-form a {
-    text-decoration: none;
+.toast-message {
+    min-width: 250px;
+    max-width: 300px;
+    padding: 12px 18px;
+    border-radius: 8px;
     font-weight: 500;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideIn 0.3s forwards;
+    font-size: 0.95rem;
 }
 
-.login-form a:hover {
-    color: #b71c1c;
-    text-decoration: underline;
+/* Colores por tipo */
+.toast-message.success { background-color: #28a745; }
+.toast-message.error { background-color: #dc3545; }
+
+/* Animaciones entrada/salida */
+@keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
+.toast-message.hide { opacity: 0; transform: translateY(-20px); transition: all 0.5s ease; }
+
+/* Logo imagen en la barra de navegación */
+.navbar-brand img {
+    height: 75px;
+    width: auto;
+    margin-left: 10px;
+    vertical-align: middle;
+    display: inline-block;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
+
 }

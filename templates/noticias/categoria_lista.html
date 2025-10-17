@@ -19,7 +19,12 @@
             <td>{{ categoria.nombre }}</td>
             <td>
                 <a href="{% url 'categoria_editar' categoria.id %}" class="btn btn-warning btn-sm">Editar</a>
-                <a href="{% url 'categoria_eliminar' categoria.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                
+                {% if user.is_superuser %}
+                <a href="{% url 'confirmar_eliminar_categoria_admin' categoria.id %}" class="btn btn-danger btn-sm">
+                    Eliminar
+                </a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}

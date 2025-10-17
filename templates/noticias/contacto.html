@@ -1,12 +1,24 @@
 {% extends 'noticias/base.html' %}
+{% load static %}
 {% block title %}Contacto | WebNoticias{% endblock %}
 
 {% block content %}
+<!-- Banner de publicidad  -->
+<div class="row mb-4">
+  <div class="col-12 text-center">
+    <a href="https://tupublicidad.com" target="_blank" rel="noopener">
+      <img src="{% static 'WebNoticias/img/unimarc.jpg' %}" alt="Publicidad: Tu Marca Aquí" class="img-fluid rounded shadow w-70" style="max-height:180px;">
+    </a>
+  </div>
+</div>
+
 <div class="container my-5">
     <h1 class="fw-bold text-danger mb-4">Contáctanos</h1>
-    <p class="mb-4">¿Tienes preguntas, sugerencias o quieres enviarnos un comentario? Completa el formulario a continuación y te responderemos a la brevedad.</p>
+    <p class="mb-4">Completa el formulario y te responderemos a la brevedad.</p>
 
-    <form method="post" class="row g-3">
+    <div id="formMessage"></div>
+
+    <form id="contactForm" class="row g-3">
         {% csrf_token %}
         <div class="col-md-6">
             <label for="nombre" class="form-label">Nombre</label>
@@ -29,4 +41,6 @@
         </div>
     </form>
 </div>
+
+<script src="{% static 'js/contacto.js' %}"></script>
 {% endblock %}

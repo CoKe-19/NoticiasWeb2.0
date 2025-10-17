@@ -1,0 +1,16 @@
+{% extends 'noticias/base.html' %}
+
+{% block title %}{{ titulo }} | WebNoticias{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">{{ titulo }}</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">{{ boton_texto }}</button>
+        <a href="{{ cancelar_url }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

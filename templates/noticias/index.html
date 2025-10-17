@@ -1,11 +1,19 @@
 {% extends 'noticias/base.html' %}
+{% block title %}Inicio | WebNoticias{% endblock %}
 {% load static %}
 
-{% block title %}Inicio | WebNoticias{% endblock %}
-
 {% block content %}
-<div class="container">
 
+<!-- Banner de publicidad  -->
+<div class="row mb-4">
+  <div class="col-12 text-center">
+    <a href="https://tupublicidad.com" target="_blank" rel="noopener">
+      <img src="{% static 'WebNoticias/img/banner.jpg' %}" alt="Publicidad: Tu Marca Aquí" class="img-fluid rounded shadow w-70" style="max-height:180px;">
+    </a>
+  </div>
+</div>
+
+<div class="container">
   <!-- 📰 Noticia destacada -->
   <div class="row mb-5">
     <div class="col-lg-8">
@@ -14,7 +22,7 @@
         <div class="card-img-overlay d-flex flex-column justify-content-end p-4">
           <h2 class="card-title fw-bold">Chile vence a Argentina en un duelo histórico por la Copa América</h2>
           <p class="card-text fs-6">Un gol de último minuto selló la victoria de la Roja en un partido lleno de emoción y tensión en Buenos Aires.</p>
-          <a href="#" class="btn btn-danger mt-2 w-25">Leer más</a>
+          <a href="{% url 'chile' %}" class="btn btn-danger mt-2 w-25">Leer más</a>
         </div>
       </div>
     </div>
