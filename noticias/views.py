@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Noticia, Categoria , Respuesta ,Reporte
-from .forms import NoticiaForm, CategoriaForm ,RespuestaForm , ReporteForm , RegistroForm
+from .forms import NoticiaForm, CategoriaForm ,RespuestaForm , ReporteForm , RegistroForm ,ContactoForm
 from django.contrib.auth.views import LoginView
 from .forms import CustomAuthenticationForm
 from django.views.decorators.csrf import csrf_protect
@@ -34,7 +34,48 @@ def detalle_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticia, id=noticia_id)
     return render(request, 'noticias/noticia_detalle.html', {'noticia': noticia})
 
+def inicio_privado(request):
+    return render(request, 'noticias/inicio_privado.html')
+
+@login_required
+def mis_noticias(request):
+    noticias = Noticia.objects.filter(autor=request.user).order_by('-fecha_creacion')
+    if request.method == "POST":
+        noticia_id = request.POST.get("noticia_id")
+        action = request.POST.get("action")
+        noticia = get_object_or_404(Noticia, id=noticia_id, autor=request.user)
+
+        if action == "eliminar":
+            noticia.delete()
+            messages.success(request, f'La noticia "{noticia.titulo}" fue eliminada correctamente.')
+            return redirect('mis_noticias')
+        elif action == "editar":
+            messages.info(request, f'La noticia "{noticia.titulo}" se puede editar en el panel de administración.')
+            return redirect('mis_noticias')
+    return render(request, 'noticias/mis_noticias.html', {'noticias': noticias})
+
+
 def contacto(request):
+    if request.method == 'POST':
+        form = ContactoForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            asunto = form.cleaned_data['asunto']
+            mensaje = form.cleaned_data['mensaje']
+            messages.success(request, '¡Tu mensaje ha sido enviado correctamente!')
+            return redirect('contacto')
+        else:
+            messages.error(request, 'Por favor corrige los errores en el formulario.')
+    else:
+        form = ContactoForm()
+
+    return render(request, 'noticias/form.html', {
+        'form': form,
+        'titulo': 'Contáctanos',
+        'boton_texto': 'Enviar mensaje',
+        'cancelar_url': '/'
+    })
     return render(request, 'noticias/contacto.html')
 
 def sobre(request):
@@ -187,23 +228,13 @@ def noticia_eliminar(request, pk):
     if request.method == "POST":
         noticia.delete()
         messages.success(request, "Noticia eliminada correctamente.")
-        return redirect('noticia_lista')  # o la URL que corresponda
+        return redirect('noticia_lista')  
 
     return render(request, 'noticias/confirm_delete.html', {
         'objeto': noticia,
         'tipo': 'Noticia',
-        'cancelar_url': f"/noticias/{noticia.id}/"  # o donde quieras que redirija si cancela
+        'cancelar_url': f"/noticias/{noticia.id}/"  
     })
-def contacto(request):
-    enviado = False
-
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        correo = request.POST.get('correo')
-        mensaje = request.POST.get('mensaje')
-        enviado = True
-
-    return render(request, 'noticias/contacto.html', {'enviado': enviado})
 
 class CustomLoginView(LoginView):
     template_name = 'registration/login.html'
@@ -352,17 +383,6 @@ def reportar_respuesta(request, respuesta_id):
         'tipo_objetivo': tipo_objetivo
     })
 
-@csrf_protect
-def contacto_ajax(request):
-    if request.method == 'POST':
-        form = MensajeContactoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True, 'message': '¡Mensaje enviado correctamente!'})
-        else:
-            errors = {field: error[0] for field, error in form.errors.items()}
-            return JsonResponse({'success': False, 'errors': errors})
-    return JsonResponse({'success': False, 'message': 'Método no permitido'})
 
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -383,8 +403,7 @@ def confirmar_eliminar_categoria(request, categoria_id):
 
     categoria = get_object_or_404(Categoria, id=categoria_id)
 
-    # Verificar si hay noticias asociadas usando el related_name correcto
-    if categoria.noticias.exists():  
+    if categoria.noticias.exists():
         messages.error(request, "No se puede eliminar la categoría porque tiene noticias asociadas.")
         return redirect('categoria_lista')
 
@@ -393,7 +412,12 @@ def confirmar_eliminar_categoria(request, categoria_id):
         messages.success(request, "Categoría eliminada correctamente.")
         return redirect('categoria_lista')
 
-    return render(request, 'noticias/categoria_confirm_delete.html', {'categoria': categoria})
+    return render(request, 'noticias/categoria_confirm_delete.html', {
+        'objeto': categoria,
+        'tipo': 'Categoría',
+        'cancelar_url': reverse('categoria_lista')
+    })
+
 
 def buscar(request):
     query = request.GET.get('q', '')
@@ -403,4 +427,20 @@ def buscar(request):
     return render(request, 'noticias/buscar.html', {
         'query': query,
         'resultados': resultados
+    })
+
+@login_required
+def confirmar_eliminar_noticia(request, noticia_id):
+    noticia = get_object_or_404(Noticia, id=noticia_id, autor=request.user)
+    cancelar_url = request.META.get('HTTP_REFERER', reverse('mis_noticias'))
+
+    if request.method == "POST":
+        noticia.delete()
+        messages.success(request, f'La noticia "{noticia.titulo}" fue eliminada correctamente.')
+        return redirect('mis_noticias')
+
+    return render(request, 'noticias/confirm_delete.html', {
+        'objeto': noticia,
+        'tipo': 'Noticia',
+        'cancelar_url': cancelar_url
     })

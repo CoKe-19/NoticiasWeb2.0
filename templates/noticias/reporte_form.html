@@ -1,30 +1,26 @@
 {% extends 'noticias/base.html' %}
 {% block title %}Reportar | WebNoticias{% endblock %}
-
 {% block content %}
 <div class="container my-5">
-    <!-- 🔴 Título de la página según el tipo -->
-    <h3 class="fw-bold text-danger mb-4">
-        Reportar 
-        {% if tipo_objetivo == "Noticia" %}
-            "{{ objetivo.titulo }}"
-        {% else %}
-            esta respuesta
-        {% endif %}
-    </h3>
-
-    <p class="text-muted mb-3">
-        Explica brevemente por qué estás reportando {% if tipo_objetivo == "Noticia" %}la noticia{% else %}la respuesta{% endif %}.
-    </p>
-
-    <!-- ✍️ Formulario -->
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-danger mt-2">Enviar reporte</button>
-
-        <!-- Botón para regresar -->
-        <a href="{% if tipo_objetivo == 'Noticia' %}{% url 'detalle_noticia' objetivo.id %}{% else %}{% url 'detalle_noticia' objetivo.noticia.id %}{% endif %}" class="btn btn-secondary mt-2">Cancelar</a>
-    </form>
+   <!-- 🔴 Título de la página según el tipo -->
+   <h3 class="fw-bold text-danger mb-4">
+      Reportar 
+      {% if tipo_objetivo == "Noticia" %}
+      "{{ objetivo.titulo }}"
+      {% else %}
+      esta respuesta
+      {% endif %}
+   </h3>
+   <p class="text-muted mb-3">
+      Explica brevemente por qué estás reportando {% if tipo_objetivo == "Noticia" %}la noticia{% else %}la respuesta{% endif %}.
+   </p>
+   <!-- ✍️ Formulario -->
+   <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-danger mt-2">Enviar reporte</button>
+      <!-- Botón para regresar -->
+      <a href="{% if tipo_objetivo == 'Noticia' %}{% url 'detalle_noticia' objetivo.id %}{% else %}{% url 'detalle_noticia' objetivo.noticia.id %}{% endif %}" class="btn btn-secondary mt-2">Cancelar</a>
+   </form>
 </div>
 {% endblock %}

@@ -1,41 +1,34 @@
 {% extends "noticias/base.html" %}
-
+{% load static %}
 {% block content %}
 <div class="login-container">
-  <div class="login-card shadow-sm">
-    <h2 class="login-title text-center mb-4">Iniciar Sesión</h2>
-
-    {% if form.errors %}
+   <div class="login-card shadow-sm">
+      <h2 class="login-title text-center mb-4">Iniciar Sesión</h2>
+      {% if form.errors %}
       <div class="alert alert-danger text-center">
-        Usuario o contraseña inválidos.
+         Usuario o contraseña inválidos.
       </div>
-    {% endif %}
-
-    <form method="post" action="{% url 'login' %}" class="login-form">
-      {% csrf_token %}
-
-      <div class="mb-3">
-        <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
-        {{ form.username }}
-      </div>
-
-      <div class="mb-3">
-        <label for="{{ form.password.id_for_label }}" class="form-label">Contraseña</label>
-        {{ form.password }}
-      </div>
-
-      {% if next %}
-        <input type="hidden" name="next" value="{{ next }}">
       {% endif %}
-
-      <button type="submit" class="btn btn-login w-100">
-        Entrar
-      </button>
-
-      <div class="text-center mt-3">
-        <a href="{% url 'password_reset' %}" class="text-danger">¿Olvidaste tu contraseña?</a>
-      </div>
-    </form>
-  </div>
+      <form method="post" action="{% url 'login' %}" class="login-form">
+         {% csrf_token %}
+         <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
+            {{ form.username }}
+         </div>
+         <div class="mb-3">
+            <label for="{{ form.password.id_for_label }}" class="form-label">Contraseña</label>
+            {{ form.password }}
+         </div>
+         {% if next %}
+         <input type="hidden" name="next" value="{{ next }}">
+         {% endif %}
+         <button type="submit" class="btn btn-login w-100">
+         Entrar
+         </button>
+         <div class="text-center mt-3">
+            <a href="{% url 'password_reset' %}" class="text-danger">¿Olvidaste tu contraseña?</a>
+         </div>
+      </form>
+   </div>
 </div>
 {% endblock %}

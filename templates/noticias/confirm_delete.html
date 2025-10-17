@@ -1,9 +1,9 @@
 {% extends 'noticias/base.html' %}
-
 {% block title %}Confirmar eliminación | WebNoticias{% endblock %}
 
 {% block content %}
 <div class="container my-5">
+
     {% if tipo == 'Respuesta' %}
         <h2 class="mb-4">¿Estás seguro de que deseas eliminar esta respuesta de <strong>{{ objeto.autor.username }}</strong>?</h2>
         <div class="card mb-3">
@@ -11,16 +11,23 @@
                 <p>{{ objeto.contenido }}</p>
             </div>
         </div>
+
     {% elif tipo == 'Noticia' %}
         <h2 class="mb-4">¿Estás seguro de que deseas eliminar esta noticia?</h2>
-        <p>Título: <strong>{{ objeto.titulo }}</strong></p>
-        <p>Autor: <strong>{{ objeto.autor.username }}</strong></p>
+        <p><strong>Título:</strong> {{ objeto.titulo }}</p>
+        <p><strong>Autor:</strong> {{ objeto.autor.username }}</p>
+
+    {% elif tipo == 'Categoria' %}
+        <h2 class="mb-4">¿Estás seguro de que deseas eliminar esta categoría?</h2>
+        <p><strong>Nombre:</strong> {{ objeto.nombre }}</p>
     {% endif %}
 
     <form method="POST">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-        <a href="{{ cancelar_url }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'detalle_noticia' objeto.id %}" class="btn btn-secondary">Cancelar</a>
+
     </form>
+
 </div>
 {% endblock %}

@@ -1,33 +1,31 @@
 {% extends 'noticias/base.html' %}
 {% block title %}Categorías | Vox Campus{% endblock %}
-
 {% block content %}
 <h2>Categorías</h2>
 <a href="{% url 'categoria_crear' %}" class="btn btn-primary mb-3">Crear Nueva Categoría</a>
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for categoria in categorias %}
-        <tr>
-            <td>{{ categoria.id }}</td>
-            <td>{{ categoria.nombre }}</td>
-            <td>
-                <a href="{% url 'categoria_editar' categoria.id %}" class="btn btn-warning btn-sm">Editar</a>
-                
-                {% if user.is_superuser %}
-                <a href="{% url 'confirmar_eliminar_categoria_admin' categoria.id %}" class="btn btn-danger btn-sm">
-                    Eliminar
-                </a>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+   <thead>
+      <tr>
+         <th>ID</th>
+         <th>Nombre</th>
+         <th>Acciones</th>
+      </tr>
+   </thead>
+   <tbody>
+      {% for categoria in categorias %}
+      <tr>
+         <td>{{ categoria.id }}</td>
+         <td>{{ categoria.nombre }}</td>
+         <td>
+            <a href="{% url 'categoria_editar' categoria.id %}" class="btn btn-warning btn-sm">Editar</a>
+            {% if user.is_superuser %}
+            <a href="{% url 'confirmar_eliminar_categoria_admin' categoria.id %}" class="btn btn-danger btn-sm">
+            Eliminar
+            </a>
+            {% endif %}
+         </td>
+      </tr>
+      {% endfor %}
+   </tbody>
 </table>
 {% endblock %}

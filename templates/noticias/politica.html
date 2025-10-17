@@ -1,44 +1,40 @@
 {% extends 'noticias/base.html' %}
 {% load static %}
 {% block title %}Política | Vox Campus{% endblock %}
-
 {% block content %}
 <div class="container my-5">
-    <h1 class="fw-bold text-danger mb-4">Noticias de Política</h1>
-
-    <div class="row g-4">
-        <div class="col-md-4 noticia-card">
-            <div class="card">
-                <img src="{% static 'WebNoticias/img/proyecto.jpg' %}"  class="card-img-top" alt="Noticia Política 1">
-                <div class="card-body">
-                    <h5 class="card-title">Nuevo Proyecto de Ley Aprobado</h5>
-                    <p class="card-text">El Congreso aprobó hoy un proyecto de ley que busca modernizar la infraestructura pública en las principales ciudades del país.</p>
-                    <a href="#" class="btn btn-crud">Leer más</a>
-                </div>
+   <h1 class="fw-bold text-danger mb-4">Noticias de Política</h1>
+   <div class="row g-4">
+      <div class="col-md-4 noticia-card">
+         <div class="card">
+            <img src="{% static 'WebNoticias/img/proyecto.jpg' %}"  class="card-img-top" alt="Noticia Política 1">
+            <div class="card-body">
+               <h5 class="card-title">Nuevo Proyecto de Ley Aprobado</h5>
+               <p class="card-text">El Congreso aprobó hoy un proyecto de ley que busca modernizar la infraestructura pública en las principales ciudades del país.</p>
+               <a href="#" class="btn btn-crud">Leer más</a>
             </div>
-        </div>
-
-        <div class="col-md-4 noticia-card">
-            <div class="card">
-                <img src="{% static 'WebNoticias/img/debate.jpg' %}" class="card-img-top" alt="Noticia Política 2">
-                <div class="card-body">
-                    <h5 class="card-title">Debate Presidencial Genera Expectativa</h5>
-                    <p class="card-text">El debate presidencial de esta semana ha generado gran interés entre los ciudadanos, con temas que abarcan economía y educación.</p>
-                    <a href="#" class="btn btn-crud">Leer más</a>
-                </div>
+         </div>
+      </div>
+      <div class="col-md-4 noticia-card">
+         <div class="card">
+            <img src="{% static 'WebNoticias/img/debate.jpg' %}" class="card-img-top" alt="Noticia Política 2">
+            <div class="card-body">
+               <h5 class="card-title">Debate Presidencial Genera Expectativa</h5>
+               <p class="card-text">El debate presidencial de esta semana ha generado gran interés entre los ciudadanos, con temas que abarcan economía y educación.</p>
+               <a href="#" class="btn btn-crud">Leer más</a>
             </div>
-        </div>
-
-        <div class="col-md-4 noticia-card">
-            <div class="card">
-                <img src="{% static 'WebNoticias/img/Ranking.png' %}" class="card-img-top" alt="Noticia Política 3">
-                <div class="card-body">
-                    <h5 class="card-title">Encuestas Muestran Cambios en Opinión Pública</h5>
-                    <p class="card-text">Las últimas encuestas muestran un cambio significativo en la percepción pública sobre la gestión gubernamental, destacando la economía y la seguridad.</p>
-                    <a href="#" class="btn btn-crud">Leer más</a>
-                </div>
+         </div>
+      </div>
+      <div class="col-md-4 noticia-card">
+         <div class="card">
+            <img src="{% static 'WebNoticias/img/Ranking.png' %}" class="card-img-top" alt="Noticia Política 3">
+            <div class="card-body">
+               <h5 class="card-title">Encuestas Muestran Cambios en Opinión Pública</h5>
+               <p class="card-text">Las últimas encuestas muestran un cambio significativo en la percepción pública sobre la gestión gubernamental, destacando la economía y la seguridad.</p>
+               <a href="#" class="btn btn-crud">Leer más</a>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 </div>
 {% endblock %}

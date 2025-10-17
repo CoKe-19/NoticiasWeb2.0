@@ -1,15 +1,13 @@
 {% extends 'noticias/base.html' %}
 {% block title %}Formulario Respuesta | VoxCampus{% endblock %}
-
 {% block content %}
 <div class="container my-5">
-  <h2 class="fw-bold text-success mb-4">Agregar o Editar Respuesta</h2>
-
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success mt-3">Guardar</button>
-    <a href="{% url 'lista_respuestas' %}" class="btn btn-secondary mt-3">Volver</a>
-  </form>
+   <h2 class="fw-bold text-success mb-4">Agregar o Editar Respuesta</h2>
+   <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-success mt-3">Guardar</button>
+      <a href="{% url 'lista_respuestas' %}" class="btn btn-secondary mt-3">Volver</a>
+   </form>
 </div>
 {% endblock %}

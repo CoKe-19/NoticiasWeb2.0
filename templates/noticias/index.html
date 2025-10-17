@@ -1,160 +1,169 @@
 {% extends 'noticias/base.html' %}
 {% block title %}Inicio | WebNoticias{% endblock %}
 {% load static %}
-
 {% block content %}
-
 <!-- Banner de publicidad  -->
 <div class="row mb-4">
-  <div class="col-12 text-center">
-    <a href="https://tupublicidad.com" target="_blank" rel="noopener">
+   <div class="col-12 text-center">
+      <a href="https://tupublicidad.com" target="_blank" rel="noopener">
       <img src="{% static 'WebNoticias/img/banner.jpg' %}" alt="Publicidad: Tu Marca Aquí" class="img-fluid rounded shadow w-70" style="max-height:180px;">
-    </a>
-  </div>
+      </a>
+   </div>
 </div>
-
 <div class="container">
-  <!-- 📰 Noticia destacada -->
-  <div class="row mb-5">
-    <div class="col-lg-8">
-      <div class="card bg-dark text-white border-0 shadow-lg">
-        <img src="{% static 'WebNoticias/img/copa_america.png' %}" class="card-img animate-on-scroll" alt="Noticia destacada" loading="lazy">
-        <div class="card-img-overlay d-flex flex-column justify-content-end p-4">
-          <h2 class="card-title fw-bold">Chile vence a Argentina en un duelo histórico por la Copa América</h2>
-          <p class="card-text fs-6">Un gol de último minuto selló la victoria de la Roja en un partido lleno de emoción y tensión en Buenos Aires.</p>
-          <a href="{% url 'chile' %}" class="btn btn-danger mt-2 w-25">Leer más</a>
-        </div>
+   <!-- 📰 Noticia destacada -->
+   <div class="row mb-5">
+      <div class="col-lg-8">
+         <div class="card bg-dark text-white border-0 shadow-lg">
+            <img src="{% static 'WebNoticias/img/copa_america.png' %}" class="card-img animate-on-scroll" alt="Noticia destacada" loading="lazy">
+            <div class="card-img-overlay d-flex flex-column justify-content-end p-4">
+               <h2 class="card-title fw-bold">Chile vence a Argentina en un duelo histórico por la Copa América</h2>
+               <p class="card-text fs-6">Un gol de último minuto selló la victoria de la Roja en un partido lleno de emoción y tensión en Buenos Aires.</p>
+               <a href="{% url 'chile' %}" class="btn btn-danger mt-2 w-25">Leer más</a>
+            </div>
+         </div>
       </div>
-    </div>
-
-    <!-- 🔥 Sidebar: últimas noticias -->
-    <div class="col-lg-4">
-      <h4 class="fw-bold border-bottom pb-2 mb-3 text-danger">Últimas Noticias</h4>
-      <ul class="list-unstyled">
-        <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">NASA anuncia plan para Marte 2035</a></li>
-        <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">Messi podría jugar su última temporada</a></li>
-        <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">Chile logra récord en energía solar</a></li>
-        <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">Apple lanza nuevo iPhone con IA</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 🏆 Deportes -->
-  <div class="mb-5">
-    <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-trophy-fill me-2"></i>Deportes</h3>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/colo-colo.jpeg' %}" class="card-img-top animate-on-scroll" alt="Colo Colo" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Colo Colo se prepara para el Superclásico</h5>
-            <p class="card-text">Detalles para enfrentar a la U en un encuentro decisivo.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
+      <!-- 🔥 Sidebar: últimas noticias -->
+      <div class="col-lg-4">
+         <h4 class="fw-bold border-bottom pb-2 mb-3 text-danger">Últimas Noticias</h4>
+         <ul class="list-unstyled">
+            <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">NASA anuncia plan para Marte 2035</a></li>
+            <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">Messi podría jugar su última temporada</a></li>
+            <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">Chile logra récord en energía solar</a></li>
+            <li class="mb-3"><a href="#" class="text-dark text-decoration-none fw-semibold">Apple lanza nuevo iPhone con IA</a></li>
+         </ul>
       </div>
-
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/madrid.jpg' %}" class="card-img-top animate-on-scroll" alt="Fútbol internacional" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Real Madrid ficha a promesa brasileña</h5>
-            <p class="card-text">Operación millonaria sorprende a Europa.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
+   </div>
+   <!-- 🏆 Deportes -->
+   <div class="mb-5">
+      <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-trophy-fill me-2"></i>Deportes</h3>
+      <div class="row g-4">
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/colo-colo.jpeg' %}" class="card-img-top animate-on-scroll" alt="Colo Colo" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Colo Colo se prepara para el Superclásico</h5>
+                  <p class="card-text">Detalles para enfrentar a la U en un encuentro decisivo.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/madrid.jpg' %}" class="card-img-top animate-on-scroll" alt="Fútbol internacional" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Real Madrid ficha a promesa brasileña</h5>
+                  <p class="card-text">Operación millonaria sorprende a Europa.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/rafael.jpg' %}" class="card-img-top animate-on-scroll" alt="Tenis" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Rafael Nadal confirma regreso a Roland Garros 2025</h5>
+                  <p class="card-text">Tras meses de recuperación, listo para competir de alto nivel.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
       </div>
-
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/rafael.jpg' %}" class="card-img-top animate-on-scroll" alt="Tenis" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Rafael Nadal confirma regreso a Roland Garros 2025</h5>
-            <p class="card-text">Tras meses de recuperación, listo para competir de alto nivel.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
+   </div>
+   <!-- 🏛 Política -->
+   <div class="mb-5">
+      <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-people-fill me-2"></i>Política</h3>
+      <div class="row g-4">
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/congresos.jpg' %}" class="card-img-top animate-on-scroll" alt="Política" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Congreso aprueba nueva reforma tributaria</h5>
+                  <p class="card-text">Medida generará cambios importantes en la economía local.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/paz.jpg' %}" class="card-img-top animate-on-scroll" alt="Política internacional" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">ONU llama a la paz en conflictos globales</h5>
+                  <p class="card-text">Reunión histórica para coordinar esfuerzos humanitarios.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/kastt.png' %}" class="card-img-top animate-on-scroll" alt="Elecciones" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Elecciones 2025: principales candidatos se preparan</h5>
+                  <p class="card-text">Campañas intensas en todo el país antes de las votaciones.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- 🏛 Política -->
-  <div class="mb-5">
-    <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-people-fill me-2"></i>Política</h3>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/congresos.jpg' %}" class="card-img-top animate-on-scroll" alt="Política" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Congreso aprueba nueva reforma tributaria</h5>
-            <p class="card-text">Medida generará cambios importantes en la economía local.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
+   </div>
+   <!-- 🎮 Videojuegos -->
+   <div class="mb-5">
+      <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-controller me-2"></i>Videojuegos</h3>
+      <div class="row g-4">
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/paz.jpg' %}" class="card-img-top animate-on-scroll" alt="Videojuegos" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Lanzamiento de nuevo juego de aventura</h5>
+                  <p class="card-text">Explora mundos virtuales llenos de misterio y acción.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/juegito.png' %}" class="card-img-top animate-on-scroll" alt="E-sports" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Competencia e-sports: Chile busca campeón regional</h5>
+                  <p class="card-text">Jugadores profesionales se preparan para el torneo internacional.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="card noticia-card">
+               <img src="{% static 'WebNoticias/img/realidad.png' %}" class="card-img-top animate-on-scroll" alt="VR Gaming" loading="lazy">
+               <div class="card-body">
+                  <h5 class="card-title fw-bold">Realidad virtual: la nueva era de los videojuegos</h5>
+                  <p class="card-text">Experiencias inmersivas que están revolucionando la industria del gaming.</p>
+                  <a href="#" class="btn btn-danger btn-sm">Leer más</a>
+               </div>
+            </div>
+         </div>
       </div>
-
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/paz.jpg' %}" class="card-img-top animate-on-scroll" alt="Política internacional" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">ONU llama a la paz en conflictos globales</h5>
-            <p class="card-text">Reunión histórica para coordinar esfuerzos humanitarios.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
+   </div>
+</div>
+<div class="container my-5">
+   <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+      <div class="card-body">
+         <h5 class="card-title text-center mb-3 text-danger">¿Quieres trabajar con nosotros?</h5>
+         <form method="post" action="#">
+            {% csrf_token %}
+            <div class="mb-3">
+               <label for="nombre" class="form-label">Nombre completo</label>
+               <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="mb-3">
+               <label for="email" class="form-label">Correo electrónico</label>
+               <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+               <label for="mensaje" class="form-label">Cuéntanos por qué quieres unirte</label>
+               <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-danger w-100">Enviar</button>
+         </form>
       </div>
-
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/kastt.png' %}" class="card-img-top animate-on-scroll" alt="Elecciones" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Elecciones 2025: principales candidatos se preparan</h5>
-            <p class="card-text">Campañas intensas en todo el país antes de las votaciones.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🎮 Videojuegos -->
-  <div class="mb-5">
-    <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-controller me-2"></i>Videojuegos</h3>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/paz.jpg' %}" class="card-img-top animate-on-scroll" alt="Videojuegos" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Lanzamiento de nuevo juego de aventura</h5>
-            <p class="card-text">Explora mundos virtuales llenos de misterio y acción.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/juegito.png' %}" class="card-img-top animate-on-scroll" alt="E-sports" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Competencia e-sports: Chile busca campeón regional</h5>
-            <p class="card-text">Jugadores profesionales se preparan para el torneo internacional.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card noticia-card">
-          <img src="{% static 'WebNoticias/img/realidad.png' %}" class="card-img-top animate-on-scroll" alt="VR Gaming" loading="lazy">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">Realidad virtual: la nueva era de los videojuegos</h5>
-            <p class="card-text">Experiencias inmersivas que están revolucionando la industria del gaming.</p>
-            <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+   </div>
 </div>
 {% endblock %}

@@ -40,14 +40,20 @@ urlpatterns = [
     # CRUD Reportes
     path('reportar/noticia/<int:noticia_id>/', views.reportar_noticia, name='reportar_noticia'),
     path('reportar/respuesta/<int:respuesta_id>/', views.reportar_respuesta, name='reportar_respuesta'),
-    path('contacto/ajax/', views.contacto_ajax, name='contacto_ajax'),
 
     # Categorías dinámicas
     path('categoria/<int:categoria_id>/', views.categoria, name='categoria'),
 
      # Registro
     path('registro/', views.registrar_usuario, name='registro'),
+
+    
     path('buscar/', views.buscar, name='buscar'),
+    path('contacto/', views.contacto, name='contacto'),
+    path('inicio-privado/', views.inicio_privado, name='inicio_privado'),
+    path('mis-noticias/', views.mis_noticias, name='mis_noticias'),
+    path('mis_noticias/eliminar/<int:noticia_id>/', views.confirmar_eliminar_noticia, name='noticia_confirmar_eliminar'),
+
 
     
 ]

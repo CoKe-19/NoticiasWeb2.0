@@ -1,31 +1,28 @@
 {% extends 'noticias/base.html' %}
-
 {% block title %}Registro | Vox Campus{% endblock %}
-
 {% block content %}
 <div class="container my-5" style="max-width: 500px;">
-    <h1 class="fw-bold text-danger mb-4">Únete a Vox Campus</h1>
-    <p class="mb-4">Regístrate para comentar noticias y participar activamente.</p>
-
-    <form method="post" novalidate>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="mb-3">
-            {{ form.username.label_tag }}
-            {{ form.username }}
-            {{ form.username.errors }}
-        </div>
-        <div class="mb-3">
-            {{ form.password1.label_tag }}
-            {{ form.password1 }}
-            {{ form.password1.errors }}
-        </div>
-        <div class="mb-3">
-            {{ form.password2.label_tag }}
-            {{ form.password2 }}
-            {{ form.password2.errors }}
-        </div>
-        <button type="submit" class="btn btn-register w-100">Registrarme</button>
-    </form>
+   <h1 class="fw-bold text-danger mb-4">Únete a Vox Campus</h1>
+   <p class="mb-4">Regístrate para comentar noticias y participar activamente.</p>
+   <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="mb-3">
+         {{ form.username.label_tag }}
+         {{ form.username }}
+         {{ form.username.errors }}
+      </div>
+      <div class="mb-3">
+         {{ form.password1.label_tag }}
+         {{ form.password1 }}
+         {{ form.password1.errors }}
+      </div>
+      <div class="mb-3">
+         {{ form.password2.label_tag }}
+         {{ form.password2 }}
+         {{ form.password2.errors }}
+      </div>
+      <button type="submit" class="btn btn-register w-100">Registrarme</button>
+   </form>
 </div>
 {% endblock %}

@@ -1,46 +1,66 @@
 {% extends 'noticias/base.html' %}
 {% load static %}
+
 {% block title %}Contacto | WebNoticias{% endblock %}
 
 {% block content %}
-<!-- Banner de publicidad  -->
+<!-- Banner de publicidad -->
 <div class="row mb-4">
-  <div class="col-12 text-center">
-    <a href="https://tupublicidad.com" target="_blank" rel="noopener">
-      <img src="{% static 'WebNoticias/img/unimarc.jpg' %}" alt="Publicidad: Tu Marca Aquí" class="img-fluid rounded shadow w-70" style="max-height:180px;">
-    </a>
-  </div>
+   <div class="col-12 text-center">
+      <a href="https://tupublicidad.com" target="_blank" rel="noopener">
+         <img src="{% static 'WebNoticias/img/unimarc.jpg' %}" 
+              alt="Publicidad: Tu Marca Aquí" 
+              class="img-fluid rounded shadow w-70" 
+              style="max-height:180px;">
+      </a>
+   </div>
 </div>
 
 <div class="container my-5">
-    <h1 class="fw-bold text-danger mb-4">Contáctanos</h1>
-    <p class="mb-4">Completa el formulario y te responderemos a la brevedad.</p>
 
-    <div id="formMessage"></div>
+   <!-- ✅ Bloque de mensajes -->
+   {% if messages %}
+      <div class="mb-4">
+         {% for message in messages %}
+            <div 
+               class="alert 
+               {% if message.tags == 'success' %}alert-success
+               {% elif message.tags == 'error' %}alert-danger
+               {% elif message.tags == 'warning' %}alert-warning
+               {% else %}alert-info{% endif %}
+               alert-dismissible fade show"
+               role="alert">
+               {{ message }}
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+         {% endfor %}
+      </div>
+   {% endif %}
 
-    <form id="contactForm" class="row g-3">
-        {% csrf_token %}
-        <div class="col-md-6">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
-        </div>
-        <div class="col-md-6">
-            <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="col-12">
-            <label for="asunto" class="form-label">Asunto</label>
-            <input type="text" class="form-control" id="asunto" name="asunto" required>
-        </div>
-        <div class="col-12">
-            <label for="mensaje" class="form-label">Mensaje</label>
-            <textarea class="form-control" id="mensaje" name="mensaje" rows="5" required></textarea>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-danger">Enviar mensaje</button>
-        </div>
-    </form>
+   <h1 class="fw-bold text-danger mb-4">Contáctanos</h1>
+   <p class="mb-4">Completa el formulario y te responderemos a la brevedad.</p>
+
+   <form method="POST" class="row g-3">
+      {% csrf_token %}
+      <div class="col-md-6">
+         <label for="nombre" class="form-label">Nombre</label>
+         <input type="text" class="form-control" id="nombre" name="nombre" required>
+      </div>
+      <div class="col-md-6">
+         <label for="email" class="form-label">Correo electrónico</label>
+         <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="col-12">
+         <label for="asunto" class="form-label">Asunto</label>
+         <input type="text" class="form-control" id="asunto" name="asunto" required>
+      </div>
+      <div class="col-12">
+         <label for="mensaje" class="form-label">Mensaje</label>
+         <textarea class="form-control" id="mensaje" name="mensaje" rows="5" required></textarea>
+      </div>
+      <div class="col-12">
+         <button type="submit" class="btn btn-danger">Enviar mensaje</button>
+      </div>
+   </form>
 </div>
-
-<script src="{% static 'js/contacto.js' %}"></script>
 {% endblock %}

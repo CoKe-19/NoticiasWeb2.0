@@ -83,3 +83,9 @@ class RegistroForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'password1', 'password2']
+
+class ContactoForm(forms.Form):
+    nombre = forms.CharField(max_length=100)
+    correo = forms.EmailField()
+    asunto = forms.CharField(max_length=200)
+    mensaje = forms.CharField(widget=forms.Textarea)
