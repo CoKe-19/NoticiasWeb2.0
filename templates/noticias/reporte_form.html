@@ -20,7 +20,7 @@
       {{ form.as_p }}
       <button type="submit" class="btn btn-danger mt-2">Enviar reporte</button>
       <!-- Botón para regresar -->
-      <a href="{% if tipo_objetivo == 'Noticia' %}{% url 'detalle_noticia' objetivo.id %}{% else %}{% url 'detalle_noticia' objetivo.noticia.id %}{% endif %}" class="btn btn-secondary mt-2">Cancelar</a>
+      <a href="{% if tipo_objetivo == 'Noticia' %}{% url 'noticia_detalle' objetivo.id %}{% else %}{% url 'noticia_detalle' objetivo.noticia.id %}{% endif %}" class="btn btn-secondary mt-2">Cancelar</a>
    </form>
 </div>
 {% endblock %}

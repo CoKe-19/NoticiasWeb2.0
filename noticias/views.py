@@ -94,26 +94,19 @@ def noticia_detalle(request, id):
 @login_required(login_url="login")
 def noticia_eliminar(request, pk): 
     noticia = get_object_or_404(Noticia, pk=pk)
-
-    # Verificar permisos
     if request.user != noticia.autor and not request.user.is_staff:
         return HttpResponse("No tienes permiso para eliminar esta noticia.", status=403)
-
-    # Redirigir al eliminar según tipo de usuario
     if request.method == "POST":
         noticia.delete()
         messages.success(request, "Noticia eliminada correctamente.")
         if request.user.is_staff:
-            return redirect('noticia_lista')  # admin
+            return redirect('noticia_lista') 
         else:
-            return redirect('mis_noticias')  # usuario normal
-
-    # Definir la URL de cancelar según tipo de usuario
+            return redirect('mis_noticias')  
     if request.user.is_staff:
         cancelar_url = reverse('noticia_lista')
     else:
         cancelar_url = reverse('mis_noticias')
-
     return render(request, 'noticias/confirm_delete.html', {
         'objeto': noticia,
         'tipo': 'Noticia',
@@ -323,7 +316,7 @@ def reportar_noticia(request, noticia_id):
             reporte.usuario = request.user
             reporte.save()
             messages.success(request, '¡Reporte enviado correctamente!')
-            return redirect('detalle_noticia', id=noticia.id)
+            return redirect('noticia_detalle', id=noticia.id)
         else:
             messages.error(request, 'Hubo un error al enviar el reporte.')
     else:
@@ -346,7 +339,7 @@ def reportar_respuesta(request, respuesta_id):
             reporte.usuario = request.user
             reporte.save()
             messages.success(request, '¡Reporte enviado correctamente!')
-            return redirect('detalle_noticia', id=respuesta.noticia.id)
+            return redirect('noticia_detalle', id=respuesta.noticia.id)
         else:
             messages.error(request, 'Hubo un error al enviar el reporte.')
     else:
@@ -376,7 +369,7 @@ def registrar_usuario(request):
     return render(request, 'registration/registro.html', {'form': form})
 
 # ===========================
-# Contacto y Otros
+# Contacto
 # ===========================
 def contacto(request):
     if request.method == 'POST':
