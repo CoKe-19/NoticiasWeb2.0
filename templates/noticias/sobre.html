@@ -3,94 +3,85 @@
 {% load static %}
 {% block content %}
 <div class="container my-5">
-<!-- Título y descripción -->
-<div class="text-center mb-5">
-   <h1 class="fw-bold text-danger">Sobre Voxcampus</h1>
-   <p class="lead text-muted mx-auto" style="max-width: 700px;">
-      VoxCampus es un portal dedicado a ofrecer noticias de actualidad, deportes, tecnología y cultura.
-      Nuestra misión es mantenerte informado con contenido veraz, actualizado y fácil de consumir, 
-      mientras innovamos en la forma de presentar la información.
-   </p>
-</div>
-<!-- Historia y misión -->
-<div class="row mb-5">
-   <div class="col-md-6 mb-4">
-      <div class="card shadow-sm h-100 border-0">
-         <div class="card-body">
-            <h3 class="card-title text-danger fw-bold mb-3">Nuestra Historia</h3>
-            <p class="card-text text-muted">
-               Fundada en 2020 por un grupo de apasionados del periodismo digital, 
-               WebNoticias nació con la visión de ofrecer noticias confiables y 
-               entretenidas para todo tipo de público.
-            </p>
+   <div class="text-center mb-5">
+      <h1 class="fw-bold text-danger">Sobre Voxcampus</h1>
+      <p class="lead text-muted mx-auto" style="max-width: 700px;">
+         VoxCampus es un portal dedicado a ofrecer noticias de actualidad, deportes, tecnología y cultura.
+         Nuestra misión es mantenerte informado con contenido veraz, actualizado y fácil de consumir, 
+         mientras innovamos en la forma de presentar la información.
+      </p>
+   </div>
+   <div class="row mb-5">
+      <div class="col-md-6 mb-4">
+         <div class="card shadow-sm h-100 border-0">
+            <div class="card-body">
+               <h3 class="card-title text-danger fw-bold mb-3">Nuestra Historia</h3>
+               <p class="card-text text-muted">
+                  Fundada en 2020 por un grupo de apasionados del periodismo digital, 
+                  WebNoticias nació con la visión de ofrecer noticias confiables y 
+                  entretenidas para todo tipo de público.
+               </p>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-6 mb-4">
+         <div class="card shadow-sm h-100 border-0">
+            <div class="card-body">
+               <h3 class="card-title text-danger fw-bold mb-3">Nuestra Misión</h3>
+               <p class="card-text text-muted">
+                  Brindar información de calidad, confiable y accesible, destacando la importancia
+                  de la tecnología y la innovación en la comunicación. Queremos que cada lector
+                  se sienta parte de nuestra comunidad.
+               </p>
+            </div>
          </div>
       </div>
    </div>
-   <div class="col-md-6 mb-4">
-      <div class="card shadow-sm h-100 border-0">
-         <div class="card-body">
-            <h3 class="card-title text-danger fw-bold mb-3">Nuestra Misión</h3>
-            <p class="card-text text-muted">
-               Brindar información de calidad, confiable y accesible, destacando la importancia
-               de la tecnología y la innovación en la comunicación. Queremos que cada lector
-               se sienta parte de nuestra comunidad.
-            </p>
+   <h3 class="fw-bold text-danger mb-4 text-center">Nuestro Equipo</h3>
+   <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+         <div class="card shadow-sm team-card h-100 border-0">
+            <img src="{% static 'WebNoticias/img/rene.jpg' %}" class="card-img-top" alt="Editor">
+            <div class="card-body text-center">
+               <h5 class="card-title fw-bold">Juan Ernesto Del Campo</h5>
+               <p class="text-muted"><i class="bi bi-person-badge-fill"></i> Editor en jefe</p>
+               <p class="card-text text-muted">
+                  Fundador de WebNoticias. Apasionado por el periodismo digital y la innovación tecnológica.
+               </p>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card shadow-sm team-card h-100 border-0">
+            <img src="{% static 'WebNoticias/img/presi.jpg' %}" class="card-img-top" alt="Redactora">
+            <div class="card-body text-center">
+               <h5 class="card-title fw-bold">Jose Antonio Kast</h5>
+               <p class="text-muted"><i class="bi bi-pencil-square"></i> Presidente</p>
+               <p class="card-text text-muted">
+                  Especialista en noticias internacionales y deportes. Experta en reportajes y entrevistas.
+               </p>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card shadow-sm team-card h-100 border-0">
+            <img src="{% static 'WebNoticias/img/guapo.jpg' %}" class="card-img-top" alt="Desarrollador">
+            <div class="card-body text-center">
+               <h5 class="card-title fw-bold">Elmas Guapo</h5>
+               <p class="text-muted"><i class="bi bi-code-slash"></i> Desarrollador</p>
+               <p class="card-text text-muted">
+                  Diseñador UI/UX y desarrollador web. Responsable de la experiencia de usuario y optimización.
+               </p>
+            </div>
          </div>
       </div>
    </div>
-</div>
-<!-- Equipo -->
-<h3 class="fw-bold text-danger mb-4 text-center">Nuestro Equipo</h3>
-<div class="row g-4 justify-content-center">
-   <!-- Miembro 1 -->
-   <div class="col-md-4">
-      <div class="card shadow-sm team-card h-100 border-0">
-         <img src="{% static 'WebNoticias/img/rene.jpg' %}" class="card-img-top" alt="Editor">
-         <div class="card-body text-center">
-            <h5 class="card-title fw-bold">Juan Ernesto Del Campo</h5>
-            <p class="text-muted"><i class="bi bi-person-badge-fill"></i> Editor en jefe</p>
-            <p class="card-text text-muted">
-               Fundador de WebNoticias. Apasionado por el periodismo digital y la innovación tecnológica.
-            </p>
-         </div>
-      </div>
+   <div class="text-center mt-5">
+      <h4 class="text-danger fw-bold mb-3">Síguenos en nuestras redes</h4>
+      <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-facebook"></i></a>
+      <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-instagram"></i></a>
+      <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-twitter"></i></a>
+      <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-youtube"></i></a>
    </div>
-   <!-- Miembro 2 -->
-   <div class="col-md-4">
-      <div class="card shadow-sm team-card h-100 border-0">
-         <img src="{% static 'WebNoticias/img/presi.jpg' %}" class="card-img-top" alt="Redactora">
-         <div class="card-body text-center">
-            <h5 class="card-title fw-bold">Jose Antonio Kast</h5>
-            <p class="text-muted"><i class="bi bi-pencil-square"></i> Presidente</p>
-            <p class="card-text text-muted">
-               Especialista en noticias internacionales y deportes. Experta en reportajes y entrevistas.
-            </p>
-         </div>
-      </div>
-   </div>
-   <!-- Miembro 3 -->
-   <div class="col-md-4">
-      <div class="card shadow-sm team-card h-100 border-0">
-         <img src="{% static 'WebNoticias/img/guapo.jpg' %}" class="card-img-top" alt="Desarrollador">
-         <div class="card-body text-center">
-            <h5 class="card-title fw-bold">Elmas Guapo</h5>
-            <p class="text-muted"><i class="bi bi-code-slash"></i> Desarrollador</p>
-            <p class="card-text text-muted">
-               Diseñador UI/UX y desarrollador web. Responsable de la experiencia de usuario y optimización.
-            </p>
-         </div>
-      </div>
-   </div>
-</div>
-
-    <!-- Redes sociales -->
-    <div class="text-center mt-5">
-        <h4 class="text-danger fw-bold mb-3">Síguenos en nuestras redes</h4>
-        <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-twitter"></i></a>
-        <a href="#" class="mx-2 text-danger fs-4"><i class="bi bi-youtube"></i></a>
-    </div>
-
 </div>
 {% endblock %}

@@ -1,66 +1,68 @@
 {% extends 'noticias/base.html' %}
 {% load static %}
-
 {% block title %}Contacto | WebNoticias{% endblock %}
-
 {% block content %}
-<!-- Banner de publicidad -->
 <div class="row mb-4">
    <div class="col-12 text-center">
       <a href="https://tupublicidad.com" target="_blank" rel="noopener">
-         <img src="{% static 'WebNoticias/img/unimarc.jpg' %}" 
-              alt="Publicidad: Tu Marca Aquí" 
-              class="img-fluid rounded shadow w-70" 
-              style="max-height:180px;">
+      <img src="{% static 'WebNoticias/img/unimarc.jpg' %}" 
+         alt="Publicidad: Tu Marca Aquí" 
+         class="img-fluid rounded shadow w-70" 
+         style="max-height:180px;">
       </a>
    </div>
 </div>
-
 <div class="container my-5">
-
-   <!-- ✅ Bloque de mensajes -->
    {% if messages %}
-      <div class="mb-4">
-         {% for message in messages %}
-            <div 
-               class="alert 
-               {% if message.tags == 'success' %}alert-success
-               {% elif message.tags == 'error' %}alert-danger
-               {% elif message.tags == 'warning' %}alert-warning
-               {% else %}alert-info{% endif %}
-               alert-dismissible fade show"
-               role="alert">
-               {{ message }}
-               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-         {% endfor %}
+   <div class="mb-4">
+      {% for message in messages %}
+      <div 
+         class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %} alert-dismissible fade show shadow-sm"
+         role="alert">
+         {{ message }}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
       </div>
+      {% endfor %}
+   </div>
    {% endif %}
-
-   <h1 class="fw-bold text-danger mb-4">Contáctanos</h1>
-   <p class="mb-4">Completa el formulario y te responderemos a la brevedad.</p>
-
-   <form method="POST" class="row g-3">
-      {% csrf_token %}
-      <div class="col-md-6">
-         <label for="nombre" class="form-label">Nombre</label>
-         <input type="text" class="form-control" id="nombre" name="nombre" required>
-      </div>
-      <div class="col-md-6">
-         <label for="email" class="form-label">Correo electrónico</label>
-         <input type="email" class="form-control" id="email" name="email" required>
-      </div>
-      <div class="col-12">
-         <label for="asunto" class="form-label">Asunto</label>
-         <input type="text" class="form-control" id="asunto" name="asunto" required>
-      </div>
-      <div class="col-12">
-         <label for="mensaje" class="form-label">Mensaje</label>
-         <textarea class="form-control" id="mensaje" name="mensaje" rows="5" required></textarea>
-      </div>
-      <div class="col-12">
-         <button type="submit" class="btn btn-danger">Enviar mensaje</button>
-      </div>
-   </form>
+   <div class="contact-card mx-auto p-4 p-md-5 shadow-lg rounded-4 animate-on-scroll" style="max-width: 800px;">
+      <h2 class="text-center mb-3 fw-bold text-danger">
+         <i class="bi bi-envelope-paper-heart me-2"></i> Contáctanos
+      </h2>
+      <p class="text-center text-muted mb-4">Completa el formulario y te responderemos a la brevedad.</p>
+      <form method="POST" novalidate>
+         {% csrf_token %}
+         {% if form.non_field_errors %}
+         <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+         </div>
+         {% endif %}
+         <div class="row g-3">
+            {% for field in form %}
+            <div class="col-12 {% if field.name in 'nombre email' %}col-md-6{% endif %}">
+               <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+               {{ field }}
+               {% if field.errors %}
+               <div class="text-danger small mt-1">
+                  {% for error in field.errors %}
+                  {{ error }}
+                  {% endfor %}
+               </div>
+               {% endif %}
+            </div>
+            {% endfor %}
+         </div>
+         <div class="col-12 text-center mt-4">
+            <button type="submit" class="btn btn-danger px-5 py-2 fw-bold rounded-pill shadow-sm me-2">
+            <i class="bi bi-send-fill me-1"></i> Enviar mensaje
+            </button>
+            <a href="{% url 'index' %}" class="btn btn-outline-secondary px-5 py-2 rounded-pill">
+            <i class="bi bi-x-circle me-1"></i> Cancelar
+            </a>
+         </div>
+      </form>
+   </div>
 </div>
 {% endblock %}

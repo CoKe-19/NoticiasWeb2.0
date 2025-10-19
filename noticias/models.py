@@ -60,3 +60,45 @@ class ReporteAdmin(admin.ModelAdmin):
             return f"{obj.respuesta.contenido} (Titulo de la Noticia: {obj.respuesta.noticia.titulo})"
         return "-"
     get_respuesta_contenido.short_description = "Respuesta"
+
+
+class Perfil(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
+    bio = models.TextField(blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatares/', blank=True, null=True)
+    rol = models.CharField(
+        max_length=20,
+        choices=[('autor', 'Autor'), ('admin', 'Administrador')],
+        default='autor'
+    )
+
+    def __str__(self):
+        return f"Perfil de {self.user.username}"
+
+class Reaccion(models.Model):
+    REACCIONES = [
+        ('like', '❤️ Me gusta'),
+        ('love', '😍 Me encanta'),
+        ('funny', '😂 Me divierte'),
+        ('wow', '😮 Me sorprende'),
+        ('sad', '😢 Me entristece'),
+        ('angry', '😡 Me enoja'),
+    ]
+
+    noticia = models.ForeignKey('Noticia', on_delete=models.CASCADE, related_name='reacciones')
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=10, choices=REACCIONES)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('noticia', 'usuario')
+        
+class Mensaje(models.Model):
+    remitente = models.ForeignKey(User, related_name='mensajes_enviados', on_delete=models.CASCADE)
+    receptor = models.ForeignKey(User, related_name='mensajes_recibidos', on_delete=models.CASCADE)
+    contenido = models.TextField()
+    leido = models.BooleanField(default=False)
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.remitente.username} ➜ {self.receptor.username}'

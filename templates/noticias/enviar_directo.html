@@ -1,0 +1,9 @@
+{% extends 'noticias/base.html' %}
+{% block content %}
+<h2>Enviar mensaje a {{ receptor.username }}</h2>
+<form method="post">
+  {% csrf_token %}
+  <textarea name="contenido" rows="4" class="form-control" placeholder="Escribe tu mensaje..."></textarea>
+  <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+</form>
+{% endblock %}

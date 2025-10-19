@@ -1,0 +1,63 @@
+{% extends "noticias/base.html" %}
+{% load static %}
+
+{% block title %}Perfil de {{ perfil.user.username }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow p-4 rounded-4 bg-light">
+    <div class="d-flex align-items-center mb-4">
+      <!-- 🖼️ Avatar -->
+      <div class="me-4">
+        {% if perfil.avatar %}
+          <img src="{{ perfil.avatar.url }}" alt="Avatar" class="rounded-circle shadow" width="140" height="140">
+        {% else %}
+          <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar" class="rounded-circle shadow" width="140" height="140">
+        {% endif %}
+      </div>
+
+      <!-- 📄 Info básica + botón -->
+      <div>
+        <h2 class="mb-1 fw-bold">{{ perfil.user.username }}</h2>
+        <p class="mb-1"><strong>Nombre:</strong> {{ perfil.user.first_name }} {{ perfil.user.last_name }}</p>
+        <p class="mb-1"><strong>Correo:</strong> {{ perfil.user.email }}</p>
+
+        {% if request.user != perfil.user %}
+        <a href="{% url 'enviar_a_usuario' perfil.user.username %}" class="btn btn-outline-success mt-2 px-4 py-2 fw-semibold">
+          <i class="bi bi-envelope-fill me-1"></i> Enviar mensaje
+        </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- 🧠 Biografía -->
+    <p><strong>Biografía:</strong>
+      {% if perfil.bio %}
+        {{ perfil.bio }}
+      {% else %}
+        <em>Este usuario aún no ha escrito una biografía.</em>
+      {% endif %}
+    </p>
+
+    <!-- 🏷️ Rol -->
+    <p class="perfil-meta mt-2">
+      <strong>Rol:</strong>
+      {% if user.is_superuser %}
+        <span class="badge bg-danger text-white">Administrador</span>
+      {% else %}
+        <span class="badge bg-secondary text-white">Usuario Normal</span>
+      {% endif %}
+    </p>
+
+    <!-- 📰 Noticias -->
+    <h3 class="mt-4">📰 Noticias publicadas</h3>
+    <ul>
+      {% for noticia in noticias %}
+        <li><a href="{% url 'noticia_detalle' noticia.id %}">{{ noticia.titulo }}</a></li>
+      {% empty %}
+        <li>Este usuario aún no ha publicado noticias.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

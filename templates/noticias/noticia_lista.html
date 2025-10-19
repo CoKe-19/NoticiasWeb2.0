@@ -21,10 +21,8 @@
          <td>{{ noticia.titulo }}</td>
          <td>{{ noticia.autor }}</td>
          <td>
-            <!-- Todos los usuarios logeados pueden ver la noticia -->
             <a href="{% url 'noticia_detalle' noticia.id %}" class="btn btn-info btn-sm">Ver</a>
             {% if user.is_superuser %}
-            <!-- Solo superuser puede editar o eliminar -->
             <a href="{% url 'noticia_eliminar' noticia.id %}" class="btn btn-danger btn-sm">Eliminar</a>
             {% endif %}
          </td>

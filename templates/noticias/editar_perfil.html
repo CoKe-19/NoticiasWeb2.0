@@ -1,0 +1,33 @@
+{% extends "noticias/base.html" %}
+{% load static %}
+{% block title %}Editar Perfil{% endblock %}
+{% block content %}
+<div class="container my-4">
+   <h2 class="mb-4 text-center text-danger fw-bold">🧑‍💻 Editar Perfil</h2>
+   <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-lg border-0 rounded-4" style="max-width:600px; margin:auto;">
+      {% csrf_token %}
+      <div class="mb-3 text-center">
+         {% if request.user.perfil.avatar %}
+         <img src="{{ request.user.perfil.avatar.url }}" alt="Avatar actual"
+            style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+         {% else %}
+         <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar"
+            style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+         {% endif %}
+      </div>
+      <p class="text-center mb-3">
+         Rol actual:
+         {% if request.user.perfil.rol == "admin" %}
+         <span class="badge bg-danger">Administrador</span>
+         {% else %}
+         <span class="badge bg-secondary">Autor</span>
+         {% endif %}
+      </p>
+      {{ form.as_p }}
+      <div class="text-center mt-3">
+         <button type="submit" class="btn btn-danger px-4">Guardar cambios</button>
+         <a href="{% url 'ver_perfil' request.user.username %}" class="btn btn-secondary px-4">Cancelar</a>
+      </div>
+   </form>
+</div>
+{% endblock %}

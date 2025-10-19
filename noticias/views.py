@@ -3,14 +3,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth import get_user_model 
 from django.contrib import messages
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.http import JsonResponse
 from django.db.models import ProtectedError
 from django.urls import reverse
-from .models import Noticia, Categoria, Respuesta, Reporte
+from .models import Noticia, Categoria, Respuesta, Reporte , Reaccion , Mensaje
+
 from .forms import (
-    NoticiaForm, CategoriaForm, RespuestaForm, ReporteForm, RegistroForm, ContactoForm, CustomAuthenticationForm
+    NoticiaForm, CategoriaForm, RespuestaForm, ReporteForm, RegistroForm, ContactoForm, CustomAuthenticationForm , PerfilForm , MensajeForm
 )
 
+User = get_user_model()
 
 
 # ===========================
@@ -72,24 +78,51 @@ def noticia_editar(request, pk):
         'cancelar_url': reverse('noticia_detalle', args=[pk])
     })
 
+
 def noticia_detalle(request, id):
     noticia = get_object_or_404(Noticia, id=id)
-    respuestas = noticia.respuestas.all()
-    if request.method == 'POST' and request.user.is_authenticated:
+    respuestas = Respuesta.objects.filter(noticia=noticia).order_by('fecha_creacion')
+
+    # === Conteos de reacciones por tipo ===
+    conteos = {
+        'like': noticia.reacciones.filter(tipo='like').count(),
+        'love': noticia.reacciones.filter(tipo='love').count(),
+        'funny': noticia.reacciones.filter(tipo='funny').count(),
+        'wow': noticia.reacciones.filter(tipo='wow').count(),
+        'sad': noticia.reacciones.filter(tipo='sad').count(),
+        'angry': noticia.reacciones.filter(tipo='angry').count(),
+    }
+
+    # === Reacción actual del usuario ===
+    reaccion_usuario = None
+    if request.user.is_authenticated:
+        reaccion = Reaccion.objects.filter(noticia=noticia, usuario=request.user).first()
+        if reaccion:
+            reaccion_usuario = reaccion.tipo
+
+    # === Manejo del formulario de respuesta ===
+    if request.method == 'POST':
         form = RespuestaForm(request.POST)
         if form.is_valid():
-            respuesta = form.save(commit=False)
-            respuesta.noticia = noticia
-            respuesta.autor = request.user
-            respuesta.save()
-            return redirect('noticia_detalle', id=id)
+            nueva_respuesta = form.save(commit=False)
+            nueva_respuesta.noticia = noticia
+            nueva_respuesta.autor = request.user
+            nueva_respuesta.save()
+            return redirect('noticia_detalle', id=noticia.id)
     else:
         form = RespuestaForm()
-    return render(request, 'noticias/noticia_detalle.html', {
+
+    # === Contexto completo ===
+    context = {
         'noticia': noticia,
         'respuestas': respuestas,
-        'form': form
-    })
+        'conteos': conteos,
+        'reaccion_usuario': reaccion_usuario,
+        'form': form,
+    }
+
+    return render(request, 'noticias/noticia_detalle.html', context)
+
 
 @login_required(login_url="login")
 def noticia_eliminar(request, pk): 
@@ -375,18 +408,124 @@ def contacto(request):
     if request.method == 'POST':
         form = ContactoForm(request.POST)
         if form.is_valid():
-            messages.success(request, '¡Tu mensaje ha sido enviado correctamente!')
+            messages.success(request, '✅ ¡Tu mensaje ha sido enviado correctamente!')
             return redirect('contacto')
         else:
-            messages.error(request, 'Por favor corrige los errores en el formulario.')
+            messages.error(request, '❌ Por favor corrige los errores en el formulario.')
     else:
         form = ContactoForm()
-    return render(request, 'noticias/form.html', {
-        'form': form,
-        'titulo': 'Contáctanos',
-        'boton_texto': 'Enviar mensaje',
-        'cancelar_url': '/'
+
+    return render(request, 'noticias/contacto.html', {'form': form})
+
+    
+@login_required
+def categoria_lista(request):
+    categorias = Categoria.objects.all()
+    return render(request, 'noticias/categoria_lista.html', {'categorias': categorias})
+
+def buscar(request):
+    query = request.GET.get('q', '').strip()
+    resultados = []
+
+    if query:
+        resultados = Noticia.objects.filter(titulo__icontains=query)[:6]
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'noticias/resultados_ajax.html', {'resultados': resultados})
+
+    return render(request, 'noticias/buscar.html', {'resultados': resultados, 'query': query})
+
+
+
+def perfil_usuario(request, username):
+    user = get_object_or_404(User, username=username)
+    noticias = Noticia.objects.filter(autor=user)
+    return render(request, 'noticias/perfil.html', {
+        'perfil': user.perfil,
+        'noticias': noticias,
     })
+    
+
+@login_required
+def editar_perfil(request):
+    perfil = request.user.perfil
+
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, request.FILES, instance=perfil)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Perfil actualizado correctamente.")
+            return redirect('ver_perfil', username=request.user.username)
+        else:
+            messages.error(request, "❌ Hubo un error al actualizar el perfil.")
+    else:
+        form = PerfilForm(instance=perfil, initial={
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+        })
+    return render(request, 'noticias/editar_perfil.html', {'form': form})
+    
+@login_required
+def reaccionar_noticia(request, noticia_id):
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+    tipo = request.POST.get('tipo')
+
+    if not tipo:
+        return JsonResponse({'success': False, 'error': 'Tipo de reacción no válido'})
+
+    reaccion = Reaccion.objects.filter(noticia=noticia, usuario=request.user).first()
+
+    if reaccion and reaccion.tipo == tipo:
+        reaccion.delete()
+        accion = 'removed'
+    else:
+        Reaccion.objects.update_or_create(
+            noticia=noticia,
+            usuario=request.user,
+            defaults={'tipo': tipo}
+        )
+        accion = 'added'
+
+    conteos = {
+        'like': noticia.reacciones.filter(tipo='like').count(),
+        'love': noticia.reacciones.filter(tipo='love').count(),
+        'funny': noticia.reacciones.filter(tipo='funny').count(),
+        'wow': noticia.reacciones.filter(tipo='wow').count(),
+        'sad': noticia.reacciones.filter(tipo='sad').count(),
+        'angry': noticia.reacciones.filter(tipo='angry').count(),
+    }
+
+    return JsonResponse({'success': True, 'accion': accion, 'counts': conteos})
+
+@login_required
+def enviar_mensaje(request):
+    if request.method == 'POST':
+        form = MensajeForm(request.POST)
+        if form.is_valid():
+            mensaje = form.save(commit=False)
+            mensaje.remitente = request.user
+            mensaje.save()
+            return redirect('bandeja_entrada')
+    else:
+        form = MensajeForm()
+    return render(request, 'noticias/enviar.html', {'form': form})
+
+@login_required
+def enviar_a_usuario(request, username):
+    receptor = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        contenido = request.POST.get('contenido')
+        if contenido:
+            Mensaje.objects.create(remitente=request.user, receptor=receptor, contenido=contenido)
+            return redirect('bandeja_entrada')
+    return render(request, 'noticias/enviar_directo.html', {'receptor': receptor})
+
+@login_required
+def bandeja_entrada(request):
+    mensajes = Mensaje.objects.filter(receptor=request.user).order_by('-fecha_envio')
+    return render(request, 'noticias/entrada.html', {'mensajes': mensajes})
+
 
 def sobre(request):
     return render(request, 'noticias/sobre.html')
@@ -400,23 +539,9 @@ def videos(request):
 def chile(request):
     return render(request,'noticias/noticia_chile.html')
 
-@login_required
-def categoria_lista(request):
-    categorias = Categoria.objects.all()
-    return render(request, 'noticias/categoria_lista.html', {'categorias': categorias})
-
-def buscar(request):
-    query = request.GET.get('q', '')
-    resultados = []
-    if query:
-        resultados = Noticia.objects.filter(titulo__icontains=query)
-    return render(request, 'noticias/buscar.html', {
-        'query': query,
-        'resultados': resultados
-    })
-
 def inicio_privado(request):
     return render(request, 'noticias/inicio_privado.html')
 
 def politica(request):
     return render(request, 'noticias/politica.html')
+

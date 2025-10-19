@@ -7,7 +7,7 @@
    <ul class="list-group">
       {% for noticia in resultados %}
       <li class="list-group-item">
-         <a href="{% url 'detalle_noticia' noticia.id %}">{{ noticia.titulo }}</a>
+         <a href="{% url 'noticia_detalle' noticia.id %}">{{ noticia.titulo }}</a>
       </li>
       {% endfor %}
    </ul>

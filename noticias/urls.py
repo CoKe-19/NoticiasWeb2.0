@@ -51,6 +51,19 @@ urlpatterns = [
     path('inicio-privado/', views.inicio_privado, name='inicio_privado'),
     path('mis-noticias/', views.mis_noticias, name='mis_noticias'),
     path('mis_noticias/eliminar/<int:noticia_id>/', views.confirmar_eliminar_noticia, name='noticia_confirmar_eliminar'),
+    path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
+    path('perfil/<str:username>/', views.perfil_usuario, name='ver_perfil'),
+
+    path('perfil/<str:username>/', views.perfil_usuario, name='perfil_usuario'),
+
+    path('noticia/<int:noticia_id>/reaccionar/', views.reaccionar_noticia, name='reaccionar_noticia'),
+
+    path('mensajes/', views.bandeja_entrada, name='bandeja_entrada'),
+    path('mensajes/enviar/', views.enviar_mensaje, name='enviar_mensaje'),
+    path('mensajes/enviar/<str:username>/', views.enviar_a_usuario, name='enviar_a_usuario'),
+
+
+    
 
 
     

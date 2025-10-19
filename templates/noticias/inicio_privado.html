@@ -2,93 +2,88 @@
 {% block title %}Inicio Privado | WebNoticias{% endblock %}
 {% load static %}
 {% block content %}
-
 <!-- Banner de publicidad original (rojo degradado) -->
 <div class="row mb-4">
    <div class="col-12 text-center">
       <a href="https://tupublicidad.com" target="_blank" rel="noopener">
-         <img src="{% static 'WebNoticias/img/banner.jpg' %}" alt="Publicidad: Tu Marca Aquí" class="img-fluid rounded shadow w-70" style="max-height:180px;">
+      <img src="{% static 'WebNoticias/img/banner.jpg' %}" alt="Publicidad: Tu Marca Aquí" class="img-fluid rounded shadow w-70" style="max-height:180px;">
       </a>
    </div>
 </div>
-
 <!-- Banner de bienvenida exclusivo sector privado -->
 <div class="row mb-4">
-    <div class="col-12">
-        <div class="card text-white bg-danger shadow-lg animate-on-scroll">
-            <div class="card-body text-center p-5">
-                <h2 class="card-title fw-bold display-5">🔒 Bienvenido al Área Privada</h2>
-                <p class="card-text fs-5 mt-3">
-                    Gracias por preferirnos, {{ user.username }}. 🎉 Aquí puedes ver noticias privadas, contenido exclusivo y secciones que no están disponibles para todos.
-                </p>
-            </div>
-        </div>
-    </div>
+   <div class="col-12">
+      <div class="card text-white bg-danger shadow-lg animate-on-scroll">
+         <div class="card-body text-center p-5">
+            <h2 class="card-title fw-bold display-5">🔒 Bienvenido al Área Privada</h2>
+            <p class="card-text fs-5 mt-3">
+               Gracias por preferirnos, {{ user.username }}. 🎉 Aquí puedes ver noticias privadas, contenido exclusivo y secciones que no están disponibles para todos.
+            </p>
+         </div>
+      </div>
+   </div>
 </div>
-
 <!-- Sección Beneficios / Privilegios -->
 <div id="beneficios" class="mb-5">
-    <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-gem me-2"></i>Beneficios Exclusivos</h3>
-    <div class="row g-4 text-center">
-        <div class="col-md-4">
-            <div class="card p-4 shadow-sm animate-on-scroll">
-                <i class="bi bi-newspaper fs-1 text-danger mb-3"></i>
-                <h5 class="card-title fw-bold">Noticias Privadas</h5>
-                <p class="card-text">Accede a reportajes y análisis solo para miembros.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card p-4 shadow-sm animate-on-scroll">
-                <i class="bi bi-gift fs-1 text-danger mb-3"></i>
-                <h5 class="card-title fw-bold">Ofertas y Beneficios</h5>
-                <p class="card-text">Contenido exclusivo y descuentos especiales.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card p-4 shadow-sm animate-on-scroll">
-                <i class="bi bi-star-fill fs-1 text-danger mb-3"></i>
-                <h5 class="card-title fw-bold">Acceso Prioritario</h5>
-                <p class="card-text">Sé el primero en enterarte de eventos y concursos.</p>
-            </div>
-        </div>
-    </div>
+   <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-gem me-2"></i>Beneficios Exclusivos</h3>
+   <div class="row g-4 text-center">
+      <div class="col-md-4">
+         <div class="card p-4 shadow-sm animate-on-scroll">
+            <i class="bi bi-newspaper fs-1 text-danger mb-3"></i>
+            <h5 class="card-title fw-bold">Noticias Privadas</h5>
+            <p class="card-text">Accede a reportajes y análisis solo para miembros.</p>
+         </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card p-4 shadow-sm animate-on-scroll">
+            <i class="bi bi-gift fs-1 text-danger mb-3"></i>
+            <h5 class="card-title fw-bold">Ofertas y Beneficios</h5>
+            <p class="card-text">Contenido exclusivo y descuentos especiales.</p>
+         </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card p-4 shadow-sm animate-on-scroll">
+            <i class="bi bi-star-fill fs-1 text-danger mb-3"></i>
+            <h5 class="card-title fw-bold">Acceso Prioritario</h5>
+            <p class="card-text">Sé el primero en enterarte de eventos y concursos.</p>
+         </div>
+      </div>
+   </div>
 </div>
-
 <!-- Sección Talento / Noticias Privadas -->
 <div id="talento" class="mb-5">
-    <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-star-fill me-2"></i>Talento & Noticias Privadas</h3>
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="card noticia-card">
-                <img src="{% static 'WebNoticias/img/futbol.jpg' %}" class="card-img-top animate-on-scroll" alt="Talento 1" loading="lazy">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">Joven promesa del fútbol chileno</h5>
-                    <p class="card-text">Descubre el talento que promete revolucionar el deporte nacional.</p>
-                    <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-                </div>
+   <h3 class="fw-bold border-bottom pb-2 mb-4 text-danger"><i class="bi bi-star-fill me-2"></i>Talento & Noticias Privadas</h3>
+   <div class="row g-4">
+      <div class="col-md-4">
+         <div class="card noticia-card">
+            <img src="{% static 'WebNoticias/img/futbol.jpg' %}" class="card-img-top animate-on-scroll" alt="Talento 1" loading="lazy">
+            <div class="card-body">
+               <h5 class="card-title fw-bold">Joven promesa del fútbol chileno</h5>
+               <p class="card-text">Descubre el talento que promete revolucionar el deporte nacional.</p>
+               <a href="#" class="btn btn-danger btn-sm">Leer más</a>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card noticia-card">
-                <img src="{% static 'WebNoticias/img/tecnologia.jpg' %}" class="card-img-top animate-on-scroll" alt="Talento 2" loading="lazy">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">Innovadores en tecnología</h5>
-                    <p class="card-text">Proyectos creativos de jóvenes emprendedores.</p>
-                    <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-                </div>
+         </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card noticia-card">
+            <img src="{% static 'WebNoticias/img/tecnologia.jpg' %}" class="card-img-top animate-on-scroll" alt="Talento 2" loading="lazy">
+            <div class="card-body">
+               <h5 class="card-title fw-bold">Innovadores en tecnología</h5>
+               <p class="card-text">Proyectos creativos de jóvenes emprendedores.</p>
+               <a href="#" class="btn btn-danger btn-sm">Leer más</a>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card noticia-card">
-                <img src="{% static 'WebNoticias/img/cultura.png' %}" class="card-img-top animate-on-scroll" alt="Talento 3" loading="lazy">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">Arte y cultura emergente</h5>
-                    <p class="card-text">Iniciativas culturales destacadas del país.</p>
-                    <a href="#" class="btn btn-danger btn-sm">Leer más</a>
-                </div>
+         </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card noticia-card">
+            <img src="{% static 'WebNoticias/img/cultura.png' %}" class="card-img-top animate-on-scroll" alt="Talento 3" loading="lazy">
+            <div class="card-body">
+               <h5 class="card-title fw-bold">Arte y cultura emergente</h5>
+               <p class="card-text">Iniciativas culturales destacadas del país.</p>
+               <a href="#" class="btn btn-danger btn-sm">Leer más</a>
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 </div>
-
 {% endblock %}

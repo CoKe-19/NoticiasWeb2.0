@@ -1,0 +1,38 @@
+{% extends 'noticias/base.html' %}
+
+{% block title %}📥 Mensajes recibidos{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary"><i class="bi bi-inbox me-2"></i>Mensajes recibidos</h2>
+    <a href="{% url 'enviar_mensaje' %}" class="btn btn-success px-4 py-2 fw-semibold">
+      <i class="bi bi-pencil-square me-1"></i> Redactar mensaje
+    </a>
+  </div>
+
+  {% if mensajes %}
+    {% for msg in mensajes %}
+      <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <div>
+              <strong>De:</strong>
+              <a href="{% url 'perfil_usuario' msg.remitente.username %}" class="text-decoration-none text-dark">
+                @{{ msg.remitente.username }}
+              </a>
+            </div>
+            <small class="text-body-secondary">{{ msg.fecha_envio|date:"d M Y H:i" }}</small>
+          </div>
+          <hr class="my-2">
+          <p class="mb-0">{{ msg.contenido }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info mt-4" role="alert">
+      No tienes mensajes por ahora. ¡Todo tranquilo! 😌
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

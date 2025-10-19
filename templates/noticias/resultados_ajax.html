@@ -1,0 +1,9 @@
+{% if resultados %}
+{% for noticia in resultados %}
+<a href="{% url 'noticia_detalle' noticia.id %}">
+📰 {{ noticia.titulo }}
+</a>
+{% endfor %}
+{% else %}
+<p>Sin resultados 😴</p>
+{% endif %}
