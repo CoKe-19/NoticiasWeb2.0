@@ -48,11 +48,6 @@
         <li class="nav-item"><a class="nav-link px-2" href="{% url 'videos' %}">Videos</a></li>
         <li class="nav-item"><a class="nav-link px-2" href="{% url 'sobre' %}">Sobre Nosotros</a></li>
         <li class="nav-item"><a class="nav-link px-2" href="{% url 'contacto' %}">Contacto</a></li>
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-1 px-2" href="{% url 'bandeja_entrada' %}">
-            <i class="bi bi-envelope-fill"></i> <span>Mensajes</span>
-          </a>
-        </li>
       </ul>
 
       <!-- Menú derecho -->
@@ -135,6 +130,7 @@
   <a href="{% url 'feed' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Feed</a>
   <a href="{% url 'noticia_crear' %}" class="btn-crud crear"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a>
   <a href="{% url 'mis_noticias' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Mis Noticias</a>
+  <a href="{% url 'bandeja_entrada' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Mensajes</a>
   {% if user.is_superuser %}
   <a href="{% url 'noticia_lista' %}" class="btn-crud ver"><i class="bi bi-card-list"></i> Administrar Noticias </a>
   <a href="{% url 'categoria_lista' %}" class="btn-crud admin"><i class="bi bi-collection"></i> Ver Categorías</a>
