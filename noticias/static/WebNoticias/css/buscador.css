@@ -1,0 +1,10 @@
+.busqueda-dropdown {
+  position:absolute; top:45px; right:0; width:280px;
+  background: rgba(20,20,20,0.95); backdrop-filter: blur(8px);
+  border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5); overflow-y:auto; max-height:300px; z-index:2000;
+  transition: opacity .3s ease;
+}
+.busqueda-dropdown a { display:block; padding:10px 15px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); transition: background .2s, transform .1s; }
+.busqueda-dropdown a:hover { background:#dc3545; transform: translateX(2px); }
+.busqueda-dropdown p { padding:10px; text-align:center; margin:0; color:#ccc; }

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model 
 from django.utils import timezone
 from django.contrib import admin
+from django.utils.timezone import now
 
 User = get_user_model()
 
@@ -102,3 +103,16 @@ class Mensaje(models.Model):
 
     def __str__(self):
         return f'{self.remitente.username} ➜ {self.receptor.username}'
+
+class Notificacion(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notificaciones')
+    texto = models.CharField(max_length=255)
+    url = models.CharField(max_length=255, blank=True)
+    leido = models.BooleanField(default=False)
+    fecha = models.DateTimeField(default=now)
+
+    def __str__(self):
+        return f"Notif → {self.usuario.username}: {self.texto}"
+
+    class Meta:
+        ordering = ['-fecha']

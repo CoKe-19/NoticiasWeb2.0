@@ -10,7 +10,8 @@ from django.db.models.signals import post_save
 from django.http import JsonResponse
 from django.db.models import ProtectedError
 from django.urls import reverse
-from .models import Noticia, Categoria, Respuesta, Reporte , Reaccion , Mensaje
+from .models import Noticia, Categoria, Respuesta, Reporte , Reaccion , Mensaje ,Notificacion
+from .utils import crear_notificacion
 
 from .forms import (
     NoticiaForm, CategoriaForm, RespuestaForm, ReporteForm, RegistroForm, ContactoForm, CustomAuthenticationForm , PerfilForm , MensajeForm
@@ -108,6 +109,15 @@ def noticia_detalle(request, id):
             nueva_respuesta.noticia = noticia
             nueva_respuesta.autor = request.user
             nueva_respuesta.save()
+
+            # 🔔 Crear notificación para el autor de la noticia (si no se responde a sí mismo)
+            if noticia.autor != request.user:
+                crear_notificacion(
+                    usuario=noticia.autor,
+                    texto=f"{request.user.username} comentó tu noticia 💬",
+                    url=reverse('noticia_detalle', args=[noticia.id])
+                )
+
             return redirect('noticia_detalle', id=noticia.id)
     else:
         form = RespuestaForm()
@@ -526,6 +536,38 @@ def bandeja_entrada(request):
     mensajes = Mensaje.objects.filter(receptor=request.user).order_by('-fecha_envio')
     return render(request, 'noticias/entrada.html', {'mensajes': mensajes})
 
+
+@login_required
+def notificaciones(request):
+    notificaciones = Notificacion.objects.filter(usuario=request.user).order_by('-fecha')
+    notificaciones.update(leido=True)
+    return render(request, 'noticias/notificaciones.html', {'notificaciones': notificaciones})
+
+
+@login_required
+def feed(request):
+    noticias = Noticia.objects.all().select_related('autor').prefetch_related('reacciones').order_by('-fecha_creacion')
+
+    for n in noticias:
+        # Reacciones
+        n.likes = n.reacciones.filter(tipo='like').count()
+        n.wows = n.reacciones.filter(tipo='wow').count()
+
+        # Respuestas — maneja ambos casos y garantiza número
+        try:
+            if hasattr(n, 'respuestas'):
+                n.respuestas_count = n.respuestas.count()
+            else:
+                n.respuestas_count = n.respuesta_set.count()
+        except Exception:
+            n.respuestas_count = 0
+
+        # Asegura que nunca sea None
+        n.respuestas_count = n.respuestas_count or 0
+        n.likes = n.likes or 0
+        n.wows = n.wows or 0
+
+    return render(request, 'noticias/feed.html', {'noticias': noticias})
 
 def sobre(request):
     return render(request, 'noticias/sobre.html')

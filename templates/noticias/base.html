@@ -23,6 +23,7 @@
 </div>
 
 <!-- Navbar -->
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
@@ -36,51 +37,60 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <!-- Menú izquierdo -->
-      <ul class="navbar-nav mx-auto gap-3">
+      <ul class="navbar-nav mx-auto gap-0 align-items-center">
         {% if user.is_authenticated %}
-        <li class="nav-item"><a class="nav-link" href="{% url 'inicio_privado' %}">Inicio Privado</a></li>
+        <li class="nav-item"><a class="nav-link px-2" href="{% url 'inicio_privado' %}">Inicio Privado</a></li>
         {% else %}
-        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link px-2" href="{% url 'index' %}">Inicio</a></li>
         {% endif %}
-        <li class="nav-item"><a class="nav-link" href="{% url 'politica' %}">Política</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'deportes' %}">Deportes</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'videos' %}">Videos</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'sobre' %}">Sobre Nosotros</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link px-2" href="{% url 'politica' %}">Política</a></li>
+        <li class="nav-item"><a class="nav-link px-2" href="{% url 'deportes' %}">Deportes</a></li>
+        <li class="nav-item"><a class="nav-link px-2" href="{% url 'videos' %}">Videos</a></li>
+        <li class="nav-item"><a class="nav-link px-2" href="{% url 'sobre' %}">Sobre Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link px-2" href="{% url 'contacto' %}">Contacto</a></li>
         <li class="nav-item">
-         <a class="nav-link d-flex align-items-center gap-1" href="{% url 'bandeja_entrada' %}">
+          <a class="nav-link d-flex align-items-center gap-1 px-2" href="{% url 'bandeja_entrada' %}">
             <i class="bi bi-envelope-fill"></i> <span>Mensajes</span>
-         </a>
-         </li>
-         </ul>
+          </a>
+        </li>
+      </ul>
 
       <!-- Menú derecho -->
-      <ul class="navbar-nav align-items-center">
+      <ul class="navbar-nav align-items-center gap-0">
         {% if user.is_authenticated %}
-        <!-- Botón modo noche -->
-        <li class="nav-item me-2">
-          <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-pill px-3 py-1" title="Cambiar tema">
-            <i class="bi bi-moon"></i>
-          </button>
-        </li>
-
         <!-- Buscador -->
-        <li class="nav-item me-2">
-          <form id="buscador" class="d-flex" role="search" method="get" action="{% url 'buscar' %}">
-            <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1" type="search" placeholder="Buscar..." aria-label="Buscar" name="q" required style="width: 110px; background: #fff8f8;" />
+        <li class="nav-item">
+          <form id="buscador" class="d-flex align-items-center" role="search" method="get" action="{% url 'buscar' %}">
+            <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
+              type="search" placeholder="Buscar..." aria-label="Buscar" name="q" required
+              style="width: 110px; background: #fff8f8;" />
             <button class="btn btn-light btn-sm rounded-pill px-2 py-0" type="submit" style="height:32px;">
               <i class="bi bi-search text-danger"></i>
             </button>
           </form>
         </li>
 
+        <!-- Notificaciones -->
+        <li class="nav-item position-relative">
+          <a href="{% url 'notificaciones' %}" class="nav-link position-relative">
+            <i class="bi bi-bell-fill"></i>
+            {% if notif_count > 0 %}
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
+                {{ notif_count }}
+              </span>
+            {% endif %}
+          </a>
+        </li>
+
         <!-- Dropdown usuario -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle btn-login px-3 py-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle btn-login px-3 py-2" href="#" id="userDropdown"
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {% if user.perfil.avatar %}
-            <img src="{{ user.perfil.avatar.url }}" alt="avatar" style="width:28px; height:28px; border-radius:50%; object-fit:cover; margin-right:6px;" />
+              <img src="{{ user.perfil.avatar.url }}" alt="avatar"
+                   style="width:28px; height:28px; border-radius:50%; object-fit:cover; margin-right:6px;" />
             {% else %}
-            <i class="bi bi-person-circle me-1"></i>
+              <i class="bi bi-person-circle me-1"></i>
             {% endif %}
             {{ user.username }}
           </a>
@@ -98,26 +108,35 @@
             </li>
           </ul>
         </li>
+
         {% else %}
-        <li class="nav-item ms-3">
-          <a class="btn btn-login fw-bold px-4 py-2" href="{% url 'login' %}">Iniciar Sesión</a>
+        <li class="nav-item">
+          <a class="btn btn-login fw-bold px-3 py-1" href="{% url 'login' %}">Iniciar Sesión</a>
         </li>
-        <li class="nav-item ms-2">
-          <a href="{% url 'registro' %}" class="btn-register">Regístrate</a>
+        <li class="nav-item">
+          <a href="{% url 'registro' %}" class="btn-register px-3 py-1">Regístrate</a>
         </li>
         {% endif %}
       </ul>
     </div>
   </div>
+            <!-- Botón modo noche -->
+        <li class="nav-item">
+          <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-circle p-1" title="Cambiar tema">
+            <i class="bi bi-moon"></i>
+          </button>
+        </li>
 </nav>
+
 
 <!-- Panel CRUD -->
 {% if user.is_authenticated %}
 <div class="panel-crud my-4 text-center">
-  <a href="{% url 'noticia_lista' %}" class="btn-crud ver"><i class="bi bi-card-list"></i> Ver Noticias Privadas</a>
+  <a href="{% url 'feed' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Feed</a>
   <a href="{% url 'noticia_crear' %}" class="btn-crud crear"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a>
   <a href="{% url 'mis_noticias' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Mis Noticias</a>
   {% if user.is_superuser %}
+  <a href="{% url 'noticia_lista' %}" class="btn-crud ver"><i class="bi bi-card-list"></i> Administrar Noticias </a>
   <a href="{% url 'categoria_lista' %}" class="btn-crud admin"><i class="bi bi-collection"></i> Ver Categorías</a>
   <a href="{% url 'categoria_crear' %}" class="btn-crud admin"><i class="bi bi-plus-circle"></i> Crear Categoría</a>
   {% endif %}
@@ -139,29 +158,6 @@
       <a href="https://twitter.com" target="_blank" class="social-icon"><i class="bi bi-twitter"></i></a>
     </div>
     <p class="mb-0">&copy; 2025 Vox Campus — Todos los derechos reservados</p>
-  </div>
-
-  <div class="py-4">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-6 col-md-3 mb-3">
-          <a href="{% url 'sobre' %}" class="text-white text-decoration-none d-block mb-2">Nosotros</a>
-          <a href="#" class="text-white text-decoration-none d-block mb-2">Quiénes somos</a>
-        </div>
-        <div class="col-6 col-md-3 mb-3">
-          <a href="#" class="text-white text-decoration-none d-block mb-2">Venta de suscripciones</a>
-          <a href="https://tusitio.com/codigo-etica" target="_blank" class="text-white text-decoration-none d-block mb-2">Código de ética</a>
-        </div>
-        <div class="col-6 col-md-3 mb-3">
-          <a href="#" class="text-white text-decoration-none d-block mb-2">Cuenta</a>
-          <a href="#" class="text-white text-decoration-none d-block mb-2">Papel Digital</a>
-        </div>
-        <div class="col-6 col-md-3 mb-3">
-          <a href="#" class="text-white text-decoration-none d-block mb-2">Preguntas Frecuentes</a>
-          <a href="#" class="text-white text-decoration-none d-block mb-2">Newsletter Tecnología</a>
-        </div>
-      </div>
-    </div>
   </div>
 </footer>
 

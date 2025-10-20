@@ -1,10 +1,8 @@
 {% extends 'noticias/base.html' %}
 {% block title %}Noticias | Vox Campus{% endblock %}
 {% block content %}
-<h2>Noticias Generales</h2>
-{% if user.is_superuser %}
-<a href="{% url 'noticia_crear' %}" class="btn btn-primary mb-3">Crear Nueva Noticia</a>
-{% endif %}
+<h2>Todas las noticias</h2>
+<h5>Como administrador puedes eliminar noticias que restringan las politicas</h5>
 <table class="table table-striped">
    <thead>
       <tr>

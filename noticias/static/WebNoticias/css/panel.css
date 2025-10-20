@@ -1,0 +1,29 @@
+.panel-crud {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin: 3rem auto;
+  padding: 2.5rem 1rem;
+  border-radius: 1.5rem;
+  max-width: 1100px;
+  background: radial-gradient(circle at top left, #ff6b6b, #ff4757, #2f3542);
+  background-size: 200% 200%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.btn-crud {
+  display:flex; align-items:center; justify-content:center; gap:.6rem;
+  color:#fff; border:none; border-radius:1rem; padding:1.2rem 2rem;
+  font-weight:700; font-size:1rem; box-shadow:0 8px 25px rgba(0,0,0,.2);
+  transition:all .25s ease; cursor:pointer; text-decoration:none;
+  background:#444; position:relative; overflow:hidden;
+}
+.btn-crud i { font-size:1.3rem; transition: transform .2s ease; }
+.btn-crud::before { content:""; position:absolute; inset:0; border-radius:inherit; background:rgba(255,255,255,.1); opacity:0; transition:opacity .3s ease; }
+.btn-crud:hover::before { opacity:1; }
+.btn-crud.ver   { background: linear-gradient(135deg, #ff8c42, #ff512f); }
+.btn-crud.crear { background: linear-gradient(135deg, #00c9a7, #00917c); }
+.btn-crud.mis   { background: linear-gradient(135deg, #007bff, #5b00ff); }
+.btn-crud.admin { background: linear-gradient(135deg, #ffd43b, #ff7b00); color:#2d2d2d; }
+.btn-crud:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 12px 30px rgba(255,255,255,.25); }
+.btn-crud:hover i { transform: scale(1.2) rotate(10deg); }

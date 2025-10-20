@@ -1,0 +1,100 @@
+form input, form textarea, form select {
+  border-radius: .5rem;
+  border: 1px solid #ced4da;
+  padding: .75rem 1rem;
+  transition: all .3s ease;
+}
+form input:focus, form textarea:focus, form select:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 12px rgba(211,47,47,0.3);
+  outline: none;
+}
+.btn-login {
+  background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
+  color: #fff !important;
+  font-weight: 700; border:none; border-radius:50px;
+  padding: .65rem 1.8rem; font-size:1.05rem;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition: all .3s ease;
+}
+.btn-login:hover { background: linear-gradient(135deg, #ff3d3d, #ff1a1a); transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.35); }
+.btn-register { background: linear-gradient(135deg, #fceb06, #ff3d3d); color:#fff !important; font-weight:700; border:none; border-radius:50px; padding:.65rem 1.8rem; transition:all .3s ease; }
+.btn-register:hover { background: linear-gradient(135deg, #0b08da, #1303e6); transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.35); }
+
+/* === LOGIN FORMULARIO PREMIUM ANIMADO === */
+.login-container { min-height:100vh; display:flex; justify-content:center; align-items:center; position:relative; overflow:hidden; background:radial-gradient(circle at 20% 20%, #d8f37715 0%, transparent 40%), radial-gradient(circle at 80% 80%, #d8f37715 0%, transparent 40%), linear-gradient(135deg, #8b0606, #f0f4ff); background-attachment:fixed; padding:40px 15px; }
+
+/* === BURBUJAS SUAVES DE FONDO === */
+.login-container::before, .login-container::after { content:""; position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle, #ff3d3d40, transparent 70%); filter:blur(100px); animation:floatBubbles 8s ease-in-out infinite alternate; z-index:0; }
+.login-container::after { width:500px; height:500px; background:radial-gradient(circle, #d32f2f40, transparent 80%); top:auto; bottom:-100px; right:-120px; animation-delay:3s; }
+@keyframes floatBubbles { from {transform:translateY(0) translateX(0);} to {transform:translateY(-30px) translateX(20px);} }
+
+/* === TARJETA DE LOGIN === */
+.login-card { position:relative; width:100%; max-width:420px; background:rgba(255,255,255,0.12); backdrop-filter:blur(20px); border-radius:24px; border:1px solid rgba(255,255,255,0.15); padding:50px 45px; text-align:center; box-shadow:0 12px 45px rgba(0,0,0,0.25); z-index:1; animation:fadeInUp .6s ease both; }
+
+/* === GLOW INTERNO DINÁMICO === */
+.login-card::before { content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg, rgba(255,61,61,0.25), rgba(255,255,255,0.05)); opacity:0; transition:opacity .4s ease; z-index:-1; }
+.login-card:hover::before { opacity:1; }
+.login-title { color:#d32f2f; font-weight:800; font-size:1.8rem; letter-spacing:.5px; margin-bottom:1.5rem; text-shadow:0 1px 6px rgba(0,0,0,0.15); }
+
+/* === INPUTS === */
+.login-form .form-label { font-weight:600; color:#333; }
+.login-form input { border-radius:10px; border:1px solid #ddd; padding:.8rem 1rem; width:100%; font-size:1rem; transition:all .3s ease; background-color:#fff; }
+.login-form input:focus { border-color:#d32f2f; box-shadow:0 0 12px rgba(211,47,47,0.35); outline:none; }
+
+/* === BOTÓN LOGIN === */
+.btn-login { background:linear-gradient(135deg, #ff3d3d, #d32f2f); color:#fff !important; border:none; border-radius:50px; padding:.8rem 1.6rem; font-weight:700; letter-spacing:.4px; font-size:1.05rem; margin-top:.5rem; transition:all .3s ease; box-shadow:0 4px 15px rgba(211,47,47,0.35); }
+.btn-login:hover { background:linear-gradient(135deg, #ff3d3d, #ff1a1a); transform:scale(1.05); box-shadow:0 8px 25px rgba(0,0,0,0.35); }
+
+/* === ALERTAS Y ENLACES === */
+.alert-danger { background-color:#ffe6e6; color:#c62828; border:1px solid #f5b7b1; border-radius:10px; padding:10px; margin-bottom:1.5rem; }
+.login-card a { text-decoration:none; font-weight:500; color:#d32f2f; transition:color .2s ease; }
+.login-card a:hover { text-decoration:underline; color:#b71c1c; }
+
+/* === ANIMACIÓN ENTRADA === */
+@keyframes fadeInUp { from {opacity:0; transform:translateY(25px);} to {opacity:1; transform:translateY(0);} }
+
+/* === MODO OSCURO LOGIN === */
+body.dark-mode .login-container { background:radial-gradient(circle at 20% 20%, #ff3d3d15 0%, transparent 40%), radial-gradient(circle at 80% 80%, #ff000010 0%, transparent 40%), linear-gradient(135deg, #0d0d0d, #181818); }
+body.dark-mode .login-card { background:rgba(25,25,25,0.9); color:#eee; border:1px solid #333; box-shadow:0 12px 35px rgba(0,0,0,0.7); }
+body.dark-mode .login-title { color:#ff4d4d; }
+body.dark-mode .login-form .form-label { color:#ccc; }
+body.dark-mode .login-form input { background-color:#1f1f1f; border:1px solid #555; color:#fff; }
+body.dark-mode .login-form input:focus { border-color:#ff4d4d; box-shadow:0 0 8px rgba(255,77,77,0.5); }
+body.dark-mode .btn-login { background:linear-gradient(135deg, #ff4d4d, #d32f2f); box-shadow:0 0 20px rgba(255,77,77,0.3); }
+body.dark-mode .alert-danger { background-color:#2b0000; border:1px solid #990000; color:#ff9999; }
+
+/* === FORMULARIO DE REGISTRO PREMIUM === */
+.register-container { display:flex; justify-content:center; align-items:center; min-height:95vh; background:radial-gradient(circle at 20% 20%, #d8f37715 0%, transparent 40%), radial-gradient(circle at 80% 80%, #d8f37715 0%, transparent 40%), linear-gradient(135deg, #8b0606, #f0f4ff); padding:40px 15px; position:relative; overflow:hidden; }
+
+/* === LUCES DIFUSAS === */
+.register-container::before, .register-container::after { content:""; position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle, #ff3d3d30, transparent 70%); filter:blur(100px); animation:floatLight 8s ease-in-out infinite alternate; z-index:0; }
+.register-container::after { width:500px; height:500px; top:auto; bottom:-100px; right:-120px; background:radial-gradient(circle, #d32f2f30, transparent 80%); animation-delay:2s; }
+@keyframes floatLight { from {transform:translateY(0) translateX(0);} to {transform:translateY(-25px) translateX(20px);} }
+
+/* === TARJETA DE REGISTRO === */
+.register-card { width:100%; max-width:480px; background:rgba(255,255,255,0.15); backdrop-filter:blur(18px); border-radius:24px; border:1px solid rgba(255,255,255,0.2); padding:45px 40px; box-shadow:0 10px 40px rgba(0,0,0,0.25); position:relative; z-index:1; animation:fadeInUp .6s ease both; }
+.register-card h1 { color:#d32f2f; font-weight:800; text-align:center; margin-bottom:1rem; text-shadow:0 1px 6px rgba(0,0,0,0.15); }
+.register-card p { text-align:center; color:#555; margin-bottom:2rem; }
+
+/* === INPUTS REGISTRO === */
+.register-card label { font-weight:600; color:#333; }
+.register-card input { width:100%; border-radius:10px; border:1px solid #ddd; padding:.8rem 1rem; font-size:1rem; transition:all .3s ease; background-color:#fff; }
+.register-card input:focus { border-color:#d32f2f; box-shadow:0 0 10px rgba(211,47,47,0.35); outline:none; }
+
+/* === BOTÓN REGISTRO === */
+.btn-register { background:linear-gradient(135deg, #fcce05, #ff3d3d); color:#fff !important; border-radius:50px; padding:.8rem 1.6rem; font-weight:700; font-size:1.05rem; letter-spacing:.3px; border:none; box-shadow:0 4px 15px rgba(0,0,0,0.25); transition:all .3s ease; }
+.btn-register:hover { background:linear-gradient(135deg, #ff3d3d, #b71c1c); transform:scale(1.05); box-shadow:0 8px 25px rgba(0,0,0,0.35); }
+
+/* === ERRORES FORM === */
+ul.errorlist { color:#c62828; background:#ffe6e6; border-radius:8px; padding:8px 12px; list-style:none; font-size:.9rem; margin-top:5px; }
+
+/* === MODO OSCURO REGISTRO === */
+body.dark-mode .register-container { background:radial-gradient(circle at 30% 20%, #ff3d3d20 0%, transparent 40%), linear-gradient(135deg, #0d0d0d, #181818); }
+body.dark-mode .register-card { background:rgba(25,25,25,0.9); color:#eee; border:1px solid #333; box-shadow:0 12px 35px rgba(0,0,0,0.7); }
+body.dark-mode .register-card h1 { color:#ff4d4d; }
+body.dark-mode .register-card p { color:#ccc; }
+body.dark-mode .register-card label { color:#ddd; }
+body.dark-mode .register-card input { background-color:#1f1f1f; border:1px solid #555; color:#fff; }
+body.dark-mode .register-card input:focus { border-color:#ff4d4d; box-shadow:0 0 8px rgba(255,77,77,0.5); }
+body.dark-mode .btn-register { background:linear-gradient(135deg, #ff4d4d, #d32f2f); box-shadow:0 0 20px rgba(255,77,77,0.3); }

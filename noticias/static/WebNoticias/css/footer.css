@@ -1,0 +1,7 @@
+.footer-premium {
+  background: linear-gradient(135deg, #d32f2f, #e53935);
+  color:#fff; text-align:center; padding:15px 0;
+}
+.footer-premium .social-icon { font-size:1.8rem; color:#fff; margin:0 12px; transition: all .3s ease; }
+.footer-premium .social-icon:hover { color:#ffeb3b; transform: scale(1.2); text-shadow: 0 0 8px rgba(255,235,59,0.6); }
+.footer-premium p { margin-top:10px; font-size:.95rem; color:#f5f5f5; }

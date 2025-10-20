@@ -1,0 +1,19 @@
+.reacciones {
+  display:flex; justify-content:center; gap:20px; flex-wrap:wrap;
+  padding:20px; margin:30px auto 10px; background:#ffffffcc;
+  border-radius:20px; backdrop-filter: blur(5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05); max-width:600px;
+}
+.reacciones button,
+.btn-reaccion {
+  background:none; border:none; cursor:pointer; position:relative;
+  transition: transform .25s ease, filter .3s; filter: grayscale(40%);
+  font-size: 26px;
+}
+.reacciones button:hover, .btn-reaccion:hover { transform: scale(1.3); filter:none; }
+.btn-reaccion.activa { transform: scale(1.4); filter: brightness(120%); }
+#conteo-reacciones { text-align:center; margin-top:12px; font-size:.9rem; color:#555; }
+#conteo-reacciones span {
+  display:inline-block; background:#f1f1f1; color:#333; padding:5px 10px; margin:3px;
+  border-radius:20px; font-weight:600; font-size:.85rem;
+}

@@ -61,6 +61,9 @@ urlpatterns = [
     path('mensajes/', views.bandeja_entrada, name='bandeja_entrada'),
     path('mensajes/enviar/', views.enviar_mensaje, name='enviar_mensaje'),
     path('mensajes/enviar/<str:username>/', views.enviar_a_usuario, name='enviar_a_usuario'),
+    path('notificaciones/', views.notificaciones, name='notificaciones'),
+    path('feed/', views.feed, name='feed'),
+
 
 
     

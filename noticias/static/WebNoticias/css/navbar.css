@@ -1,0 +1,40 @@
+.navbar {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+  background: #ffffffcc;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  font-family: 'Bebas Neue','Montserrat',Arial,sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 3px;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform 0.2s, text-shadow 0.3s;
+  padding-right: 8px;
+}
+.navbar-brand:hover {
+  transform: scale(1.08);
+  text-shadow: 0 4px 16px rgba(255,255,255,0.35),0 2px 8px #d32f2f;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  font-size: 1rem;
+  margin-right: .5rem;
+  transition: color .3s ease, text-shadow .3s ease;
+  color: #212529;
+}
+.navbar-nav .nav-link:hover { color: #0d1b4c !important; text-shadow: 0 0 5px rgba(13,27,76,0.4); }
+
+/* Bell badge animation */
+.nav-link .badge {
+  font-size: .7rem;
+  padding: 4px 6px;
+  font-weight: 700;
+  animation: notifBlink 1s ease-in-out infinite alternate;
+}
+@keyframes notifBlink {
+  0% { transform: scale(1); opacity: .8; }
+  100% { transform: scale(1.2); opacity: 1; }
+}
