@@ -1,2 +1,12 @@
 h1, h2, h3, h4, h5 { color:#d32f2f; font-weight:700; }
 .text-danger { color:#d32f2f !important; }
+
+.btn-view, .btn-warning, .btn-danger {
+  will-change: transform;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: none;
+}
+.btn-view:hover, .btn-warning:hover, .btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}

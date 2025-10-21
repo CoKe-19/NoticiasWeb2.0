@@ -1,55 +1,41 @@
-form input, form textarea, form select {
-  border-radius: .5rem;
-  border: 1px solid #ced4da;
-  padding: .75rem 1rem;
-  transition: all .3s ease;
-}
-form input:focus, form textarea:focus, form select:focus {
-  border-color: #d32f2f;
-  box-shadow: 0 0 12px rgba(211,47,47,0.3);
-  outline: none;
-}
-.btn-login {
-  background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
-  color: #fff !important;
-  font-weight: 700; border:none; border-radius:50px;
-  padding: .65rem 1.8rem; font-size:1.05rem;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  transition: all .3s ease;
-}
-.btn-login:hover { background: linear-gradient(135deg, #ff3d3d, #ff1a1a); transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.35); }
-.btn-register { background: linear-gradient(135deg, #fceb06, #ff3d3d); color:#fff !important; font-weight:700; border:none; border-radius:50px; padding:.65rem 1.8rem; transition:all .3s ease; }
-.btn-register:hover { background: linear-gradient(135deg, #0b08da, #1303e6); transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.35); }
+/* === CAMPOS DE FORMULARIOS GENERALES === */
+form input, form textarea, form select { border-radius:.5rem; border:1px solid #ced4da; padding:.75rem 1rem; transition:all .3s ease; }
+form input:focus, form textarea:focus, form select:focus { border-color:#d32f2f; box-shadow:0 0 12px rgba(211,47,47,0.3); outline:none; }
 
-/* === LOGIN FORMULARIO PREMIUM ANIMADO === */
-.login-container { min-height:100vh; display:flex; justify-content:center; align-items:center; position:relative; overflow:hidden; background:radial-gradient(circle at 20% 20%, #d8f37715 0%, transparent 40%), radial-gradient(circle at 80% 80%, #d8f37715 0%, transparent 40%), linear-gradient(135deg, #8b0606, #f0f4ff); background-attachment:fixed; padding:40px 15px; }
+/* === BOTONES DE AUTENTICACIÓN === */
+.btn-login { background:linear-gradient(135deg,#ff3d3d,#d32f2f); color:#fff!important; border:none; border-radius:50px; padding:.65rem 1.8rem; font-weight:700; letter-spacing:.4px; font-size:1.05rem; transition:all .3s ease; box-shadow:0 4px 15px rgba(211,47,47,0.35); display:flex; align-items:center; justify-content:center; gap:8px; margin:0; }
+.btn-login:hover { background:linear-gradient(135deg,#ff3d3d,#ff1a1a); transform:scale(1.05); box-shadow:0 8px 25px rgba(0,0,0,0.35); }
 
-/* === BURBUJAS SUAVES DE FONDO === */
-.login-container::before, .login-container::after { content:""; position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle, #ff3d3d40, transparent 70%); filter:blur(100px); animation:floatBubbles 8s ease-in-out infinite alternate; z-index:0; }
-.login-container::after { width:500px; height:500px; background:radial-gradient(circle, #d32f2f40, transparent 80%); top:auto; bottom:-100px; right:-120px; animation-delay:3s; }
-@keyframes floatBubbles { from {transform:translateY(0) translateX(0);} to {transform:translateY(-30px) translateX(20px);} }
+.btn-register { background:linear-gradient(135deg,#fceb06,#ff3d3d); color:#fff!important; font-weight:700; border:none; border-radius:50px; padding:.65rem 1.8rem; font-size:1.05rem; display:flex; align-items:center; justify-content:center; gap:8px; transition:all .3s ease; margin:0; }
+.btn-register:hover { background:linear-gradient(135deg,#0b08da,#1303e6); transform:scale(1.05); box-shadow:0 8px 25px rgba(0,0,0,0.35); }
+
+/* === LOGIN FORMULARIO PREMIUM === */
+.login-container { position:relative; z-index:1; background:linear-gradient(135deg,#fff,#fff8f8 30%,#ffeaea 100%); border-radius:20px; padding:2.5rem 2rem; width:100%; max-width:420px; margin:4rem auto; box-shadow:0 10px 35px rgba(0,0,0,0.12); border:1px solid #f1dede; text-align:center; overflow:hidden; }
+.login-container::before { content:""; position:absolute; top:0; left:-150px; width:60%; height:100%; background:linear-gradient(120deg,rgba(255,180,100,0.3),rgba(255,80,80,0.25),transparent); transform:skewX(-15deg); filter:blur(20px); animation:lightSlide 6s ease-in-out infinite alternate; z-index:0; }
+@keyframes lightSlide { from {transform:translateX(-60px) skewX(-15deg);} to {transform:translateX(80px) skewX(-15deg);} }
+
+.login-container h2 { font-size:1.6rem; font-weight:700; color:#e53935; margin-bottom:1.5rem; letter-spacing:.3px; position:relative; z-index:1; }
+.login-container input[type="text"], .login-container input[type="password"] { width:100%; border:1px solid #ddd; border-radius:10px; padding:.8rem 1rem; margin:.6rem 0; font-size:.95rem; transition:all .3s ease; position:relative; z-index:1; }
+.login-container input:focus { border-color:#ff7043; box-shadow:0 0 6px rgba(255,112,67,0.3); outline:none; }
+.login-container button { width:100%; border:none; border-radius:12px; background:linear-gradient(90deg,#ff7043,#ff3d3d); color:#fff; font-weight:700; padding:.9rem 1rem; margin-top:1rem; font-size:1rem; box-shadow:0 6px 15px rgba(255,61,61,0.35); transition:all .3s ease; cursor:pointer; position:relative; z-index:1; }
+.login-container button:hover { transform:translateY(-2px); box-shadow:0 10px 25px rgba(255,61,61,0.45); background:linear-gradient(90deg,#ff3d3d,#ff7043); }
+.login-container a { display:inline-block; margin-top:1rem; font-size:.9rem; color:#c62828; text-decoration:none; transition:color .3s ease; position:relative; z-index:1; }
+.login-container a:hover { color:#b71c1c; text-decoration:underline; }
 
 /* === TARJETA DE LOGIN === */
 .login-card { position:relative; width:100%; max-width:420px; background:rgba(255,255,255,0.12); backdrop-filter:blur(20px); border-radius:24px; border:1px solid rgba(255,255,255,0.15); padding:50px 45px; text-align:center; box-shadow:0 12px 45px rgba(0,0,0,0.25); z-index:1; animation:fadeInUp .6s ease both; }
 
-/* === GLOW INTERNO DINÁMICO === */
+/* === GLOW INTERNO === */
 .login-card::before { content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg, rgba(255,61,61,0.25), rgba(255,255,255,0.05)); opacity:0; transition:opacity .4s ease; z-index:-1; }
 .login-card:hover::before { opacity:1; }
 .login-title { color:#d32f2f; font-weight:800; font-size:1.8rem; letter-spacing:.5px; margin-bottom:1.5rem; text-shadow:0 1px 6px rgba(0,0,0,0.15); }
 
 /* === INPUTS === */
-.login-form .form-label { font-weight:600; color:#333; }
 .login-form input { border-radius:10px; border:1px solid #ddd; padding:.8rem 1rem; width:100%; font-size:1rem; transition:all .3s ease; background-color:#fff; }
 .login-form input:focus { border-color:#d32f2f; box-shadow:0 0 12px rgba(211,47,47,0.35); outline:none; }
 
-/* === BOTÓN LOGIN === */
-.btn-login { background:linear-gradient(135deg, #ff3d3d, #d32f2f); color:#fff !important; border:none; border-radius:50px; padding:.8rem 1.6rem; font-weight:700; letter-spacing:.4px; font-size:1.05rem; margin-top:.5rem; transition:all .3s ease; box-shadow:0 4px 15px rgba(211,47,47,0.35); }
-.btn-login:hover { background:linear-gradient(135deg, #ff3d3d, #ff1a1a); transform:scale(1.05); box-shadow:0 8px 25px rgba(0,0,0,0.35); }
-
-/* === ALERTAS Y ENLACES === */
+/* === ALERTAS === */
 .alert-danger { background-color:#ffe6e6; color:#c62828; border:1px solid #f5b7b1; border-radius:10px; padding:10px; margin-bottom:1.5rem; }
-.login-card a { text-decoration:none; font-weight:500; color:#d32f2f; transition:color .2s ease; }
-.login-card a:hover { text-decoration:underline; color:#b71c1c; }
 
 /* === ANIMACIÓN ENTRADA === */
 @keyframes fadeInUp { from {opacity:0; transform:translateY(25px);} to {opacity:1; transform:translateY(0);} }
@@ -58,43 +44,54 @@ form input:focus, form textarea:focus, form select:focus {
 body.dark-mode .login-container { background:radial-gradient(circle at 20% 20%, #ff3d3d15 0%, transparent 40%), radial-gradient(circle at 80% 80%, #ff000010 0%, transparent 40%), linear-gradient(135deg, #0d0d0d, #181818); }
 body.dark-mode .login-card { background:rgba(25,25,25,0.9); color:#eee; border:1px solid #333; box-shadow:0 12px 35px rgba(0,0,0,0.7); }
 body.dark-mode .login-title { color:#ff4d4d; }
-body.dark-mode .login-form .form-label { color:#ccc; }
 body.dark-mode .login-form input { background-color:#1f1f1f; border:1px solid #555; color:#fff; }
 body.dark-mode .login-form input:focus { border-color:#ff4d4d; box-shadow:0 0 8px rgba(255,77,77,0.5); }
-body.dark-mode .btn-login { background:linear-gradient(135deg, #ff4d4d, #d32f2f); box-shadow:0 0 20px rgba(255,77,77,0.3); }
-body.dark-mode .alert-danger { background-color:#2b0000; border:1px solid #990000; color:#ff9999; }
 
-/* === FORMULARIO DE REGISTRO PREMIUM === */
-.register-container { display:flex; justify-content:center; align-items:center; min-height:95vh; background:radial-gradient(circle at 20% 20%, #d8f37715 0%, transparent 40%), radial-gradient(circle at 80% 80%, #d8f37715 0%, transparent 40%), linear-gradient(135deg, #8b0606, #f0f4ff); padding:40px 15px; position:relative; overflow:hidden; }
+/* === FORMULARIO REGISTRO === */
+.register-container { display:flex; justify-content:center; align-items:center; min-height:95vh; background:linear-gradient(135deg,#fff,#fff8f8 30%,#ffeaea 100%); padding:40px 15px; position:relative; overflow:hidden; }
+.register-container::before { content:""; position:absolute; top:0; left:-150px; width:60%; height:100%; background:linear-gradient(120deg,rgba(255,180,100,0.3),rgba(255,80,80,0.25),transparent); transform:skewX(-15deg); filter:blur(20px); animation:lightSlide 6s ease-in-out infinite alternate; z-index:0; }
 
-/* === LUCES DIFUSAS === */
-.register-container::before, .register-container::after { content:""; position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle, #ff3d3d30, transparent 70%); filter:blur(100px); animation:floatLight 8s ease-in-out infinite alternate; z-index:0; }
-.register-container::after { width:500px; height:500px; top:auto; bottom:-100px; right:-120px; background:radial-gradient(circle, #d32f2f30, transparent 80%); animation-delay:2s; }
-@keyframes floatLight { from {transform:translateY(0) translateX(0);} to {transform:translateY(-25px) translateX(20px);} }
-
-/* === TARJETA DE REGISTRO === */
 .register-card { width:100%; max-width:480px; background:rgba(255,255,255,0.15); backdrop-filter:blur(18px); border-radius:24px; border:1px solid rgba(255,255,255,0.2); padding:45px 40px; box-shadow:0 10px 40px rgba(0,0,0,0.25); position:relative; z-index:1; animation:fadeInUp .6s ease both; }
 .register-card h1 { color:#d32f2f; font-weight:800; text-align:center; margin-bottom:1rem; text-shadow:0 1px 6px rgba(0,0,0,0.15); }
-.register-card p { text-align:center; color:#555; margin-bottom:2rem; }
-
-/* === INPUTS REGISTRO === */
-.register-card label { font-weight:600; color:#333; }
 .register-card input { width:100%; border-radius:10px; border:1px solid #ddd; padding:.8rem 1rem; font-size:1rem; transition:all .3s ease; background-color:#fff; }
 .register-card input:focus { border-color:#d32f2f; box-shadow:0 0 10px rgba(211,47,47,0.35); outline:none; }
-
-/* === BOTÓN REGISTRO === */
-.btn-register { background:linear-gradient(135deg, #fcce05, #ff3d3d); color:#fff !important; border-radius:50px; padding:.8rem 1.6rem; font-weight:700; font-size:1.05rem; letter-spacing:.3px; border:none; box-shadow:0 4px 15px rgba(0,0,0,0.25); transition:all .3s ease; }
-.btn-register:hover { background:linear-gradient(135deg, #ff3d3d, #b71c1c); transform:scale(1.05); box-shadow:0 8px 25px rgba(0,0,0,0.35); }
-
-/* === ERRORES FORM === */
-ul.errorlist { color:#c62828; background:#ffe6e6; border-radius:8px; padding:8px 12px; list-style:none; font-size:.9rem; margin-top:5px; }
 
 /* === MODO OSCURO REGISTRO === */
 body.dark-mode .register-container { background:radial-gradient(circle at 30% 20%, #ff3d3d20 0%, transparent 40%), linear-gradient(135deg, #0d0d0d, #181818); }
 body.dark-mode .register-card { background:rgba(25,25,25,0.9); color:#eee; border:1px solid #333; box-shadow:0 12px 35px rgba(0,0,0,0.7); }
 body.dark-mode .register-card h1 { color:#ff4d4d; }
-body.dark-mode .register-card p { color:#ccc; }
-body.dark-mode .register-card label { color:#ddd; }
-body.dark-mode .register-card input { background-color:#1f1f1f; border:1px solid #555; color:#fff; }
-body.dark-mode .register-card input:focus { border-color:#ff4d4d; box-shadow:0 0 8px rgba(255,77,77,0.5); }
-body.dark-mode .btn-register { background:linear-gradient(135deg, #ff4d4d, #d32f2f); box-shadow:0 0 20px rgba(255,77,77,0.3); }
+
+/* === RECUPERAR CONTRASEÑA === */
+.auth-page { display:flex; justify-content:center; align-items:flex-start; padding:3rem 1rem; }
+.auth-card { width:100%; max-width:480px; margin:2rem auto; background:linear-gradient(180deg,#fff,#fff8f8); border-radius:14px; padding:1.8rem; box-shadow:0 10px 30px rgba(0,0,0,0.12); border:1px solid #f1dede; text-align:center; }
+.auth-card h2 { color:#d32f2f; margin-bottom:.6rem; font-size:1.4rem; }
+.auth-form { display:flex; flex-direction:column; gap:.6rem; align-items:stretch; }
+.auth-form input { width:100%; padding:.75rem 1rem; border-radius:8px; border:1px solid #ddd; font-size:.95rem; }
+
+/* === FORMULARIO CREAR / EDITAR NOTICIAS === */
+.form-card { background:#fffafc; border-radius:18px; box-shadow:0 6px 25px rgba(0,0,0,.1); padding:2.5rem; max-width:750px; margin:2rem auto; border:1px solid #ffe0e0; transition:all .3s ease; }
+.form-card:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.15); }
+.form-title { font-size:1.8rem; font-weight:800; color:#d32f2f; text-align:center; margin-bottom:1.8rem; text-shadow:0 1px 3px rgba(0,0,0,0.1); }
+.styled-form input, .styled-form select, .styled-form textarea { width:100%; border:1px solid #ddd; border-radius:10px; padding:.8rem 1rem; margin-bottom:1.2rem; font-size:1rem; transition:all .25s ease; background:#fff; }
+.styled-form input:focus, .styled-form select:focus, .styled-form textarea:focus { border-color:#ff5252; box-shadow:0 0 10px rgba(255,82,82,0.3); outline:none; }
+.form-buttons { display:flex; gap:1rem; justify-content:center; margin-top:1.5rem; flex-wrap:wrap; }
+.btn-primary { background:linear-gradient(135deg,#ff3d3d,#b91c1c); color:#fff; border:none; border-radius:50px; padding:.8rem 2.2rem; font-weight:700; transition:all .3s ease; box-shadow:0 4px 15px rgba(255,0,0,.25); }
+.btn-primary:hover { transform:scale(1.05); background:linear-gradient(135deg,#ff5f5f,#d32f2f); box-shadow:0 8px 20px rgba(255,0,0,.35); }
+.btn-secondary { background:#555; color:#fff; border:none; border-radius:50px; padding:.8rem 2rem; font-weight:600; transition:all .3s ease; box-shadow:0 4px 10px rgba(0,0,0,.2); }
+.btn-secondary:hover { background:#333; transform:scale(1.05); }
+
+/* === MODO OSCURO FORMULARIOS NOTICIAS === */
+body.dark-mode .form-card { background:#1b1b1b; color:#f1f1f1; border:1px solid #333; box-shadow:0 8px 25px rgba(0,0,0,.6); }
+body.dark-mode .form-title { color:#ff4d4d; }
+body.dark-mode .styled-form input, body.dark-mode .styled-form select, body.dark-mode .styled-form textarea { background-color:#1f1f1f; color:#fff; border:1px solid #555; }
+body.dark-mode .styled-form input:focus, body.dark-mode .styled-form select:focus, body.dark-mode .styled-form textarea:focus { border-color:#ff4d4d; box-shadow:0 0 8px rgba(255,77,77,0.5); }
+body.dark-mode .btn-primary { background:linear-gradient(135deg,#ff4d4d,#d32f2f); }
+body.dark-mode .btn-secondary { background:#333; color:#eee; }
+
+/* === BOTONES DE CONFIRMACIÓN (Eliminar / Cancelar) === */ 
+form .btn { border:none; border-radius:12px; font-weight:700; padding:.6rem 1.4rem; font-size:.95rem; transition:all .3s ease; box-shadow:0 4px 12px rgba(0,0,0,.15); vertical-align:middle; } 
+form .btn-danger { background:linear-gradient(135deg,#ff3d3d,#c62828); color:#fff; } 
+form .btn-danger:hover { background:linear-gradient(135deg,#ff5c5c,#b71c1c); transform:translateY(-2px); } 
+form .btn-secondary { background:#444; color:#fff; margin-left:.5rem; } 
+form .btn-secondary:hover { background:#2e2e2e; transform:translateY(-2px); } 
+form .btn, form a.btn { display:inline-flex; align-items:center; justify-content:center; text-decoration:none; height:45px; line-height:1; }

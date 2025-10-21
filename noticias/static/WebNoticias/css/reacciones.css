@@ -1,19 +1,7 @@
-.reacciones {
-  display:flex; justify-content:center; gap:20px; flex-wrap:wrap;
-  padding:20px; margin:30px auto 10px; background:#ffffffcc;
-  border-radius:20px; backdrop-filter: blur(5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05); max-width:600px;
-}
-.reacciones button,
-.btn-reaccion {
-  background:none; border:none; cursor:pointer; position:relative;
-  transition: transform .25s ease, filter .3s; filter: grayscale(40%);
-  font-size: 26px;
-}
-.reacciones button:hover, .btn-reaccion:hover { transform: scale(1.3); filter:none; }
-.btn-reaccion.activa { transform: scale(1.4); filter: brightness(120%); }
-#conteo-reacciones { text-align:center; margin-top:12px; font-size:.9rem; color:#555; }
-#conteo-reacciones span {
-  display:inline-block; background:#f1f1f1; color:#333; padding:5px 10px; margin:3px;
-  border-radius:20px; font-weight:600; font-size:.85rem;
-}
+/* ❤️ Reacciones elegantes y alineadas bajo la imagen */
+.reacciones { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:2rem; margin-top:1.2rem; margin-bottom:2rem; background:none; border:none; box-shadow:none; }
+.btn-reaccion { position:relative; background:none; border:none; border-radius:50%; width:58px; height:58px; display:flex; align-items:center; justify-content:center; font-size:30px; cursor:pointer; transition:transform .25s ease, filter .25s ease; filter:grayscale(30%); }
+.btn-reaccion:hover { transform:translateY(-4px) scale(1.15); filter:none; }
+.btn-reaccion.activa { transform:scale(1.15); filter:none; }
+.btn-reaccion .contador { position:absolute; top:-8px; right:-8px; background:#e0e0e0; color:#222; border-radius:12px; font-size:.7rem; font-weight:600; padding:2px 6px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+.react-anim { transform:scale(1.25) rotate(5deg); transition:transform .2s ease; }

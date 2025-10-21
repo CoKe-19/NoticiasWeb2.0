@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!reacciones) return;
 
   const url = reacciones.dataset.url;
-  const conteoDiv = document.getElementById("conteo-reacciones");
 
   // Actualiza visualmente la reacción activa
   function actualizarActiva(tipo, accion) {
@@ -36,21 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         if (!data.success) return;
 
-        // 🔥 Actualiza los conteos en vivo
-        const c = data.counts;
-        conteoDiv.innerHTML = `
-          <div class="conteo-item"><span>❤️</span> <strong>${c.like}</strong></div>
-          <div class="conteo-item"><span>😍</span> <strong>${c.love}</strong></div>
-          <div class="conteo-item"><span>😂</span> <strong>${c.funny}</strong></div>
-          <div class="conteo-item"><span>😮</span> <strong>${c.wow}</strong></div>
-          <div class="conteo-item"><span>😢</span> <strong>${c.sad}</strong></div>
-          <div class="conteo-item"><span>😡</span> <strong>${c.angry}</strong></div>
-        `;
+        // 🔥 Actualiza los conteos individuales
+        const counts = data.counts;
+        for (const tipo in counts) {
+          const btn = reacciones.querySelector(`.btn-reaccion[data-tipo="${tipo}"]`);
+          const contador = btn?.querySelector(".contador");
+          if (contador) contador.textContent = counts[tipo];
+        }
 
-        // 🔄 Marca o quita reacción activa en vivo
+        // 🔄 Marca o quita reacción activa
         actualizarActiva(tipo, data.accion);
 
-        // 💥 Animación suave
+        // 💥 Animación visual
         boton.classList.add("react-anim");
         setTimeout(() => boton.classList.remove("react-anim"), 250);
       })

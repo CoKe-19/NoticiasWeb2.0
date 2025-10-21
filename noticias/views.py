@@ -12,6 +12,7 @@ from django.db.models import ProtectedError
 from django.urls import reverse
 from .models import Noticia, Categoria, Respuesta, Reporte , Reaccion , Mensaje ,Notificacion
 from .utils import crear_notificacion
+from django.core.paginator import Paginator
 
 from .forms import (
     NoticiaForm, CategoriaForm, RespuestaForm, ReporteForm, RegistroForm, ContactoForm, CustomAuthenticationForm , PerfilForm , MensajeForm
@@ -83,8 +84,6 @@ def noticia_editar(request, pk):
 def noticia_detalle(request, id):
     noticia = get_object_or_404(Noticia, id=id)
     respuestas = Respuesta.objects.filter(noticia=noticia).order_by('fecha_creacion')
-
-    # === Conteos de reacciones por tipo ===
     conteos = {
         'like': noticia.reacciones.filter(tipo='like').count(),
         'love': noticia.reacciones.filter(tipo='love').count(),
@@ -93,15 +92,11 @@ def noticia_detalle(request, id):
         'sad': noticia.reacciones.filter(tipo='sad').count(),
         'angry': noticia.reacciones.filter(tipo='angry').count(),
     }
-
-    # === Reacción actual del usuario ===
     reaccion_usuario = None
     if request.user.is_authenticated:
         reaccion = Reaccion.objects.filter(noticia=noticia, usuario=request.user).first()
         if reaccion:
             reaccion_usuario = reaccion.tipo
-
-    # === Manejo del formulario de respuesta ===
     if request.method == 'POST':
         form = RespuestaForm(request.POST)
         if form.is_valid():
@@ -109,8 +104,6 @@ def noticia_detalle(request, id):
             nueva_respuesta.noticia = noticia
             nueva_respuesta.autor = request.user
             nueva_respuesta.save()
-
-            # 🔔 Crear notificación para el autor de la noticia (si no se responde a sí mismo)
             if noticia.autor != request.user:
                 crear_notificacion(
                     usuario=noticia.autor,
@@ -121,8 +114,6 @@ def noticia_detalle(request, id):
             return redirect('noticia_detalle', id=noticia.id)
     else:
         form = RespuestaForm()
-
-    # === Contexto completo ===
     context = {
         'noticia': noticia,
         'respuestas': respuestas,
@@ -130,7 +121,6 @@ def noticia_detalle(request, id):
         'reaccion_usuario': reaccion_usuario,
         'form': form,
     }
-
     return render(request, 'noticias/noticia_detalle.html', context)
 
 
@@ -446,7 +436,6 @@ def buscar(request):
     return render(request, 'noticias/buscar.html', {'resultados': resultados, 'query': query})
 
 
-
 def perfil_usuario(request, username):
     user = get_object_or_404(User, username=username)
     noticias = Noticia.objects.filter(autor=user)
@@ -547,13 +536,9 @@ def notificaciones(request):
 @login_required
 def feed(request):
     noticias = Noticia.objects.all().select_related('autor').prefetch_related('reacciones').order_by('-fecha_creacion')
-
     for n in noticias:
-        # Reacciones
         n.likes = n.reacciones.filter(tipo='like').count()
         n.wows = n.reacciones.filter(tipo='wow').count()
-
-        # Respuestas — maneja ambos casos y garantiza número
         try:
             if hasattr(n, 'respuestas'):
                 n.respuestas_count = n.respuestas.count()
@@ -561,13 +546,22 @@ def feed(request):
                 n.respuestas_count = n.respuesta_set.count()
         except Exception:
             n.respuestas_count = 0
-
-        # Asegura que nunca sea None
         n.respuestas_count = n.respuestas_count or 0
         n.likes = n.likes or 0
         n.wows = n.wows or 0
 
     return render(request, 'noticias/feed.html', {'noticias': noticias})
+
+def reporteros(request):
+    qs = User.objects.select_related('perfil').all().order_by('username')
+    paginator = Paginator(qs, 12) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, "noticias/reporteros.html", {
+        "reporteros": page_obj.object_list,
+        "page_obj": page_obj,
+        "is_paginated": page_obj.has_other_pages(),
+    })
 
 def sobre(request):
     return render(request, 'noticias/sobre.html')

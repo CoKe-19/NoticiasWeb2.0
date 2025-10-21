@@ -1,44 +1,42 @@
 {% extends 'noticias/base.html' %}
 {% load static %}
 {% block title %}Feed | Vox Campus{% endblock %}
-
 {% block content %}
 <div class="container-fluid py-4">
-  <h2 class="feed-title">
-    <i class="bi bi-newspaper"></i> Feed de Noticias
-  </h2>
-  {% if noticias %}
-    <div class="feed-list">
+   <h2 class="feed-title">
+      <i class="bi bi-newspaper"></i> Feed de Noticias
+   </h2>
+   {% if noticias %}
+   <div class="feed-list">
       {% for n in noticias %}
       <div class="feed-card">
-        {% if n.imagen %}
-        <img src="{{ n.imagen.url }}" class="feed-img" alt="{{ n.titulo }}">
-        {% endif %}
-        <div class="p-4">
-          <h4>
-            <a href="{% url 'noticia_detalle' n.id %}">{{ n.titulo }}</a>
-          </h4>
-          <p class="text-muted small mb-2">
-            Por <strong>@{{ n.autor.username }}</strong> — {{ n.fecha_creacion|date:"d M Y H:i" }}
-          </p>
-          <p>{{ n.contenido|truncatewords:25 }}</p>
-          <div class="mt-3 d-flex justify-content-between align-items-center">
-            <a href="{% url 'noticia_detalle' n.id %}" class="btn btn-outline-danger btn-sm">
-              Ver más <i class="bi bi-arrow-right"></i>
-            </a>
-            <div class="reacciones-mini text-muted">
-            ❤️ {{ n.likes }}
-            😮 {{ n.wows }}
-            💬 {{ n.respuestas_count }}
+         {% if n.imagen %}
+         <img src="{{ n.imagen.url }}" class="feed-img" alt="{{ n.titulo }}">
+         {% endif %}
+         <div class="p-4">
+            <h4>
+               <a href="{% url 'noticia_detalle' n.id %}">{{ n.titulo }}</a>
+            </h4>
+            <p class="text-muted small mb-2">
+               Por <strong>@{{ n.autor.username }}</strong> — {{ n.fecha_creacion|date:"d M Y H:i" }}
+            </p>
+            <p>{{ n.contenido|truncatewords:25 }}</p>
+            <div class="mt-3 d-flex justify-content-between align-items-center">
+               <a href="{% url 'noticia_detalle' n.id %}" class="btn btn-outline-danger btn-sm">
+               Ver más <i class="bi bi-arrow-right"></i>
+               </a>
+               <div class="reacciones-mini text-muted">
+                  ❤️ {{ n.likes }}
+                  😮 {{ n.wows }}
+                  💬 {{ n.respuestas_count }}
+               </div>
             </div>
-
-          </div>
-        </div>
+         </div>
       </div>
       {% endfor %}
-    </div>
-  {% else %}
-    <p class="text-muted text-center">Aún no hay noticias en el feed.</p>
-  {% endif %}
+   </div>
+   {% else %}
+   <p class="text-muted text-center">Aún no hay noticias en el feed.</p>
+   {% endif %}
 </div>
 {% endblock %}

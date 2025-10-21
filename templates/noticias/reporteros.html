@@ -1,0 +1,47 @@
+{% extends 'noticias/base.html' %}
+{% load static %}
+{% block title %}Nuestros Reporteros | Vox Campus{% endblock %}
+{% block content %}
+<div class="container my-5">
+   <h2 class="text-danger fw-bold mb-4 text-center">
+      🗞️ Nuestros Reporteros
+   </h2>
+   {% if reporteros %}
+   <div class="reporteros-grid">
+      {% for r in reporteros %}
+      <div class="reportero-card">
+         <div class="reportero-top">
+            {% if r.perfil.avatar %}
+            <img src="{{ r.perfil.avatar.url }}" alt="Avatar de {{ r.username }}" class="reportero-avatar">
+            {% else %}
+            <img src="{% static 'foro/img/default_avatar.png' %}" alt="Avatar por defecto" class="reportero-avatar">
+            {% endif %}
+         </div>
+         <div class="reportero-info">
+            <h4>@{{ r.username }}</h4>
+            <p class="bio">
+               {% if r.perfil.bio %}
+               {{ r.perfil.bio|truncatechars:100 }}
+               {% else %}
+               <em>Sin biografía disponible.</em>
+               {% endif %}
+            </p>
+            <a href="{% url 'perfil_usuario' r.username %}" class="btn-ver-perfil">Ver perfil</a>
+         </div>
+      </div>
+      {% endfor %}
+   </div>
+   <!-- 🧠 Texto motivacional -->
+   <div class="reporteros-footer mt-5 text-center">
+      <h3 class="fw-bold text-danger mb-3">💬 Voces que Inspiran</h3>
+      <p class="lead text-muted">
+         Cada uno de nuestros reporteros representa la esencia de <strong>Vox Campus</strong>: compromiso, creatividad y pasión por informar.  
+         Desde sus diferentes miradas, construyen una comunidad donde la verdad, el talento y la innovación son protagonistas.  
+         🌎 Unidos, dan vida a las historias que marcan nuestra generación.
+      </p>
+   </div>
+   {% else %}
+   <p class="text-center text-muted mt-4">Aún no hay reporteros registrados.</p>
+   {% endif %}
+</div>
+{% endblock %}

@@ -19,3 +19,31 @@
 .card-body ul li a { color:#212529; font-weight:500; }
 .card-body ul li a:hover { color:#dc3545; transform: translateX(3px); }
 @keyframes fadeInUp { from{opacity:0; transform: translateY(20px);} to{opacity:1; transform: translateY(0);} }
+
+.reporte-card { background:linear-gradient(180deg,#fff,#fff8f8); border-radius:18px; padding:1.5rem; box-shadow:0 6px 20px rgba(0,0,0,0.1); border:1px solid #f1dede; transition:transform .3s ease, box-shadow .3s ease; }
+.reporte-card:hover { transform:translateY(-4px); box-shadow:0 12px 25px rgba(0,0,0,0.15); }
+.reporte-header { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; }
+.reporte-avatar { width:65px; height:65px; border-radius:50%; object-fit:cover; box-shadow:0 0 10px rgba(0,0,0,0.2); }
+.reporte-info h5 { margin:0; font-weight:700; color:#d32f2f; }
+.reporte-info small { color:#777; }
+.reporte-body { margin-bottom:1rem; color:#333; font-size:.95rem; line-height:1.5; }
+.reporte-actions { display:flex; justify-content:space-between; }
+body.dark-mode .reporte-card { background:rgba(25,25,25,0.95); border:1px solid #333; color:#e0e0e0; box-shadow:0 6px 20px rgba(0,0,0,0.7); }
+body.dark-mode .reporte-info h5 { color:#ff4d4d; }
+body.dark-mode .reporte-info small { color:#bbb; }
+
+.reporteros-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem; justify-items:center; }
+.reportero-card { background:linear-gradient(180deg,#fff,#fff8f8); border-radius:20px; overflow:hidden; text-align:center; width:100%; max-width:320px; box-shadow:0 8px 25px rgba(0,0,0,0.1); transition:all .3s ease; border:1px solid #f1dede; }
+.reportero-card:hover { transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.15); }
+.reportero-top { background:linear-gradient(145deg,#ff5b5b,#ff8585); padding-top:1.5rem; padding-bottom:3.5rem; position:relative; }
+.reportero-avatar { width:110px; height:110px; border-radius:50%; object-fit:cover; border:4px solid #fff; position:absolute; bottom:-55px; left:50%; transform:translateX(-50%); box-shadow:0 0 10px rgba(0,0,0,0.2); }
+.reportero-info { padding:4rem 1.5rem 2rem; }
+.reportero-info h4 { font-weight:700; color:#d32f2f; margin-bottom:.5rem; }
+.reportero-info .bio { color:#444; font-size:.95rem; min-height:50px; }
+.btn-ver-perfil { display:inline-block; margin-top:1rem; padding:.5rem 1.3rem; border-radius:25px; border:2px solid #d32f2f; color:#d32f2f; font-weight:600; text-decoration:none; transition:all .3s; }
+.btn-ver-perfil:hover { background:#d32f2f; color:#fff; }
+
+/* 🧠 Sección final */
+.reporteros-footer { max-width:850px; margin:auto; background:linear-gradient(180deg,#fffaf9,#fff); padding:2rem 2.5rem; border-radius:20px; border:1px solid #f1dede; box-shadow:0 8px 25px rgba(0,0,0,0.1); }
+.reporteros-footer p { color:#555; line-height:1.7; }
+

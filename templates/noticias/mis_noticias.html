@@ -23,7 +23,7 @@
                <td>{{ noticia.categoria.nombre }}</td>
                <td>{{ noticia.fecha_creacion|date:"d/m/Y H:i" }}</td>
                <td>
-                  <a href="{% url 'noticia_detalle' noticia.id %}" class="btn btn-sm btn-primary">Ver</a>
+                  <a href="{% url 'noticia_detalle' noticia.id %}" class="btn btn-sm btn-view">Ver</a>
                   <a href="{% url 'noticia_editar' noticia.id %}" class="btn btn-sm btn-warning">Editar</a>
                   <a href="{% url 'noticia_confirmar_eliminar' noticia.id %}" class="btn btn-sm btn-danger">Eliminar</a>
                </td>

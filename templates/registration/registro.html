@@ -2,30 +2,29 @@
 {% block title %}Registro | Vox Campus{% endblock %}
 {% block content %}
 <div class="register-container">
-  <div class="register-card">
-    <h1>Únete a Vox Campus</h1>
-    <p>Regístrate para comentar noticias y participar activamente.</p>
-    <form method="post" novalidate>
-      {% csrf_token %}
-      {{ form.non_field_errors }}
-      <div class="mb-3">
-        {{ form.username.label_tag }}
-        {{ form.username }}
-        {{ form.username.errors }}
-      </div>
-      <div class="mb-3">
-        {{ form.password1.label_tag }}
-        {{ form.password1 }}
-        {{ form.password1.errors }}
-      </div>
-      <div class="mb-3">
-        {{ form.password2.label_tag }}
-        {{ form.password2 }}
-        {{ form.password2.errors }}
-      </div>
-      <button type="submit" class="btn btn-register w-100">Registrarme</button>
-    </form>
-  </div>
+   <div class="register-card">
+      <h1>Únete a Vox Campus</h1>
+      <p>Regístrate para comentar noticias y participar activamente.</p>
+      <form method="post" novalidate>
+         {% csrf_token %}
+         {{ form.non_field_errors }}
+         <div class="mb-3">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.username.errors }}
+         </div>
+         <div class="mb-3">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+         </div>
+         <div class="mb-3">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+         </div>
+         <button type="submit" class="btn btn-register w-100">Registrarme</button>
+      </form>
+   </div>
 </div>
-
 {% endblock %}

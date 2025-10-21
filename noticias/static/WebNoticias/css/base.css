@@ -3,12 +3,11 @@ body {
   color: #212529;
   scroll-behavior: smooth;
   margin: 0;
-  background: linear-gradient(145deg, #fdfbfb, #f0f4ff);
-  background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-  background-size: auto;
+  background: linear-gradient(145deg, #ffe5e5, #fff6f6);
   background-attachment: fixed;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
+
 
 a { text-decoration: none; transition: all 0.2s ease; }
 a:hover { text-decoration: none; color: #b71c1c; }

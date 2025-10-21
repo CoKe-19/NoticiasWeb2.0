@@ -1,121 +1,106 @@
 {% extends 'noticias/base.html' %}
 {% load static %}
 {% block title %}{{ noticia.titulo }} | Vox Campus{% endblock %}
-
 {% block content %}
 <body class="detalle-bg">
-
-<article class="noticia-detalle">
-
-  <!-- 📰 Título y datos -->
-  <h1>{{ noticia.titulo }}</h1>
-  <div class="noticia-meta">
-    <small>
-      Por <strong>@{{ noticia.autor.username }}</strong> |
-      {{ noticia.fecha_creacion|date:"d M Y" }} |
-      Categoría: <strong>{{ noticia.categoria.nombre }}</strong>
-    </small>
-  </div>
-
-  {% if noticia.imagen %}
-  <img src="{{ noticia.imagen.url }}" class="noticia-img" alt="{{ noticia.titulo }}">
-  {% endif %}
-
-  <div class="noticia-contenido">
-    {{ noticia.contenido|linebreaks }}
-  </div>
-
-  {% if user.is_authenticated and noticia.autor != user %}
-  <a href="{% url 'reportar_noticia' noticia.id %}" class="btn btn-outline-danger btn-sm mt-3">
-    🚨 Reportar noticia
-  </a>
-  {% endif %}
-
-  <!-- ❤️ Reacciones -->
-         <div class="reacciones text-center mt-4" data-url="{% url 'reaccionar_noticia' noticia.id %}">
-               <!-- ❤️ Reacciones -->
-               {% if user.is_authenticated %}
-               <div class="reacciones mt-4 text-center" data-url="{% url 'reaccionar_noticia' noticia.id %}">
-               <button class="btn-reaccion {% if reaccion_usuario == 'like' %}activa{% endif %}" data-tipo="like" title="Me gusta">❤️</button>
-               <button class="btn-reaccion {% if reaccion_usuario == 'love' %}activa{% endif %}" data-tipo="love" title="Me encanta">😍</button>
-               <button class="btn-reaccion {% if reaccion_usuario == 'funny' %}activa{% endif %}" data-tipo="funny" title="Me divierte">😂</button>
-               <button class="btn-reaccion {% if reaccion_usuario == 'wow' %}activa{% endif %}" data-tipo="wow" title="Me sorprende">😮</button>
-               <button class="btn-reaccion {% if reaccion_usuario == 'sad' %}activa{% endif %}" data-tipo="sad" title="Me entristece">😢</button>
-               <button class="btn-reaccion {% if reaccion_usuario == 'angry' %}activa{% endif %}" data-tipo="angry" title="Me enoja">😡</button>
-
-               <div id="conteo-reacciones" class="mt-3">
-                  <span>❤️ {{ conteos.like }}</span>
-                  <span>😍 {{ conteos.love }}</span>
-                  <span>😂 {{ conteos.funny }}</span>
-                  <span>😮 {{ conteos.wow }}</span>
-                  <span>😢 {{ conteos.sad }}</span>
-                  <span>😡 {{ conteos.angry }}</span>
-               </div>
-               </div>
+   <article class="noticia-detalle">
+      <!-- 📰 Título y datos -->
+      <h1>{{ noticia.titulo }}</h1>
+      <div class="noticia-meta">
+         <small>
+         Por <strong>@{{ noticia.autor.username }}</strong> |
+         {{ noticia.fecha_creacion|date:"d M Y" }} |
+         Categoría: <strong>{{ noticia.categoria.nombre }}</strong>
+         </small>
+      </div>
+      {% if noticia.imagen %}
+      <img src="{{ noticia.imagen.url }}" class="noticia-img" alt="{{ noticia.titulo }}">
+      {% endif %}
+      <div class="noticia-contenido">
+         {{ noticia.contenido|linebreaks }}
+      </div>
+      {% if user.is_authenticated and noticia.autor != user %}
+      <a href="{% url 'reportar_noticia' noticia.id %}" class="btn btn-outline-danger btn-sm mt-3">
+      🚨 Reportar noticia
+      </a>
+      {% endif %}
+      <!-- ❤️ Reacciones -->
+      {% if user.is_authenticated %}
+      <div class="reacciones" data-url="{% url 'reaccionar_noticia' noticia.id %}">
+         <button class="btn-reaccion {% if reaccion_usuario == 'like' %}activa{% endif %}" data-tipo="like" title="Me gusta">❤️ <span class="contador">{{ conteos.like }}</span></button>
+         <button class="btn-reaccion {% if reaccion_usuario == 'love' %}activa{% endif %}" data-tipo="love" title="Me encanta">😍 <span class="contador">{{ conteos.love }}</span></button>
+         <button class="btn-reaccion {% if reaccion_usuario == 'funny' %}activa{% endif %}" data-tipo="funny" title="Me divierte">😂 <span class="contador">{{ conteos.funny }}</span></button>
+         <button class="btn-reaccion {% if reaccion_usuario == 'wow' %}activa{% endif %}" data-tipo="wow" title="Me sorprende">😮 <span class="contador">{{ conteos.wow }}</span></button>
+         <button class="btn-reaccion {% if reaccion_usuario == 'sad' %}activa{% endif %}" data-tipo="sad" title="Me entristece">😢 <span class="contador">{{ conteos.sad }}</span></button>
+         <button class="btn-reaccion {% if reaccion_usuario == 'angry' %}activa{% endif %}" data-tipo="angry" title="Me enoja">😡 <span class="contador">{{ conteos.angry }}</span></button>
+      </div>
+      {% else %}
+      <p class="text-muted mt-3">
+         <a href="{% url 'login' %}">Inicia sesión</a> para reaccionar.
+      </p>
+      {% endif %}
+      <!-- 💬 Sección de respuestas -->
+      <section class="comentarios mt-5">
+         <h4 class="fw-bold text-danger mb-3">
+            <i class="bi bi-chat-left-text me-2"></i>Respuestas ({{ respuestas.count }})
+         </h4>
+         {% if respuestas %}
+         {% for r in respuestas %}
+         <div class="comentario">
+            <div class="comentario-header">
+               <a href="{% url 'perfil_usuario' r.autor.username %}">
+               {% if r.autor.perfil.avatar %}
+               <img src="{{ r.autor.perfil.avatar.url }}" alt="Avatar de {{ r.autor.username }}" class="comentario-avatar">
                {% else %}
-               <p class="text-muted mt-3">
-               <a href="{% url 'login' %}">Inicia sesión</a> para reaccionar.
-               </p>
+               <img src="{% static 'foro/img/default_avatar.png' %}" alt="Avatar por defecto" class="comentario-avatar">
                {% endif %}
-
-  <!-- 💬 Sección de respuestas -->
-  <section class="comentarios mt-5">
-    <h4 class="fw-bold text-danger mb-3">
-      <i class="bi bi-chat-left-text me-2"></i>Respuestas ({{ respuestas.count }})
-    </h4>
-
-    {% if respuestas %}
-      {% for r in respuestas %}
-        <div class="comentario">
-          <p class="mb-1">
-            <strong>
-              <a href="{% url 'perfil_usuario' r.autor.username %}" class="text-decoration-none text-dark">
-                @{{ r.autor.username }}
-              </a>
-            </strong>
-            <small class="text-muted ms-1">{{ r.fecha_creacion|date:"d M Y H:i" }}</small>
-          </p>
-          <p>{{ r.contenido }}</p>
-
-          {% if user.is_authenticated %}
-            <div class="mt-2">
-              {% if r.autor != user %}
-                <a href="{% url 'reportar_respuesta' r.id %}" class="btn btn-outline-danger btn-sm">🚨 Reportar</a>
-              {% endif %}
-              {% if user == r.autor %}
-                <a href="{% url 'editar_respuesta' r.id %}" class="btn btn-outline-secondary btn-sm">✏️ Editar</a>
-              {% endif %}
-              {% if user == r.autor or user.is_superuser %}
-                <a href="{% url 'eliminar_respuesta' r.id %}" class="btn btn-outline-danger btn-sm">🗑️ Eliminar</a>
-              {% endif %}
+               </a>
+               <div>
+                  <strong>
+                  <a href="{% url 'perfil_usuario' r.autor.username %}" class="text-decoration-none text-dark">
+                  @{{ r.autor.username }}
+                  </a>
+                  </strong><br>
+                  <small class="text-muted">{{ r.fecha_creacion|date:"d M Y H:i" }}</small>
+               </div>
             </div>
-          {% endif %}
-        </div>
-      {% endfor %}
-    {% else %}
-      <p class="text-muted">No hay respuestas aún. Sé el primero en comentar.</p>
-    {% endif %}
-  </section>
-
-  <!-- ✍️ Formulario de nueva respuesta -->
-  {% if user.is_authenticated %}
-    <form method="POST" class="respuesta-form mt-4">
-      {% csrf_token %}
-      {{ form.contenido.label_tag }}
-      {{ form.contenido }}
-      <button type="submit" class="btn btn-danger mt-3">
-        <i class="bi bi-send-fill me-1"></i> Publicar respuesta
-      </button>
-    </form>
-  {% else %}
-    <p class="text-muted mt-4">
-      <a href="{% url 'login' %}">Inicia sesión</a> para comentar.
-    </p>
-  {% endif %}
-</article>
-
-<!-- 🔗 JS de reacciones -->
-<script src="{% static 'WebNoticias/js/reacciones.js' %}" defer></script>
-
+            <p class="comentario-texto">{{ r.contenido }}</p>
+            {% if user.is_authenticated %}
+            <div class="mt-2">
+               {% if r.autor != user %}
+               <a href="{% url 'reportar_respuesta' r.id %}" class="btn btn-outline-danger btn-sm">🚨 Reportar</a>
+               {% endif %}
+               {% if user == r.autor %}
+               <a href="{% url 'editar_respuesta' r.id %}" class="btn btn-outline-secondary btn-sm">✏️ Editar</a>
+               {% endif %}
+               {% if user == r.autor or user.is_superuser %}
+               <a href="{% url 'eliminar_respuesta' r.id %}" class="btn btn-outline-danger btn-sm">🗑️ Eliminar</a>
+               {% endif %}
+            </div>
+            {% endif %}
+         </div>
+         {% endfor %}
+         {% else %}
+         <p class="text-muted">No hay respuestas aún. Sé el primero en comentar.</p>
+         {% endif %}
+      </section>
+      <!-- ✍️ Formulario de nueva respuesta -->
+      {% if user.is_authenticated %}
+      <form method="POST" class="respuesta-form mt-4">
+         {% csrf_token %}
+         {{ form.contenido.label_tag }}
+         {{ form.contenido }}
+         <button type="submit" class="btn btn-danger mt-3">
+         <i class="bi bi-send-fill me-1"></i> Publicar respuesta
+         </button>
+      </form>
+      {% else %}
+      <p class="text-muted mt-4">
+         <a href="{% url 'login' %}">Inicia sesión</a> para comentar.
+      </p>
+      {% endif %}
+   </article>
+   <!-- 🔗 JS de reacciones -->
+   <script src="{% static 'WebNoticias/js/reacciones.js' %}" defer></script>
 </body>
 {% endblock %}
