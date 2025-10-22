@@ -1,0 +1,102 @@
+{% extends 'noticias/base.html' %}
+{% block title %}Panel de Administración | Vox Campus{% endblock %}
+{% load static %}
+{% block content %}
+<div class="panel-privado">
+
+  <!-- 🌟 ENCABEZADO PRINCIPAL -->
+  <div class="card bg-gradient-danger text-white shadow-lg mb-5 border-0"
+       style="background:linear-gradient(135deg,#b71c1c,#d32f2f);">
+    <div class="card-body text-center p-5">
+      <h1 class="fw-bold display-5 mb-3">🔒 Panel Privado de Administración</h1>
+      <p class="lead mb-0">
+        Bienvenido, <strong>{{ user.username }}</strong>.  
+        Este espacio está reservado para el equipo directivo de <span class="fw-bold">Vox Campus</span>.  
+        Aquí puedes supervisar la actividad del sitio, el trabajo editorial y el estado general de la comunidad.
+      </p>
+    </div>
+  </div>
+
+  <!-- 📰 ESTADÍSTICAS GENERALES -->
+  <section class="mb-5">
+    <h3 class="fw-bold text-danger mb-4 text-center"><i class="bi bi-bar-chart-fill me-2"></i>Resumen General</h3>
+    <div class="row g-4 text-center">
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+          <i class="bi bi-newspaper fs-1 text-danger mb-2"></i>
+          <h5 class="fw-bold">Noticias Activas</h5>
+          <p class="text-muted mb-0">En portada o revisión editorial.</p>
+          <span class="badge bg-danger mt-2 fs-6">{{ total_noticias }}</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+          <i class="bi bi-person-badge fs-1 text-danger mb-2"></i>
+          <h5 class="fw-bold">Colaboradores</h5>
+          <p class="text-muted mb-0">Miembros activos del equipo periodístico.</p>
+          <span class="badge bg-danger mt-2 fs-6">{{ total_colaboradores }}</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+          <i class="bi bi-chat-dots fs-1 text-danger mb-2"></i>
+          <h5 class="fw-bold">Comentarios</h5>
+          <p class="text-muted mb-0">Opiniones recientes de los lectores.</p>
+          <span class="badge bg-danger mt-2 fs-6">{{ total_comentarios }}</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+          <i class="bi bi-flag fs-1 text-danger mb-2"></i>
+          <h5 class="fw-bold">Reportes</h5>
+          <p class="text-muted mb-0">Alertas y revisiones pendientes.</p>
+          <span class="badge bg-danger mt-2 fs-6">{{ total_reportes }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📢 COMUNICADOS INTERNOS -->
+  <section class="mb-5">
+    <h3 class="fw-bold text-danger mb-4"><i class="bi bi-megaphone-fill me-2"></i>Comunicados Internos</h3>
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <p class="mb-3"><strong>🗓️ Reunión Semanal:</strong> Viernes 25 a las 17:00 hrs — revisión de métricas y alcance editorial.</p>
+        <p class="mb-3"><strong>📸 Nuevo Módulo Multimedia:</strong> Disponible para subir videos e integrar reels en las noticias destacadas.</p>
+        <p class="mb-0"><strong>🎯 Objetivo del Mes:</strong> Mejorar el engagement en redes y optimizar la colaboración entre redactores y editores.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🕓 ACTIVIDAD RECIENTE -->
+  <section class="mt-5">
+    <h4 class="text-danger fw-bold mb-3"><i class="bi bi-clock-history me-2"></i>Actividad Reciente</h4>
+    <div class="list-group">
+      {% for a in actividades %}
+      <a href="{{ a.url }}" class="list-group-item bg-dark text-white border-0 mb-2 rounded shadow-sm">
+        <div class="d-flex justify-content-between align-items-center">
+          <span>
+            <i class="bi bi-person-fill text-danger me-2"></i>
+            <strong>@{{ a.usuario.username }}</strong> {{ a.accion }}
+          </span>
+          <small class="card-text">{{ a.fecha|timesince }} atrás</small>
+        </div>
+      </a>
+      {% empty %}
+      <p class="card-text">No hay actividad reciente registrada.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- 💬 FRASE FINAL -->
+  <section class="text-center mt-5 mb-5">
+    <blockquote class="blockquote">
+      <p class="fs-5 text-muted fst-italic">“El liderazgo en los medios se construye con transparencia, visión y trabajo en equipo.”</p>
+      <footer class="blockquote-footer text-danger">Dirección Editorial • Vox Campus</footer>
+    </blockquote>
+  </section>
+</div>
+{% endblock %}

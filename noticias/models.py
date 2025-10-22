@@ -105,14 +105,33 @@ class Mensaje(models.Model):
         return f'{self.remitente.username} ➜ {self.receptor.username}'
 
 class Notificacion(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notificaciones')
-    texto = models.CharField(max_length=255)
-    url = models.CharField(max_length=255, blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=50)
+    contenido = models.TextField()
+    url = models.URLField(blank=True, null=True)
     leido = models.BooleanField(default=False)
-    fecha = models.DateTimeField(default=now)
+    fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Notif → {self.usuario.username}: {self.texto}"
+        return f"{self.tipo} - {self.usuario.username}"
 
-    class Meta:
-        ordering = ['-fecha']
+class Actividad(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    accion = models.CharField(max_length=255)
+    fecha = models.DateTimeField(auto_now_add=True)
+    url = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.accion}"
+
+class PostulacionAutor(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    correo_contacto = models.EmailField(blank=True, null=True)
+    experiencia = models.TextField()
+    motivo = models.TextField()
+    fecha = models.DateTimeField(auto_now_add=True)
+    aprobada = models.BooleanField(default=False)
+    revisada = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.usuario.username} ({'Aprobada' if self.aprobada else 'Pendiente'})"

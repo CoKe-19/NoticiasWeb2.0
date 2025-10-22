@@ -1,156 +1,204 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>{% block title %}Vox Campus{% endblock %}</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
-      <link rel="stylesheet" href="{% static 'webnoticias/css/style.css' %}?v=v28" />
-   </head>
-   <body>
-      <!-- Toasts -->
-      <div id="toast-container" class="position-fixed top-0 start-50 translate-middle-x mt-3 zindex-tooltip">
-         {% if messages %}
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>{% block title %}Vox Campus{% endblock %}</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+   <link rel="stylesheet" href="{% static 'webnoticias/css/style.css' %}?v=v38" />
+</head>
+<body>
+   <!-- Toasts -->
+   <div id="toast-container" class="position-fixed top-0 start-50 translate-middle-x mt-3 zindex-tooltip">
+      {% if messages %}
          {% for message in messages %}
-         <div class="toast-message {{ message.tags }}">
-            {{ message }}
-         </div>
+         <div class="toast-message {{ message.tags }}">{{ message }}</div>
          {% endfor %}
-         {% endif %}
-      </div>
-      <!-- Navbar -->
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
-         <div class="container">
-            <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
+      {% endif %}
+   </div>
+
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
+      <div class="container">
+         <a class="navbar-brand d-flex align-items-center fw-bold" 
+            href="{% if user.is_authenticated and user.is_superuser %}{% url 'panel_privado' %}{% else %}{% url 'index' %}{% endif %}">
             <span class="me-2 text-white">Vox Campus</span>
-            <img src="{% static 'WebNoticias/img/logo.png' %}" alt="Logo Vox Campus" style="height:40px; width:auto; object-fit:contain;" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <img src="{% static 'WebNoticias/img/logo.png' %}" alt="Logo Vox Campus" 
+                 style="height:40px; width:auto; object-fit:contain;" />
+         </a>
+
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-               <!-- Menú izquierdo -->
-               <ul class="navbar-nav mx-auto gap-0 align-items-center">
-                  {% if user.is_authenticated %}
-                  <li class="nav-item"><a class="nav-link px-2" href="{% url 'inicio_privado' %}">Inicio Privado</a></li>
-                  {% else %}
-                  <li class="nav-item"><a class="nav-link px-2" href="{% url 'index' %}">Inicio</a></li>
+         </button>
+
+         <div class="collapse navbar-collapse" id="navbarNav">
+
+            <!-- Menú izquierdo -->
+            <ul class="navbar-nav mx-auto align-items-center gap-2">
+               {% if user.is_authenticated %}
+
+                  <!-- Noticias -->
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" id="noticiasDropdown" role="button" data-bs-toggle="dropdown">
+                        📰 Noticias
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="noticiasDropdown">
+                        <li><a class="dropdown-item" href="{% url 'noticia_crear' %}"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a></li>
+                        <li><a class="dropdown-item" href="{% url 'mis_noticias' %}"><i class="bi bi-pencil-square"></i> Mis Noticias</a></li>
+                        {% if user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'noticia_lista' %}"><i class="bi bi-gear"></i> Administrar Noticias</a></li>
+                        {% endif %}
+                     </ul>
+                  </li>
+
+                  <!-- Categorías solo para admin -->
+                  {% if user.is_superuser %}
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown">
+                        📂 Categorías
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                        <li><a class="dropdown-item" href="{% url 'categoria_lista' %}"><i class="bi bi-card-list"></i> Ver Categorías</a></li>
+                        <li><a class="dropdown-item" href="{% url 'categoria_crear' %}"><i class="bi bi-plus-circle"></i> Crear Categoría</a></li>
+                     </ul>
+                  </li>
                   {% endif %}
-                  <li class="nav-item"><a class="nav-link px-2" href="{% url 'politica' %}">Política</a></li>
-                  <li class="nav-item"><a class="nav-link px-2" href="{% url 'deportes' %}">Deportes</a></li>
-                  <li class="nav-item"><a class="nav-link px-2" href="{% url 'videos' %}">Videos</a></li>
-                  <li class="nav-item"><a class="nav-link px-2" href="{% url 'sobre' %}">Sobre Nosotros</a></li>
-                  <li class="nav-item"><a class="nav-link px-2" href="{% url 'contacto' %}">Contacto</a></li>
-               </ul>
-               <!-- Menú derecho -->
-               <ul class="navbar-nav align-items-center gap-0">
-                  {% if user.is_authenticated %}
+
+                  <!-- Mensajes -->
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown">
+                        💬 Mensajes
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="mensajesDropdown">
+                        <li><a class="dropdown-item" href="{% url 'bandeja_entrada' %}"><i class="bi bi-envelope"></i> Bandeja de entrada</a></li>
+                        <li><a class="dropdown-item" href="{% url 'enviar_mensaje' %}"><i class="bi bi-send"></i> Nuevo mensaje</a></li>
+                        
+                     </ul>
+                  </li>
+                  <!-- Reporteros -->
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" id="reporterosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        🧑‍💼 Autores
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="reporterosDropdown">
+                        <li><a class="dropdown-item" href="{% url 'lista_autores' %}"><i class="bi bi-people-fill"></i> Ver Autores</a></li>
+                        <li><a class="dropdown-item" href="{% url 'postular_autor' %}"><i class="bi bi-person-plus-fill"></i> Quiero ser autor</a></li>
+                        <li><a class="dropdown-item" href="{% url 'panel_postulaciones' %}"><i class="bi bi-person-plus-fill"></i> Administrar Postulaciones</a></li>
+                     </ul>
+                  </li>
+
+               {% else %}
+               {% endif %}
+            </ul>
+            <!-- Menú derecho -->
+            <ul class="navbar-nav align-items-center gap-0">
+               {% if user.is_authenticated %}
                   <!-- Buscador -->
                   <li class="nav-item">
                      <form id="buscador" class="d-flex align-items-center" role="search" method="get" action="{% url 'buscar' %}">
-                        <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
-                           type="search" placeholder="Buscar..." aria-label="Buscar" name="q" required
-                           style="width: 110px; background: #fff8f8;" />
+                     <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
+                        type="search" placeholder="Buscar..." name="q" required />
                         <button class="btn btn-light btn-sm rounded-pill px-2 py-0" type="submit" style="height:32px;">
-                        <i class="bi bi-search text-danger"></i>
+                           <i class="bi bi-search text-danger"></i>
                         </button>
                      </form>
                   </li>
+
                   <!-- Notificaciones -->
                   <li class="nav-item position-relative">
                      <a href="{% url 'notificaciones' %}" class="nav-link position-relative">
-                     <i class="bi bi-bell-fill"></i>
-                     {% if notif_count > 0 %}
-                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
-                     {{ notif_count }}
-                     </span>
-                     {% endif %}
+                        <i class="bi bi-bell-fill"></i>
+                        {% if notif_count > 0 %}
+                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
+                              {{ notif_count }}
+                           </span>
+                        {% endif %}
                      </a>
                   </li>
-                  <!-- Dropdown usuario -->
+
+                  <!-- Usuario -->
                   <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle btn-login px-3 py-2" href="#" id="userDropdown"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                     {% if user.perfil.avatar %}
-                     <img src="{{ user.perfil.avatar.url }}" alt="avatar"
-                        style="width:28px; height:28px; border-radius:50%; object-fit:cover; margin-right:6px;" />
-                     {% else %}
-                     <i class="bi bi-person-circle me-1"></i>
-                     {% endif %}
-                     {{ user.username }}
+                        role="button" data-bs-toggle="dropdown">
+                        {% if user.perfil.avatar %}
+                           <img src="{{ user.perfil.avatar.url }}" alt="avatar"
+                              style="width:28px; height:28px; border-radius:50%; object-fit:cover; margin-right:6px;" />
+                        {% else %}
+                           <i class="bi bi-person-circle me-1"></i>
+                        {% endif %}
+                        {{ user.username }}
                      </a>
                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="{% url 'ver_perfil' user.username %}"><i class="bi bi-person"></i> Mi Perfil</a></li>
                         <li><a class="dropdown-item" href="{% url 'editar_perfil' %}"><i class="bi bi-pencil-square"></i> Editar Perfil</a></li>
-                        <li>
-                           <hr class="dropdown-divider" />
-                        </li>
+                        <li><hr class="dropdown-divider" /></li>
                         <li>
                            <form method="POST" action="{% url 'logout' %}">
                               {% csrf_token %}
                               <button type="submit" class="dropdown-item text-danger">
-                              <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                 <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
                               </button>
                            </form>
                         </li>
                      </ul>
                   </li>
-                  {% else %}
-                  <li class="nav-item">
-                     <a class="btn btn-login fw-bold px-3 py-1" href="{% url 'login' %}">Iniciar Sesión</a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{% url 'registro' %}" class="btn-register px-3 py-1">Regístrate</a>
-                  </li>
-                  {% endif %}
-               </ul>
-            </div>
+               {% else %}
+                  <li class="nav-item"><a class="btn btn-login fw-bold px-3 py-1" href="{% url 'login' %}">Iniciar Sesión</a></li>
+                  <li class="nav-item"><a href="{% url 'registro' %}" class="btn-register px-3 py-1">Regístrate</a></li>
+               {% endif %}
+            </ul>
          </div>
-         <!-- Botón modo noche -->
-         <li class="nav-item">
-            <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-circle p-1" title="Cambiar tema">
-            <i class="bi bi-moon"></i>
-            </button>
-         </li>
-      </nav>
-      <!-- Panel CRUD -->
-      {% if user.is_authenticated %}
-      <div class="panel-crud my-4 text-center">
-         <a href="{% url 'feed' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Feed</a>
-         <a href="{% url 'noticia_crear' %}" class="btn-crud crear"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a>
-         <a href="{% url 'mis_noticias' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Mis Noticias</a>
-         <a href="{% url 'bandeja_entrada' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Mensajes</a>
-         <a href="{% url 'reporteros' %}" class="btn-crud crear"><i class="bi bi-journal-text"></i> Reporteros</a>
-         {% if user.is_superuser %}
-         <a href="{% url 'noticia_lista' %}" class="btn-crud ver"><i class="bi bi-card-list"></i> Administrar Noticias </a>
-         <a href="{% url 'categoria_lista' %}" class="btn-crud admin"><i class="bi bi-collection"></i> Ver Categorías</a>
-         <a href="{% url 'categoria_crear' %}" class="btn-crud admin"><i class="bi bi-plus-circle"></i> Crear Categoría</a>
-         {% endif %}
       </div>
-      {% endif %}
-      <!-- Contenido principal -->
-      <main class="container my-4">
-         {% block content %}{% endblock %}
-      </main>
-      <!-- Footer -->
-      <footer class="footer-premium py-5">
-         <div class="container text-center">
-            <div class="mb-4">
-               <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
-               <a href="https://discord.com" target="_blank" class="social-icon"><i class="bi bi-discord"></i></a>
-               <a href="https://www.youtube.com" target="_blank" class="social-icon"><i class="bi bi-youtube"></i></a>
-               <a href="https://twitter.com" target="_blank" class="social-icon"><i class="bi bi-twitter"></i></a>
-            </div>
-            <p class="mb-0">&copy; 2025 Vox Campus — Todos los derechos reservados</p>
+            </nav>
+
+
+   <!-- 🔸 Submenú inferior -->
+   <div class="subnav">
+      <div class="container text-center py-2">
+         {% if user.is_authenticated and user.is_superuser %}
+            <a href="{% url 'panel_privado' %}" class="subnav-link"><i class="bi bi-house-door"></i> Inicio Privado</a>
+         {% else %}
+            <a href="{% url 'index' %}" class="subnav-link"><i class="bi bi-house"></i> Inicio</a>
+         {% endif %}
+         <a href="{% url 'feed' %}" class="subnav-link"><i class="bi bi-newspaper"></i> Feed</a>
+         <a href="{% url 'videos' %}" class="subnav-link"><i class="bi bi-camera-video"></i> Videos</a>
+         <a href="{% url 'politica' %}" class="subnav-link"><i class="bi bi-bank"></i> Política</a>
+         <a href="{% url 'deportes' %}" class="subnav-link"><i class="bi bi-trophy"></i> Deportes</a>
+         <a href="{% url 'sobre' %}" class="subnav-link"><i class="bi bi-info-circle"></i> Sobre Nosotros</a>
+         <a href="{% url 'contacto' %}" class="subnav-link"><i class="bi bi-envelope"></i> Contacto</a>
+                  <!-- Botón modo noche -->
+            <li class="nav-item d-flex align-items-center ms-2">
+               <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-circle p-1" title="Cambiar tema">
+                  <i class="bi bi-moon"></i>
+               </button>
+            </li>
+      </div>
+   </div>
+
+   <!-- Contenido principal -->
+   <main class="container my-4">
+      {% block content %}{% endblock %}
+   </main>
+
+   <!-- Footer -->
+   <footer class="footer-premium py-5">
+      <div class="container text-center">
+         <div class="mb-4">
+            <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+            <a href="https://discord.com" target="_blank" class="social-icon"><i class="bi bi-discord"></i></a>
+            <a href="https://www.youtube.com" target="_blank" class="social-icon"><i class="bi bi-youtube"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-icon"><i class="bi bi-twitter"></i></a>
          </div>
-      </footer>
-      <!-- Scripts -->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="{% static 'WebNoticias/js/script.js' %}"></script>
-      <script src="{% static 'WebNoticias/js/buscador.js' %}"></script>
-      <script src="{% static 'WebNoticias/js/theme.js' %}"></script>
-   </body>
+         <p class="mb-0">&copy; 2025 Vox Campus — Todos los derechos reservados</p>
+      </div>
+   </footer>
+
+   <!-- Scripts -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="{% static 'WebNoticias/js/script.js' %}"></script>
+   <script src="{% static 'WebNoticias/js/buscador.js' %}"></script>
+   <script src="{% static 'WebNoticias/js/theme.js' %}"></script>
+</body>
 </html>

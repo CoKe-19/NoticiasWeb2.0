@@ -7,3 +7,13 @@
   .respuesta-card { padding:15px; }
 }
 html { scroll-behavior: smooth; }
+
+/* ============================== 📱 NAVBAR MÓVIL UNIVERSAL (Samsung + iPhone) ============================== */ 
+@media (max-width: 991px){.navbar{flex-wrap:wrap;justify-content:center!important;}.navbar-brand{margin-bottom:.5rem;margin-left:.4rem!important;}.navbar-collapse{background:#2c0a0a;border-radius:12px;padding:1.3rem 1.4rem!important;box-shadow:0 4px 12px rgba(0,0,0,.4);}.navbar-nav{flex-direction:column!important;align-items:flex-start!important;gap:.9rem!important;}.navbar-nav .nav-item{width:100%;}.nav-link{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.8rem 1rem!important;font-size:1rem;border-radius:10px;background:rgba(255,255,255,.05);}.navbar-nav .dropdown-menu{position:static!important;width:100%!important;margin:.4rem 0!important;padding:.6rem 1rem!important;border-radius:12px;background:#1c1c1c;border:none;box-shadow:0 4px 10px rgba(0,0,0,.3);}.navbar-nav .dropdown-item{color:#f0f0f0!important;padding:.65rem 1rem;border-radius:8px;font-size:.95rem;}.navbar-nav .dropdown-item:hover{background:#dc3545;color:#fff!important;}#buscador{width:100%;margin-top:1.3rem!important;justify-content:center;}#input-busqueda{width:92%!important;font-size:.9rem;}.btn-login,.btn-register{width:100%;margin-top:.5rem;}@supports(-webkit-touch-callout:none){.navbar-collapse{padding-left:1.6rem!important;padding-right:1.6rem!important;}.navbar-nav .dropdown-menu{padding-left:1.2rem!important;padding-right:1.2rem!important;}}}
+
+
+/* 🌗 Ajuste modo oscuro en el menú colapsado */
+[data-theme="dark"] .navbar-collapse{background:#111;}
+[data-theme="dark"] .dropdown-menu{background:#181818;}
+[data-theme="dark"] .dropdown-item{color:#ddd!important;}
+[data-theme="dark"] .dropdown-item:hover{background:#dc3545;color:#fff!important;}

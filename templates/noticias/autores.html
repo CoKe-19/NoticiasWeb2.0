@@ -1,10 +1,10 @@
 {% extends 'noticias/base.html' %}
 {% load static %}
-{% block title %}Nuestros Reporteros | Vox Campus{% endblock %}
+{% block title %}Nuestros Autores | Vox Campus{% endblock %}
 {% block content %}
 <div class="container my-5">
    <h2 class="text-danger fw-bold mb-4 text-center">
-      🗞️ Nuestros Reporteros
+      🗞️ Nuestros Autores
    </h2>
    {% if reporteros %}
    <div class="reporteros-grid">
@@ -35,13 +35,13 @@
    <div class="reporteros-footer mt-5 text-center">
       <h3 class="fw-bold text-danger mb-3">💬 Voces que Inspiran</h3>
       <p class="lead text-muted">
-         Cada uno de nuestros reporteros representa la esencia de <strong>Vox Campus</strong>: compromiso, creatividad y pasión por informar.  
+         Cada uno de nuestros Autores representa la esencia de <strong>Vox Campus</strong>: compromiso, creatividad y pasión por informar.  
          Desde sus diferentes miradas, construyen una comunidad donde la verdad, el talento y la innovación son protagonistas.  
          🌎 Unidos, dan vida a las historias que marcan nuestra generación.
       </p>
    </div>
    {% else %}
-   <p class="text-center text-muted mt-4">Aún no hay reporteros registrados.</p>
+   <p class="text-center text-muted mt-4">Aún no hay Autores registrados.</p>
    {% endif %}
 </div>
 {% endblock %}

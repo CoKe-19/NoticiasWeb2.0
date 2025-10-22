@@ -18,7 +18,8 @@ urlpatterns = [
     path('deportes/', views.deportes, name='deportes'),
     path('videos/', views.videos, name='videos'),
     path('noticias-chile/', views.chile, name='chile'),
-    path("reporteros/", views.reporteros, name="reporteros"),
+    path("autores/", views.lista_autores, name="lista_autores"),
+    path('actividad/', views.actividad_reciente, name='actividad_reciente'),
 
 
 
@@ -65,7 +66,7 @@ urlpatterns = [
     path('registro/', views.registrar_usuario, name='registro'),
     path('buscar/', views.buscar, name='buscar'),
     path('contacto/', views.contacto, name='contacto'),
-    path('inicio-privado/', views.inicio_privado, name='inicio_privado'),
+    path('inicio-privado/', views.inicio_privado, name='panel_privado'),
     path('mis-noticias/', views.mis_noticias, name='mis_noticias'),
     path('mis_noticias/eliminar/<int:noticia_id>/', views.confirmar_eliminar_noticia, name='noticia_confirmar_eliminar'),
     path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
@@ -102,4 +103,12 @@ urlpatterns = [
     path('accounts/reset/done/',
          auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
          name='password_reset_complete'),
+
+    # ================================
+    # 🔐 Postulaciones
+    # ================================
+    path("postular-autor/", views.postular_autor, name="postular_autor"),
+    path("panel-postulaciones/", views.panel_postulaciones, name="panel_postulaciones"),
+    path("aprobar/<int:pk>/", views.aprobar_postulacion, name="aprobar_postulacion"),
+    path("rechazar/<int:pk>/", views.rechazar_postulacion, name="rechazar_postulacion")
 ]

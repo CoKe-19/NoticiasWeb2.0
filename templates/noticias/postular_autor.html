@@ -1,0 +1,31 @@
+{% extends 'noticias/base.html' %}
+{% load static %}
+{% block title %}Postular a Autor{% endblock %}
+{% block content %}
+<div class="container my-5">
+  <div class="form-container mx-auto p-4 shadow-lg rounded-4" style="max-width:700px;background:#1a1a1a;">
+    <h2 class="text-center text-danger mb-4">📝 Postulación a Autor</h2>
+    <form id="formPostulacion" method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Nombre completo</label>
+        <input type="text" class="form-control" name="nombre" required>
+      </div>
+         <label for="correo_contacto" class="form-label">Correo de contacto</label>
+        <input type="email" name="correo_contacto" id="correo_contacto" class="form-control" required>
+      <div class="mb-3">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Experiencia</label>
+        <textarea class="form-control" name="experiencia" rows="3" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Motivo de postulación</label>
+        <textarea class="form-control" name="motivo" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-danger w-100">Enviar</button>
+    </form>
+  </div>
+</div>
+<script src="{% static 'js/postulacion.js' %}"></script>
+{% endblock %}

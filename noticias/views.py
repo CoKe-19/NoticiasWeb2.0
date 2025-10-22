@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required , user_passes_test
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_protect
@@ -10,9 +10,10 @@ from django.db.models.signals import post_save
 from django.http import JsonResponse
 from django.db.models import ProtectedError
 from django.urls import reverse
-from .models import Noticia, Categoria, Respuesta, Reporte , Reaccion , Mensaje ,Notificacion
+from .models import Noticia, Categoria, Respuesta, Reporte , Reaccion , Mensaje ,Notificacion , Actividad ,PostulacionAutor
 from .utils import crear_notificacion
 from django.core.paginator import Paginator
+from django.contrib.auth.models import Group
 
 from .forms import (
     NoticiaForm, CategoriaForm, RespuestaForm, ReporteForm, RegistroForm, ContactoForm, CustomAuthenticationForm , PerfilForm , MensajeForm
@@ -81,9 +82,22 @@ def noticia_editar(request, pk):
     })
 
 
+# ==========================
+# Actividades
+# ==========================
+
+def registrar_actividad(usuario, accion, url=""):
+    Actividad.objects.create(usuario=usuario, accion=accion, url=url)
+
+def actividad_reciente(request):
+    actividades = Actividad.objects.order_by('-fecha')[:5]
+    return render(request, 'noticias/actividad.html', {'actividades': actividades})
+
+@login_required
 def noticia_detalle(request, id):
     noticia = get_object_or_404(Noticia, id=id)
     respuestas = Respuesta.objects.filter(noticia=noticia).order_by('fecha_creacion')
+
     conteos = {
         'like': noticia.reacciones.filter(tipo='like').count(),
         'love': noticia.reacciones.filter(tipo='love').count(),
@@ -92,11 +106,13 @@ def noticia_detalle(request, id):
         'sad': noticia.reacciones.filter(tipo='sad').count(),
         'angry': noticia.reacciones.filter(tipo='angry').count(),
     }
+
     reaccion_usuario = None
     if request.user.is_authenticated:
         reaccion = Reaccion.objects.filter(noticia=noticia, usuario=request.user).first()
         if reaccion:
             reaccion_usuario = reaccion.tipo
+
     if request.method == 'POST':
         form = RespuestaForm(request.POST)
         if form.is_valid():
@@ -107,13 +123,20 @@ def noticia_detalle(request, id):
             if noticia.autor != request.user:
                 crear_notificacion(
                     usuario=noticia.autor,
-                    texto=f"{request.user.username} comentó tu noticia 💬",
+                    tipo="comentario",
+                    contenido=f"💬 {request.user.username} comentó tu noticia: {noticia.titulo}",
                     url=reverse('noticia_detalle', args=[noticia.id])
                 )
+            registrar_actividad(
+                usuario=request.user,
+                accion=f"comentó en “{noticia.titulo}”",
+                url=reverse('noticia_detalle', args=[noticia.id])
+            )
 
             return redirect('noticia_detalle', id=noticia.id)
     else:
         form = RespuestaForm()
+
     context = {
         'noticia': noticia,
         'respuestas': respuestas,
@@ -505,10 +528,17 @@ def enviar_mensaje(request):
             mensaje = form.save(commit=False)
             mensaje.remitente = request.user
             mensaje.save()
+            crear_notificacion(
+                usuario=mensaje.receptor,
+                tipo="mensaje",
+                contenido=f"📩 Nuevo mensaje de {request.user.username}",
+                url=reverse('bandeja_entrada')
+            )
             return redirect('bandeja_entrada')
     else:
         form = MensajeForm()
     return render(request, 'noticias/enviar.html', {'form': form})
+
 
 @login_required
 def enviar_a_usuario(request, username):
@@ -575,9 +605,85 @@ def videos(request):
 def chile(request):
     return render(request,'noticias/noticia_chile.html')
 
-def inicio_privado(request):
-    return render(request, 'noticias/inicio_privado.html')
-
 def politica(request):
     return render(request, 'noticias/politica.html')
 
+
+@login_required
+def inicio_privado(request):
+    total_noticias = Noticia.objects.count()
+    total_colaboradores = User.objects.filter(
+        noticias__isnull=False,
+        is_superuser=False
+    ).distinct().count()
+    total_comentarios = Respuesta.objects.count()
+    total_reportes = Reporte.objects.count()
+    actividades = Actividad.objects.order_by('-fecha')[:5]
+
+    context = {
+        'total_noticias': total_noticias,
+        'total_colaboradores': total_colaboradores,
+        'total_comentarios': total_comentarios,
+        'total_reportes': total_reportes,
+        'actividades': actividades,
+    }
+    return render(request, 'noticias/panel_privado.html', context)
+
+@login_required
+def postular_autor(request):
+    if PostulacionAutor.objects.filter(usuario=request.user).exists():
+        messages.warning(request, "⚠️ Ya has enviado una postulación. Espera la respuesta antes de volver a postular.")
+        return redirect("index")
+    if request.method == "POST":
+        experiencia = request.POST.get("experiencia")
+        motivo = request.POST.get("motivo")
+        correo_contacto = request.POST.get("correo_contacto")
+        PostulacionAutor.objects.create(
+            usuario=request.user,
+            experiencia=experiencia,
+            motivo=motivo,
+            correo_contacto=correo_contacto,
+        )
+
+        messages.success(request, "✅ Tu postulación fue enviada correctamente. Te contactaremos pronto.")
+        return redirect("index")
+    return render(request, "noticias/postular_autor.html")
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def panel_postulaciones(request):
+    postulaciones = PostulacionAutor.objects.all().order_by("-fecha")
+    return render(request, "noticias/panel_postulaciones.html", {"postulaciones": postulaciones})
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def aprobar_postulacion(request, pk):
+    postulacion = get_object_or_404(PostulacionAutor, pk=pk)
+    postulacion.aprobada = True
+    postulacion.revisada = True
+    postulacion.save()
+    user = postulacion.usuario
+    user.is_staff = True
+    autores_group, created = Group.objects.get_or_create(name="Autores")
+    user.groups.add(autores_group)
+    user.save()
+    messages.success(request, f"✅ {user.username} fue aprobado como Autor.")
+    return redirect("panel_postulaciones")
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def rechazar_postulacion(request, pk):
+    postulacion = get_object_or_404(PostulacionAutor, pk=pk)
+    postulacion.revisada = True
+    postulacion.aprobada = False
+    postulacion.save()
+    messages.error(request, f"❌ Postulación de {postulacion.usuario.username} rechazada.")
+    return redirect("panel_postulaciones")
+
+def lista_autores(request):
+    autores_aprobados = User.objects.filter(postulacionautor__aprobada=True)
+    admins = User.objects.filter(is_staff=True)
+    reporteros = (autores_aprobados | admins).distinct()
+    context = {"reporteros": reporteros}
+    return render(request, "noticias/autores.html", context)

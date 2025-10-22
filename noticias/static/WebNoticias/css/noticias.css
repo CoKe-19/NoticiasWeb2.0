@@ -1,16 +1,26 @@
-.feed-list { display: flex; flex-direction: column; gap: 2rem; }
-.feed-card {
-  background: #1a1a1a;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-  max-width: 700px;
-  margin: 0 auto;
-}
-.feed-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(255, 0, 0, 0.25); }
-.feed-img { width: 100%; height: 420px; object-fit: cover; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.feed-card h4 a { color: #fff; text-decoration: none; font-weight: 700; }
+/* 📰 FEED DE NOTICIAS — FORMATO HORIZONTAL */
+
+.feed-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 2rem; align-items: stretch; justify-items: center; }
+
+.feed-card { display: flex; flex-direction: column; justify-content: space-between; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 12px rgba(0, 0, 0, 0.4); width: 100%; max-width: 420px; min-height: 600px; height: 600px; }
+
+.feed-card:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5); }
+
+.feed-img { width: 100%; height: 240px; object-fit: cover; display: block; }
+
+.feed-card .p-4 { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+
+.feed-card h4 a { color: #fff; text-decoration: none; font-weight: 700; transition: color 0.2s ease; }
+
 .feed-card h4 a:hover { color: #ff4040; }
+
 .feed-card p { color: #d9d9d9; }
-.feed-card .btn-outline-danger:hover { background-color: #ff4040; color: #fff; }
+
+.btn-outline-danger { border: 1px solid #ff4040; color: #ff4040; transition: all 0.2s ease; }
+
+.btn-outline-danger:hover { background-color: #ff4040; color: #fff; transform: translateY(-2px); }
+
+.reacciones-mini { font-size: 0.9rem; opacity: 0.8; color: #bbb; }
+
+@media (max-width: 768px) { .feed-card { min-height: 500px; height: auto; max-width: 100%; } .feed-img { height: 200px; } }
+

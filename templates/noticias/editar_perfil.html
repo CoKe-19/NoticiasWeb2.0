@@ -6,24 +6,37 @@
    <h2 class="mb-4 text-center text-danger fw-bold">🧑‍💻 Editar Perfil</h2>
    <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-lg border-0 rounded-4" style="max-width:600px; margin:auto;">
       {% csrf_token %}
+      
       <div class="mb-3 text-center">
          {% if request.user.perfil.avatar %}
-         <img src="{{ request.user.perfil.avatar.url }}" alt="Avatar actual"
-            style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+            <img src="{{ request.user.perfil.avatar.url }}" alt="Avatar actual"
+               style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
          {% else %}
-         <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar"
-            style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+            <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar"
+               style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
          {% endif %}
       </div>
+
       <p class="text-center mb-3">
          Rol actual:
          {% if request.user.perfil.rol == "admin" %}
-         <span class="badge bg-danger">Administrador</span>
+            <span class="badge bg-danger">Administrador</span>
          {% else %}
-         <span class="badge bg-secondary">Autor</span>
+            <span class="badge bg-secondary">Autor</span>
          {% endif %}
       </p>
-      {{ form.as_p }}
+
+      <!-- Campo personalizado de imagen -->
+      <div class="text-center mb-4">
+         <label for="id_avatar" class="custom-file-upload">📤 Subir foto de perfil</label>
+         <input type="file" id="id_avatar" name="avatar" accept="image/*" class="file-input">
+      </div>
+
+      <!-- Otros campos -->
+      <div class="mb-3">{{ form.bio.label_tag }}{{ form.bio }}</div>
+      <div class="mb-3">{{ form.apodo.label_tag }}{{ form.apodo }}</div>
+      <div class="mb-3">{{ form.email.label_tag }}{{ form.email }}</div>
+
       <div class="text-center mt-3">
          <button type="submit" class="btn btn-danger px-4">Guardar cambios</button>
          <a href="{% url 'ver_perfil' request.user.username %}" class="btn btn-secondary px-4">Cancelar</a>

@@ -143,27 +143,4 @@
       </div>
    </div>
 </div>
-<div class="container my-5">
-   <div class="card shadow-sm mx-auto" style="max-width: 500px;">
-      <div class="card-body">
-         <h5 class="card-title text-center mb-3 text-danger">¿Quieres trabajar con nosotros?</h5>
-         <form method="post" action="#">
-            {% csrf_token %}
-            <div class="mb-3">
-               <label for="nombre" class="form-label">Nombre completo</label>
-               <input type="text" class="form-control" id="nombre" name="nombre" required>
-            </div>
-            <div class="mb-3">
-               <label for="email" class="form-label">Correo electrónico</label>
-               <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-               <label for="mensaje" class="form-label">Cuéntanos por qué quieres unirte</label>
-               <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-danger w-100">Enviar</button>
-         </form>
-      </div>
-   </div>
-</div>
 {% endblock %}

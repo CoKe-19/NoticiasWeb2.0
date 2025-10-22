@@ -10,7 +10,10 @@
 .card-body p { color:#4b5563; font-size:1rem; line-height:1.6; margin-bottom:1rem; }
 .perfil-meta { font-size:.95rem; color:#6c757d; }
 .badge { font-weight:600; padding:.4em .7em; border-radius:.65rem; font-size:.85rem; letter-spacing:.2px; }
-.badge.bg-danger   { background: linear-gradient(135deg,#dc3545,#f85b69); }
+.badge.bg-danger,  { background: linear-gradient(135deg,#dc3545,#f85b69); }
+.bg-custom { background-color: #b71c1c !important;
+}
+
 .badge.bg-secondary{ background: linear-gradient(135deg,#6c757d,#9ca3af); }
 .card-body h3 { font-weight:700; font-size:1.3rem; color:#dc3545; margin-top:2rem; margin-bottom:1rem; }
 .card-body ul { list-style:none; padding:0; margin:0 auto; max-width:500px; }
