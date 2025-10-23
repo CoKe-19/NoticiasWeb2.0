@@ -16,7 +16,6 @@
          <!-- 📄 Info básica + botón -->
          <div>
             <h2 class="mb-1 fw-bold">{{ perfil.user.username }}</h2>
-            <p class="mb-1"><strong>Nombre:</strong> {{ perfil.user.first_name }} {{ perfil.user.last_name }}</p>
             <p class="mb-1"><strong>Correo:</strong> {{ perfil.user.email }}</p>
             {% if request.user != perfil.user %}
             <a href="{% url 'enviar_a_usuario' perfil.user.username %}" class="btn btn-outline-success mt-2 px-4 py-2 fw-semibold">

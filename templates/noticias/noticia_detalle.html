@@ -6,13 +6,13 @@
    <article class="noticia-detalle">
       <!-- 📰 Título y datos -->
       <h1>{{ noticia.titulo }}</h1>
-      <div class="noticia-meta">
-         <small>
-         Por <p class="card-title">@{{ noticia.autor.username }}</p> |
-         {{ noticia.fecha_creacion|date:"d M Y" }} |
-         Categoría: <strong>{{ noticia.categoria.nombre }}</strong>
-         </small>
-      </div>
+   <div class="noticia-meta">
+   <small>
+      <span class="respuesta-autor">Por {{ noticia.autor.username }}</span> |
+      <span class="fecha">{{ noticia.fecha_creacion|date:"d M Y" }}</span> |
+      <span class="categoria">Categoría: {{ noticia.categoria.nombre }}</span>
+   </small>
+   </div>
       {% if noticia.imagen %}
       <img src="{{ noticia.imagen.url }}" class="noticia-img" alt="{{ noticia.titulo }}">
       {% endif %}
@@ -57,8 +57,8 @@
                </a>
                <div>
                   <strong>
-                  <a href="{% url 'perfil_usuario' r.autor.username %}" class="text-decoration-none text-dark">
-                  @{{ r.autor.username }}
+                  <a href="{% url 'perfil_usuario' r.autor.username %}" class="respuesta-autor">
+                  {{ r.autor.username }}
                   </a>
                   </strong><br>
                   <small class="text-muted">{{ r.fecha_creacion|date:"d M Y H:i" }}</small>

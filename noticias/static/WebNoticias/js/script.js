@@ -1,7 +1,3 @@
-// ==========================
-// Vox Campus - JS optimizado
-// ==========================
-
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================
@@ -28,40 +24,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-// ==========================
-// 🔔 Toasts / Alertas automáticas (Django messages)
-// ==========================
-document.addEventListener("DOMContentLoaded", () => {
+  // ===========================
+  // 🔔 Toasts / Alertas automáticas (desde la izquierda, 1s)
+  // ===========================
   const toasts = document.querySelectorAll("#toast-container .toast-message");
 
   toasts.forEach(toast => {
-    // Colores según tipo de mensaje
+    // Colores según tipo
     if (toast.classList.contains("success")) toast.style.backgroundColor = "#28a745";
     else if (toast.classList.contains("error") || toast.classList.contains("danger")) toast.style.backgroundColor = "#dc3545";
     else if (toast.classList.contains("warning")) toast.style.backgroundColor = "#ffc107";
-    else toast.style.backgroundColor = "#17a2b8"; // Info por defecto
+    else toast.style.backgroundColor = "#17a2b8";
 
-    // Estilos base
-    toast.style.color = "#fff";
-    toast.style.padding = "12px 18px";
-    toast.style.marginBottom = "0.5rem";
-    toast.style.borderRadius = "8px";
-    toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)";
+    // Estilos base (entra desde la izquierda)
     toast.style.opacity = 0;
-    toast.style.transform = "translateY(-20px)";
-    toast.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+    toast.style.transform = "translateX(-100%)";
+    toast.style.transition = "opacity 0.4s ease, transform 0.4s ease";
 
-    // Animar entrada
-    setTimeout(() => {
+    // Entrada suave
+    requestAnimationFrame(() => {
       toast.style.opacity = 1;
-      toast.style.transform = "translateY(0)";
-    }, 100);
+      toast.style.transform = "translateX(0)";
+    });
 
-    // Desaparecer automáticamente después de 3 segundos
+    // Desaparecer automáticamente después de 1 s
     setTimeout(() => {
       toast.style.opacity = 0;
-      toast.style.transform = "translateY(-20px)";
-      setTimeout(() => toast.remove(), 500);
-    }, 2000);
+      toast.style.transform = "translateX(-100%)";
+      setTimeout(() => toast.remove(), 400);
+    }, 1500);
   });
 });
+
+// ✨ Scroll suave en enlaces internos
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    document.querySelector(link.getAttribute("href")).scrollIntoView({ 
+      behavior: "smooth" 
+    });
+  });
+});
+
+// 🌈 Transición de color al hacer hover en botones
+document.querySelectorAll("button, .btn").forEach(btn => {
+  btn.addEventListener("mouseenter", () => btn.style.filter = "brightness(1.2)");
+  btn.addEventListener("mouseleave", () => btn.style.filter = "brightness(1)");
+});
+

@@ -36,9 +36,10 @@ body.dark-mode .btn-login, body.dark-mode .btn-register { background: linear-gra
 body.dark-mode .btn-login:hover, body.dark-mode .btn-register:hover { background: linear-gradient(135deg, #ff3d3d, #b91c1c) !important; }
 
 /* 🧭 FOOTER */
-body.dark-mode .footer-premium { background: linear-gradient(135deg, #181818, #202020) !important; color: #e5e5e5 !important; }
-body.dark-mode .footer-premium .social-icon { color: #ccc !important; }
-body.dark-mode .footer-premium .social-icon:hover { color: #ff5252 !important; }
+body.dark-mode .footer-premium { background:linear-gradient(135deg,#181818,#202020) !important; color:#e5e5e5 !important; }
+body.dark-mode .footer-premium .social-icon { color:#ccc !important; }
+body.dark-mode .footer-premium .social-icon:hover { color:#ff5252 !important; }
+
 
 /* 🩸 PANEL PRIVADO — BASE OSCURA */
 .panel-privado, .panel-privado * { color: #f5f5f5 !important; }
@@ -116,3 +117,8 @@ a:hover,
 body.dark-mode .navbar + div {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
+
+.respuesta-autor { color:#c8102e; font-weight:600; text-decoration:none; transition:color .2s ease; }
+.respuesta-autor:hover { color:#ff0000; text-shadow:0 0 6px rgba(255,0,0,.4); }
+body.dark-mode .respuesta-autor { color:#ff5252; }
+body.dark-mode .respuesta-autor:hover { color:#ff7373; }

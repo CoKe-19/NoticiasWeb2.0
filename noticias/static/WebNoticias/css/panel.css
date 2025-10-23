@@ -36,3 +36,19 @@ body.dark-mode .btn-view:hover { background:linear-gradient(135deg,#ff6262,#ff20
 body.dark-mode .btn-view { background:linear-gradient(135deg,#ff3d3d,#b71c1c); box-shadow:0 0 10px rgba(255,77,77,.25); } 
 body.dark-mode .btn-view:hover { background:linear-gradient(135deg,#ff5e5e,#d32f2f); box-shadow:0 0 18px rgba(255,77,77,.4); }
 
+.rep-buttons {
+  display: inline-block !important;
+  background-color: #b71c1c !important;
+  color: #fff !important;
+  padding: 10px 22px !important;
+  border-radius: 8px !important; 
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.rep-buttons:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}

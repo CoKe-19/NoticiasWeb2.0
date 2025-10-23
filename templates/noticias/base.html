@@ -11,10 +11,10 @@
 </head>
 <body>
    <!-- Toasts -->
-   <div id="toast-container" class="position-fixed top-0 start-50 translate-middle-x mt-3 zindex-tooltip">
+   <div id="toast-container">
       {% if messages %}
          {% for message in messages %}
-         <div class="toast-message {{ message.tags }}">{{ message }}</div>
+            <div class="toast-message {{ message.tags }}">{{ message }}</div>
          {% endfor %}
       {% endif %}
    </div>
@@ -34,72 +34,73 @@
          </button>
 
          <div class="collapse navbar-collapse" id="navbarNav">
-
-            <!-- Menú izquierdo -->
             <ul class="navbar-nav mx-auto align-items-center gap-2">
-               {% if user.is_authenticated %}
 
-                  <!-- Noticias -->
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" id="noticiasDropdown" role="button" data-bs-toggle="dropdown">
-                        📰 Noticias
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="noticiasDropdown">
-                        <li><a class="dropdown-item" href="{% url 'noticia_crear' %}"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a></li>
-                        <li><a class="dropdown-item" href="{% url 'mis_noticias' %}"><i class="bi bi-pencil-square"></i> Mis Noticias</a></li>
-                        {% if user.is_superuser %}
-                        <li><a class="dropdown-item" href="{% url 'noticia_lista' %}"><i class="bi bi-gear"></i> Administrar Noticias</a></li>
-                        {% endif %}
-                     </ul>
-                  </li>
-
-                  <!-- Categorías solo para admin -->
-                  {% if user.is_superuser %}
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown">
-                        📂 Categorías
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
-                        <li><a class="dropdown-item" href="{% url 'categoria_lista' %}"><i class="bi bi-card-list"></i> Ver Categorías</a></li>
-                        <li><a class="dropdown-item" href="{% url 'categoria_crear' %}"><i class="bi bi-plus-circle"></i> Crear Categoría</a></li>
-                     </ul>
-                  </li>
-                  {% endif %}
-
-                  <!-- Mensajes -->
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown">
-                        💬 Mensajes
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="mensajesDropdown">
-                        <li><a class="dropdown-item" href="{% url 'bandeja_entrada' %}"><i class="bi bi-envelope"></i> Bandeja de entrada</a></li>
-                        <li><a class="dropdown-item" href="{% url 'enviar_mensaje' %}"><i class="bi bi-send"></i> Nuevo mensaje</a></li>
-                        
-                     </ul>
-                  </li>
-                  <!-- Reporteros -->
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" id="reporterosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        🧑‍💼 Autores
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="reporterosDropdown">
-                        <li><a class="dropdown-item" href="{% url 'lista_autores' %}"><i class="bi bi-people-fill"></i> Ver Autores</a></li>
-                        <li><a class="dropdown-item" href="{% url 'postular_autor' %}"><i class="bi bi-person-plus-fill"></i> Quiero ser autor</a></li>
-                        <li><a class="dropdown-item" href="{% url 'panel_postulaciones' %}"><i class="bi bi-person-plus-fill"></i> Administrar Postulaciones</a></li>
-                     </ul>
-                  </li>
-
-               {% else %}
+               {% if user.is_authenticated and user.is_superuser or user.is_authenticated and user.is_staff %}
+               <!-- Noticias (solo visible para staff o superuser) -->
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="noticiasDropdown" role="button" data-bs-toggle="dropdown">
+                     📰 Noticias
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="noticiasDropdown">
+                     <li><a class="dropdown-item" href="{% url 'noticia_crear' %}"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a></li>
+                     <li><a class="dropdown-item" href="{% url 'mis_noticias' %}"><i class="bi bi-pencil-square"></i> Mis Noticias</a></li>
+                     <li><hr class="dropdown-divider"></li>
+                     <li><a class="dropdown-item" href="{% url 'noticia_lista' %}"><i class="bi bi-gear"></i> Administrar Noticias</a></li>
+                  </ul>
+               </li>
                {% endif %}
+
+               <!-- Categorías solo para admin -->
+               {% if user.is_superuser %}
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown">
+                     📂 Categorías
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                     <li><a class="dropdown-item" href="{% url 'categoria_lista' %}"><i class="bi bi-card-list"></i> Ver Categorías</a></li>
+                     <li><a class="dropdown-item" href="{% url 'categoria_crear' %}"><i class="bi bi-plus-circle"></i> Crear Categoría</a></li>
+                  </ul>
+               </li>
+               {% endif %}
+               {% if user.is_authenticated %}
+               <!-- Mensajes -->
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown">
+                     💬 Mensajes
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="mensajesDropdown">
+                     <li><a class="dropdown-item" href="{% url 'bandeja_entrada' %}"><i class="bi bi-envelope"></i> Bandeja de entrada</a></li>
+                     <li><a class="dropdown-item" href="{% url 'enviar_mensaje' %}"><i class="bi bi-send"></i> Nuevo mensaje</a></li>
+                  </ul>
+               </li>
+               {% endif %}
+               {% if user.is_authenticated %}
+               <!-- Reporteros -->
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="reporterosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                     🧑‍💼 Autores
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="reporterosDropdown">
+                     <li><a class="dropdown-item" href="{% url 'lista_autores' %}"><i class="bi bi-people-fill"></i> Ver Autores</a></li>
+                     <li><a class="dropdown-item" href="{% url 'postular_autor' %}"><i class="bi bi-person-plus-fill"></i> Quiero ser autor</a></li>
+                     {% if user.is_superuser %}
+                     <li><a class="dropdown-item" href="{% url 'panel_postulaciones' %}"><i class="bi bi-person-plus-fill"></i> Administrar Postulaciones</a></li>
+                  </ul>
+               </li>
+               {% endif %}
+             {% endif %}
+
             </ul>
+
             <!-- Menú derecho -->
             <ul class="navbar-nav align-items-center gap-0">
                {% if user.is_authenticated %}
                   <!-- Buscador -->
                   <li class="nav-item">
                      <form id="buscador" class="d-flex align-items-center" role="search" method="get" action="{% url 'buscar' %}">
-                     <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
-                        type="search" placeholder="Buscar..." name="q" required />
+                        <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
+                           type="search" placeholder="Buscar..." name="q" required />
                         <button class="btn btn-light btn-sm rounded-pill px-2 py-0" type="submit" style="height:32px;">
                            <i class="bi bi-search text-danger"></i>
                         </button>
@@ -151,8 +152,7 @@
             </ul>
          </div>
       </div>
-            </nav>
-
+   </nav>
 
    <!-- 🔸 Submenú inferior -->
    <div class="subnav">
@@ -168,12 +168,11 @@
          <a href="{% url 'deportes' %}" class="subnav-link"><i class="bi bi-trophy"></i> Deportes</a>
          <a href="{% url 'sobre' %}" class="subnav-link"><i class="bi bi-info-circle"></i> Sobre Nosotros</a>
          <a href="{% url 'contacto' %}" class="subnav-link"><i class="bi bi-envelope"></i> Contacto</a>
-                  <!-- Botón modo noche -->
-            <li class="nav-item d-flex align-items-center ms-2">
-               <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-circle p-1" title="Cambiar tema">
-                  <i class="bi bi-moon"></i>
-               </button>
-            </li>
+         <li class="nav-item d-flex align-items-center ms-2">
+            <button id="theme-toggle" class="btn btn-outline-light btn-sm rounded-circle p-1" title="Cambiar tema">
+               <i class="bi bi-moon"></i>
+            </button>
+         </li>
       </div>
    </div>
 
@@ -182,16 +181,25 @@
       {% block content %}{% endblock %}
    </main>
 
-   <!-- Footer -->
-   <footer class="footer-premium py-5">
-      <div class="container text-center">
-         <div class="mb-4">
+   <footer class="footer-premium">
+      <div class="footer-container">
+         <div class="footer-credits">
+            <h4>Producción & Contenido</h4>
+            <p>Dirección Creativa: <strong>Equipo : CoKe</strong></p>
+            <p>Redacción y Edición: <strong>Colaboradores Independientes</strong></p>
+            <p>Desarrollo Web: <strong>CoKe</strong></p>
+         </div>
+
+         <div class="footer-social">
             <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
             <a href="https://discord.com" target="_blank" class="social-icon"><i class="bi bi-discord"></i></a>
             <a href="https://www.youtube.com" target="_blank" class="social-icon"><i class="bi bi-youtube"></i></a>
             <a href="https://twitter.com" target="_blank" class="social-icon"><i class="bi bi-twitter"></i></a>
          </div>
-         <p class="mb-0">&copy; 2025 Vox Campus — Todos los derechos reservados</p>
+
+         <div class="footer-bottom">
+            <p>&copy; 2025 Vox Campus — Hecho con pasión, sin censura.</p>
+         </div>
       </div>
    </footer>
 
