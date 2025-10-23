@@ -17,7 +17,7 @@ body.dark-mode th { background-color: #2a2a2a !important; color: #fff !important
 body.dark-mode td { color: #dddddd !important; }
 
 /* 💬 TEXTO Y LINKS */
-body.dark-mode strong, body.dark-mode .text-dark, body.dark-mode .lead, body.dark-mode .perfil-meta { color: #ffffff !important; }
+body.dark-mode strong, body.dark-mode .text-dark, body.dark-mode .lead, body.dark-mode .perfil-meta { color: #706f6f !important; }
 
 /* 🧾 REPORTEROS */
 body.dark-mode .reportero-card { background: #1b1b1b; border: 1px solid #333; box-shadow: 0 8px 25px rgba(0,0,0,0.7); }

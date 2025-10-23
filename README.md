@@ -1,6 +1,6 @@
 # WebNoticias
 
-**WebNoticias** es una plataforma web desarrollada con Django y Django REST Framework, que permite publicar, comentar, reaccionar y reportar noticias. También incluye funcionalidades de autenticación, mensajería privada y una API RESTful.
+**WebNoticias** es una plataforma web desarrollada con Django y Django REST Framework, que permite publicar, comentar, reaccionar y reportar noticias. También incluye funcionalidades de autenticación, mensajería privada y una API RESTful. Creada por : (CoKe)
 
 ---
 
