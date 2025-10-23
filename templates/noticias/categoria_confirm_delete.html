@@ -1,11 +1,22 @@
 {% extends 'noticias/base.html' %}
+{% load static %}
 {% block title %}Eliminar Categoría | Vox Campus{% endblock %}
 {% block content %}
-<h2>Eliminar Categoría</h2>
-<p>¿Estás seguro que deseas eliminar la categoría "{{ categoria.nombre }}"?</p>
-<form method="post">
-   {% csrf_token %}
-   <button type="submit" class="btn btn-danger">Eliminar</button>
-   <a href="{% url 'categoria_lista' %}" class="btn btn-secondary">Cancelar</a>
-</form>
+<link rel="stylesheet" href="{% static 'css/confirmar_eliminar_horizontal.css' %}">
+
+<div class="confirmar-box">
+   <div class="confirmar-info">
+      <h2>¿Eliminar esta categoría?</h2>
+      <p>¿Estás seguro que deseas eliminar la categoría <strong>"{{ categoria.nombre }}"</strong>?</p>
+   </div>
+
+   <div class="confirmar-actions">
+      <form method="post">
+         {% csrf_token %}
+         <button type="submit" class="confirmar-btn-delete">🗑 Eliminar</button>
+         <a href="{% url 'categoria_lista' %}" class="confirmar-btn-cancel">↩ Cancelar</a>
+      </form>
+   </div>
+</div>
+
 {% endblock %}

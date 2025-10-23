@@ -1,0 +1,13 @@
+/* 💣 Confirmar Eliminación Horizontal (Compacto VoxCampus) */ 
+.confirmar-box{display:flex;align-items:center;justify-content:space-between;gap:2rem;max-width:900px;margin:5rem auto;padding:1.6rem 2.4rem;background:#fff;border-radius:18px;box-shadow:0 6px 16px rgba(0,0,0,.12);transition:transform .25s ease,box-shadow .25s ease;} 
+.confirmar-box:hover{transform:scale(1.01);box-shadow:0 8px 22px rgba(0,0,0,.18);} 
+.confirmar-info{flex:2;} 
+.confirmar-info h2{color:#c62828;font-weight:800;font-size:1.4rem;margin-bottom:.5rem;} 
+.confirmar-info p{color:#555;font-size:.95rem;margin:0;} 
+.confirmar-actions{flex:1;display:flex;justify-content:flex-end;align-items:center;gap:.8rem;} 
+.confirmar-actions form{display:flex;gap:.8rem;align-items:center;margin:0;} 
+.confirmar-btn-delete{background:linear-gradient(135deg,#e53935,#c62828);color:#fff;font-weight:700;border:none;border-radius:8px;padding:.6rem 1.4rem;font-size:.9rem;cursor:pointer;transition:all .25s ease;box-shadow:0 3px 8px rgba(229,57,53,.3);} 
+.confirmar-btn-delete:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(198,40,40,.4);} 
+.confirmar-btn-cancel{background:#444;color:#fff;font-weight:700;border:none;border-radius:8px;padding:.6rem 1.4rem;font-size:.9rem;cursor:pointer;transition:all .25s ease;box-shadow:0 3px 8px rgba(0,0,0,.25);} 
+.confirmar-btn-cancel:hover{background:#222;transform:translateY(-1px);} 
+@media(max-width:768px){.confirmar-box{flex-direction:column;text-align:center;padding:2rem;}.confirmar-actions{width:100%;justify-content:center;}.confirmar-btn-delete,.confirmar-btn-cancel{width:42%;}}

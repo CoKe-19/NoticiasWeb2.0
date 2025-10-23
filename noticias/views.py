@@ -205,15 +205,10 @@ def confirmar_eliminar_noticia(request, noticia_id):
 def categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, id=categoria_id)
     noticias = Noticia.objects.filter(categoria=categoria)
-    return render(request, 'noticias/categoria.html', {
+    return render(request, 'noticias/categoria_lista.html', {
         'categoria': categoria,
         'noticias': noticias
     })
-
-@login_required
-def categoria_lista(request):
-    categorias = Categoria.objects.all()
-    return render(request, 'noticias/categoria_lista.html', {'categorias': categorias})
 
 @login_required
 def categoria_crear(request):
