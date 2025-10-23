@@ -1,46 +1,95 @@
 {% extends "noticias/base.html" %}
 {% load static %}
 {% block title %}Editar Perfil{% endblock %}
+
 {% block content %}
-<div class="container my-4">
-   <h2 class="mb-4 text-center text-danger fw-bold">🧑‍💻 Editar Perfil</h2>
-   <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-lg border-0 rounded-4" style="max-width:600px; margin:auto;">
-      {% csrf_token %}
-      
-      <div class="mb-3 text-center">
+<div class="perfil-container container my-5">
+   <div class="perfil-card shadow-lg border-0 rounded-4">
+
+      <!-- 🖼️ Banner -->
+      <div class="perfil-banner-container">
+         {% if request.user.perfil.banner %}
+            <img src="{{ request.user.perfil.banner.url }}" alt="Banner de perfil" class="perfil-banner">
+         {% else %}
+            <div class="perfil-banner-placeholder"></div>
+         {% endif %}
+      </div>
+
+      <!-- 👤 Avatar -->
+      <div class="perfil-avatar text-center">
          {% if request.user.perfil.avatar %}
-            <img src="{{ request.user.perfil.avatar.url }}" alt="Avatar actual"
-               style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+            <img src="{{ request.user.perfil.avatar.url }}" alt="Avatar" class="rounded-circle">
          {% else %}
-            <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar"
-               style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
+            <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar" class="rounded-circle">
          {% endif %}
       </div>
 
-      <p class="text-center mb-3">
-         Rol actual:
-         {% if request.user.perfil.rol == "admin" %}
-            <span class="badge bg-danger">Administrador</span>
-         {% else %}
-            <span class="badge bg-secondary">Autor</span>
-         {% endif %}
-      </p>
+      <!-- 📋 Contenido del formulario -->
+      <div class="perfil-info text-center mt-5 px-4 pb-5">
+         <h2 class="text-danger fw-bold mb-3">🧑‍💻 Editar Perfil</h2>
 
-      <!-- Campo personalizado de imagen -->
-      <div class="text-center mb-4">
-         <label for="id_avatar" class="custom-file-upload">📤 Subir foto de perfil</label>
-         <input type="file" id="id_avatar" name="avatar" accept="image/*" class="file-input">
+         <form method="POST" enctype="multipart/form-data" class="form mx-auto" style="max-width:600px;">
+            {% csrf_token %}
+
+            <!-- 📤 Avatar -->
+            <div class="text-center mb-3">
+               <label for="id_avatar" class="custom-file-upload">
+                  <i class="bi bi-upload me-1"></i> Cambiar foto de perfil
+               </label>
+               <input type="file" id="id_avatar" name="avatar" accept="image/*" class="file-input">
+            </div>
+
+            <!-- 🖼️ Banner -->
+            <div class="mb-3 text-start">
+               <label for="id_banner" class="form-label fw-semibold">
+                  <i class="bi bi-image"></i> Banner de portada
+               </label>
+               <input type="file" id="id_banner" name="banner" accept="image/*" class="form-control">
+            </div>
+
+            <!-- 🧠 Biografía -->
+            <div class="mb-3 text-start">
+               {{ form.bio.label_tag }}
+               {{ form.bio }}
+            </div>
+
+            <!-- 🌐 Redes sociales -->
+            <h5 class="text-danger fw-bold mt-4 mb-3 text-start">
+               <i class="bi bi-globe2 me-1"></i> Redes sociales
+            </h5>
+            <div class="mb-3">{{ form.twitter.label_tag }}{{ form.twitter }}</div>
+            <div class="mb-3">{{ form.github.label_tag }}{{ form.github }}</div>
+            <div class="mb-3">{{ form.instagram.label_tag }}{{ form.instagram }}</div>
+            <div class="mb-3">{{ form.linkedin.label_tag }}{{ form.linkedin }}</div>
+            <div class="mb-3">{{ form.sitio_web.label_tag }}{{ form.sitio_web }}</div>
+
+            <!-- 👤 Información personal -->
+            <h5 class="text-danger fw-bold mt-4 mb-3 text-start">
+               <i class="bi bi-person-lines-fill me-1"></i> Información personal
+            </h5>
+            <div class="mb-3">{{ form.email.label_tag }}{{ form.email }}</div>
+
+            <!-- 🏷️ Rol -->
+            <p class="text-center mt-3 mb-4">
+               Rol actual:
+               {% if request.user.perfil.rol == "admin" %}
+                  <span class="badge bg-danger px-3 py-2">Administrador</span>
+               {% else %}
+                  <span class="badge bg-secondary px-3 py-2">Autor</span>
+               {% endif %}
+            </p>
+
+            <!-- 🔘 Botones -->
+            <div class="text-center mt-3">
+               <button type="submit" class="btn btn-danger px-4 fw-semibold me-2">
+                  <i class="bi bi-check-circle me-1"></i> Guardar cambios
+               </button>
+               <a href="{% url 'ver_perfil' request.user.username %}" class="btn btn-secondary px-4 fw-semibold">
+                  <i class="bi bi-x-circle me-1"></i> Cancelar
+               </a>
+            </div>
+         </form>
       </div>
-
-      <!-- Otros campos -->
-      <div class="mb-3">{{ form.bio.label_tag }}{{ form.bio }}</div>
-      <div class="mb-3">{{ form.apodo.label_tag }}{{ form.apodo }}</div>
-      <div class="mb-3">{{ form.email.label_tag }}{{ form.email }}</div>
-
-      <div class="text-center mt-3">
-         <button type="submit" class="btn btn-danger px-4">Guardar cambios</button>
-         <a href="{% url 'ver_perfil' request.user.username %}" class="btn btn-secondary px-4">Cancelar</a>
-      </div>
-   </form>
+   </div>
 </div>
 {% endblock %}

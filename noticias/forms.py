@@ -140,17 +140,24 @@ class PerfilForm(forms.ModelForm):
 
     class Meta:
         model = Perfil
-        fields = ['avatar', 'bio']
+        fields = ['avatar', 'banner', 'bio', 'twitter', 'github', 'instagram', 'linkedin', 'sitio_web']
         labels = {
             'avatar': 'Foto de perfil',
+            'banner': 'Banner de portada',
             'bio': 'Biografía',
+            'twitter': 'Twitter',
+            'github': 'GitHub',
+            'instagram': 'Instagram',
+            'linkedin': 'LinkedIn',
+            'sitio_web': 'Sitio web personal',
         }
         widgets = {
-            'bio': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 4,
-                'placeholder': 'Cuéntanos algo sobre ti...'
-            }),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Cuéntanos algo sobre ti...'}),
+            'twitter': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://twitter.com/usuario'}),
+            'github': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://github.com/usuario'}),
+            'instagram': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://instagram.com/usuario'}),
+            'linkedin': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://linkedin.com/in/usuario'}),
+            'sitio_web': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://tusitio.com'}),
         }
 
     def save(self, commit=True):
@@ -163,6 +170,7 @@ class PerfilForm(forms.ModelForm):
             user.save()
             perfil.save()
         return perfil
+
 
 class MensajeForm(forms.ModelForm):
     receptor = forms.ModelChoiceField(

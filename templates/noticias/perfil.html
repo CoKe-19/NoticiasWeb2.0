@@ -1,55 +1,95 @@
 {% extends "noticias/base.html" %}
 {% load static %}
 {% block title %}Perfil de {{ perfil.user.username }}{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-   <div class="card shadow p-4 rounded-4 bg-light">
-      <div class="d-flex align-items-center mb-4">
-         <!-- 🖼️ Avatar -->
-         <div class="me-4">
-            {% if perfil.avatar %}
-            <img src="{{ perfil.avatar.url }}" alt="Avatar" class="rounded-circle shadow" width="140" height="140">
-            {% else %}
-            <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar" class="rounded-circle shadow" width="140" height="140">
-            {% endif %}
-         </div>
-         <!-- 📄 Info básica + botón -->
-         <div>
-            <h2 class="mb-1 fw-bold">{{ perfil.user.username }}</h2>
-            <p class="mb-1"><strong>Correo:</strong> {{ perfil.user.email }}</p>
-            {% if request.user != perfil.user %}
-            <a href="{% url 'enviar_a_usuario' perfil.user.username %}" class="btn btn-outline-success mt-2 px-4 py-2 fw-semibold">
-            <i class="bi bi-envelope-fill me-1"></i> Enviar mensaje
-            </a>
-            {% endif %}
-         </div>
+<div class="container my-5 perfil-container">
+   <div class="perfil-card rounded-4 shadow-lg">
+
+      <!-- 🖼️ Banner -->
+      <div class="perfil-banner-container">
+         {% if perfil.banner %}
+            <img src="{{ perfil.banner.url }}" alt="Banner de {{ perfil.user.username }}">
+         {% else %}
+            <div class="perfil-banner-placeholder"></div>
+         {% endif %}
       </div>
-      <!-- 🧠 Biografía -->
-      <p><strong>Biografía:</strong>
+
+      <!-- 👤 Avatar -->
+      <div class="perfil-avatar">
+         {% if perfil.avatar %}
+            <img src="{{ perfil.avatar.url }}" alt="Avatar de {{ perfil.user.username }}">
+         {% else %}
+            <img src="{% static 'img/default_avatar.png' %}" alt="Sin avatar">
+         {% endif %}
+      </div>
+
+      <!-- 🧾 Info -->
+      <div class="perfil-info text-center">
+         <h2 class="fw-bold mb-1">{{ perfil.user.username }}</h2>
+         <p>{{ perfil.user.email }}</p>
+
+         {% if perfil.sitio_web %}
+            <p><a href="{{ perfil.sitio_web }}" target="_blank" class="perfil-link">{{ perfil.sitio_web }}</a></p>
+         {% endif %}
+
+         {% if request.user != perfil.user %}
+            <a href="{% url 'enviar_a_usuario' perfil.user.username %}" class="btn btn-outline-danger mt-2 px-4 py-2 fw-semibold">
+               <i class="bi bi-envelope-fill me-1"></i> Enviar mensaje
+            </a>
+         {% endif %}
+      </div>
+
+      <!-- 🧠 Bio -->
+      <div class="perfil-bio text-center mt-4 px-4">
+         <h5 class="fw-semibold mb-2">💬 Biografía</h5>
          {% if perfil.bio %}
-         {{ perfil.bio }}
+            <p>{{ perfil.bio }}</p>
          {% else %}
-         <em>Este usuario aún no ha escrito una biografía.</em>
+            <p class="text-muted"><em>Este usuario aún no ha escrito una biografía.</em></p>
          {% endif %}
-      </p>
+      </div>
+
+      <!-- 🌐 Redes sociales -->
+      {% if perfil.twitter or perfil.github or perfil.instagram or perfil.linkedin %}
+      <div class="perfil-redes text-center mt-4">
+         {% if perfil.twitter %}<a href="{{ perfil.twitter }}" target="_blank" title="Twitter"><i class="bi bi-twitter-x"></i></a>{% endif %}
+         {% if perfil.github %}<a href="{{ perfil.github }}" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>{% endif %}
+         {% if perfil.instagram %}<a href="{{ perfil.instagram }}" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>{% endif %}
+         {% if perfil.linkedin %}<a href="{{ perfil.linkedin }}" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>{% endif %}
+      </div>
+      {% endif %}
+
       <!-- 🏷️ Rol -->
-      <p class="perfil-meta mt-2">
-         <strong>Rol:</strong>
-         {% if user.is_superuser %}
-         <span class="badge bg-danger text-white">Administrador</span>
-         {% else %}
-         <span class="badge bg-secondary text-white">Usuario Normal</span>
+<!-- 🏷️ Rol del usuario del perfil -->
+      <div class="perfil-rol text-center mt-3">
+         {% if perfil.user.is_superuser %}
+            <span class="badge bg-danger text-white px-3 py-2 me-1">Administrador</span>
          {% endif %}
-      </p>
+         {% if perfil.user.is_staff %}
+            <span class="badge bg-primary text-white px-3 py-2 me-1">Autor</span>
+         {% endif %}
+         {% if not perfil.user.is_superuser and not perfil.user.is_staff %}
+            <span class="badge bg-secondary text-white px-3 py-2">Usuario</span>
+         {% endif %}
+      </div>
+
+
       <!-- 📰 Noticias -->
-      <h3 class="mt-4">📰 Noticias publicadas</h3>
-      <ul>
-         {% for noticia in noticias %}
-         <li><a href="{% url 'noticia_detalle' noticia.id %}">{{ noticia.titulo }}</a></li>
-         {% empty %}
-         <li>Este usuario aún no ha publicado noticias.</li>
-         {% endfor %}
-      </ul>
+      <div class="perfil-noticias mt-5 px-4 pb-4">
+         <h4 class="fw-bold mb-3 text-center">📰 Noticias publicadas</h4>
+         <ul class="list-unstyled">
+            {% for noticia in noticias %}
+               <li class="mb-2 text-center">
+                  <a href="{% url 'noticia_detalle' noticia.id %}" class="perfil-noticia-link">
+                     {{ noticia.titulo }}
+                  </a>
+               </li>
+            {% empty %}
+               <p class="text-center text-muted">Este usuario aún no ha publicado noticias.</p>
+            {% endfor %}
+         </ul>
+      </div>
    </div>
 </div>
 {% endblock %}

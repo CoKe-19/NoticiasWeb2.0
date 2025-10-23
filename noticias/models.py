@@ -67,6 +67,13 @@ class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatares/', blank=True, null=True)
+    banner = models.ImageField(upload_to='banners/', blank=True, null=True)
+    twitter = models.URLField(max_length=200, blank=True, null=True)
+    github = models.URLField(max_length=200, blank=True, null=True)
+    instagram = models.URLField(max_length=200, blank=True, null=True)
+    linkedin = models.URLField(max_length=200, blank=True, null=True)
+    sitio_web = models.URLField(max_length=200, blank=True, null=True)
+
     rol = models.CharField(
         max_length=20,
         choices=[('autor', 'Autor'), ('admin', 'Administrador')],

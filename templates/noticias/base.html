@@ -19,140 +19,197 @@
       {% endif %}
    </div>
 
-   <!-- Navbar -->
-   <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
-      <div class="container">
-         <a class="navbar-brand d-flex align-items-center fw-bold" 
-            href="{% if user.is_authenticated and user.is_superuser %}{% url 'panel_privado' %}{% else %}{% url 'index' %}{% endif %}">
-            <span class="me-2 text-white">Vox Campus</span>
-            <img src="{% static 'WebNoticias/img/logo.png' %}" alt="Logo Vox Campus" 
-                 style="height:40px; width:auto; object-fit:contain;" />
-         </a>
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
+   <div class="container">
+      <a class="navbar-brand d-flex align-items-center fw-bold"
+         href="{% if user.is_authenticated and user.is_superuser %}{% url 'panel_privado' %}{% else %}{% url 'index' %}{% endif %}">
+         <span class="me-2 text-white">Vox Campus</span>
+         <img src="{% static 'WebNoticias/img/logo.png' %}" alt="Logo Vox Campus"
+              style="height:40px; width:auto; object-fit:contain;" />
+      </a>
 
-         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-         </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+         <span class="navbar-toggler-icon"></span>
+      </button>
 
-         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto align-items-center gap-2">
+      <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav mx-auto align-items-center gap-2">
 
-               {% if user.is_authenticated and user.is_superuser or user.is_authenticated and user.is_staff %}
+            {% if user.is_authenticated and user.is_superuser or user.is_authenticated and user.is_staff %}
                <!-- Noticias (solo visible para staff o superuser) -->
                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="noticiasDropdown" role="button" data-bs-toggle="dropdown">
                      📰 Noticias
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="noticiasDropdown">
-                     <li><a class="dropdown-item" href="{% url 'noticia_crear' %}"><i class="bi bi-file-earmark-plus"></i> Crear Noticia</a></li>
-                     <li><a class="dropdown-item" href="{% url 'mis_noticias' %}"><i class="bi bi-pencil-square"></i> Mis Noticias</a></li>
-                     <li><hr class="dropdown-divider"></li>
-                     <li><a class="dropdown-item" href="{% url 'noticia_lista' %}"><i class="bi bi-gear"></i> Administrar Noticias</a></li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'noticia_crear' %}">
+                           <i class="bi bi-file-earmark-plus"></i> Crear Noticia
+                        </a>
+                     </li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'mis_noticias' %}">
+                           <i class="bi bi-pencil-square"></i> Mis Noticias
+                        </a>
+                     </li>
+
+                     {% if user.is_superuser %}
+                        <li>
+                           <a class="dropdown-item" href="{% url 'noticia_lista' %}">
+                              <i class="bi bi-gear"></i> Administrar Noticias
+                           </a>
+                        </li>
+                     {% endif %}
                   </ul>
                </li>
-               {% endif %}
+            {% endif %}
 
-               <!-- Categorías solo para admin -->
-               {% if user.is_superuser %}
+            <!-- Categorías solo para admin -->
+            {% if user.is_superuser %}
                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown">
                      📂 Categorías
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
-                     <li><a class="dropdown-item" href="{% url 'categoria_lista' %}"><i class="bi bi-card-list"></i> Ver Categorías</a></li>
-                     <li><a class="dropdown-item" href="{% url 'categoria_crear' %}"><i class="bi bi-plus-circle"></i> Crear Categoría</a></li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'categoria_lista' %}">
+                           <i class="bi bi-card-list"></i> Ver Categorías
+                        </a>
+                     </li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'categoria_crear' %}">
+                           <i class="bi bi-plus-circle"></i> Crear Categoría
+                        </a>
+                     </li>
                   </ul>
                </li>
-               {% endif %}
-               {% if user.is_authenticated %}
+            {% endif %}
+
+            {% if user.is_authenticated %}
                <!-- Mensajes -->
                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown">
                      💬 Mensajes
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="mensajesDropdown">
-                     <li><a class="dropdown-item" href="{% url 'bandeja_entrada' %}"><i class="bi bi-envelope"></i> Bandeja de entrada</a></li>
-                     <li><a class="dropdown-item" href="{% url 'enviar_mensaje' %}"><i class="bi bi-send"></i> Nuevo mensaje</a></li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'bandeja_entrada' %}">
+                           <i class="bi bi-envelope"></i> Bandeja de entrada
+                        </a>
+                     </li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'enviar_mensaje' %}">
+                           <i class="bi bi-send"></i> Nuevo mensaje
+                        </a>
+                     </li>
                   </ul>
                </li>
-               {% endif %}
-               {% if user.is_authenticated %}
-               <!-- Reporteros -->
-               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="reporterosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% endif %}
+
+            {% if user.is_authenticated %}
+               <!-- Autores -->
+               <li class="nav-item dropdown has-dot">
+                  <a class="nav-link dropdown-toggle" href="#" id="reporterosDropdown" role="button" data-bs-toggle="dropdown">
                      🧑‍💼 Autores
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="reporterosDropdown">
-                     <li><a class="dropdown-item" href="{% url 'lista_autores' %}"><i class="bi bi-people-fill"></i> Ver Autores</a></li>
-                     <li><a class="dropdown-item" href="{% url 'postular_autor' %}"><i class="bi bi-person-plus-fill"></i> Quiero ser autor</a></li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'lista_autores' %}">
+                           <i class="bi bi-people-fill"></i> Ver Autores
+                        </a>
+                     </li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'postular_autor' %}">
+                           <i class="bi bi-person-plus-fill"></i> Quiero ser autor
+                        </a>
+                     </li>
+
                      {% if user.is_superuser %}
-                     <li><a class="dropdown-item" href="{% url 'panel_postulaciones' %}"><i class="bi bi-person-plus-fill"></i> Administrar Postulaciones</a></li>
+                        <li>
+                           <a class="dropdown-item" href="{% url 'panel_postulaciones' %}">
+                              <i class="bi bi-gear"></i> Administrar Postulaciones
+                           </a>
+                        </li>
+                     {% endif %}
                   </ul>
                </li>
-               {% endif %}
-             {% endif %}
+            {% endif %}
+         </ul>
 
-            </ul>
+         <!-- Menú derecho -->
+         <ul class="navbar-nav align-items-center gap-0">
+            {% if user.is_authenticated %}
+               <!-- Buscador -->
+               <li class="nav-item">
+                  <form id="buscador" class="d-flex align-items-center" role="search" method="get" action="{% url 'buscar' %}">
+                     <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
+                            type="search" placeholder="Buscar..." name="q" required />
+                     <button class="btn btn-light btn-sm rounded-pill px-2 py-0" type="submit" style="height:32px;">
+                        <i class="bi bi-search text-danger"></i>
+                     </button>
+                  </form>
+               </li>
 
-            <!-- Menú derecho -->
-            <ul class="navbar-nav align-items-center gap-0">
-               {% if user.is_authenticated %}
-                  <!-- Buscador -->
-                  <li class="nav-item">
-                     <form id="buscador" class="d-flex align-items-center" role="search" method="get" action="{% url 'buscar' %}">
-                        <input id="input-busqueda" class="form-control form-control-sm rounded-pill shadow-sm border-0 me-1"
-                           type="search" placeholder="Buscar..." name="q" required />
-                        <button class="btn btn-light btn-sm rounded-pill px-2 py-0" type="submit" style="height:32px;">
-                           <i class="bi bi-search text-danger"></i>
-                        </button>
-                     </form>
-                  </li>
+               <!-- Notificaciones -->
+               <li class="nav-item position-relative">
+                  <a href="{% url 'notificaciones' %}" class="nav-link position-relative">
+                     <i class="bi bi-bell-fill"></i>
+                     {% if notif_count > 0 %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
+                           {{ notif_count }}
+                        </span>
+                     {% endif %}
+                  </a>
+               </li>
 
-                  <!-- Notificaciones -->
-                  <li class="nav-item position-relative">
-                     <a href="{% url 'notificaciones' %}" class="nav-link position-relative">
-                        <i class="bi bi-bell-fill"></i>
-                        {% if notif_count > 0 %}
-                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
-                              {{ notif_count }}
-                           </span>
-                        {% endif %}
-                     </a>
-                  </li>
-
-                  <!-- Usuario -->
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle btn-login px-3 py-2" href="#" id="userDropdown"
-                        role="button" data-bs-toggle="dropdown">
-                        {% if user.perfil.avatar %}
-                           <img src="{{ user.perfil.avatar.url }}" alt="avatar"
-                              style="width:28px; height:28px; border-radius:50%; object-fit:cover; margin-right:6px;" />
-                        {% else %}
-                           <i class="bi bi-person-circle me-1"></i>
-                        {% endif %}
-                        {{ user.username }}
-                     </a>
-                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{% url 'ver_perfil' user.username %}"><i class="bi bi-person"></i> Mi Perfil</a></li>
-                        <li><a class="dropdown-item" href="{% url 'editar_perfil' %}"><i class="bi bi-pencil-square"></i> Editar Perfil</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li>
-                           <form method="POST" action="{% url 'logout' %}">
-                              {% csrf_token %}
-                              <button type="submit" class="dropdown-item text-danger">
-                                 <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
-                              </button>
-                           </form>
-                        </li>
-                     </ul>
-                  </li>
-               {% else %}
-                  <li class="nav-item"><a class="btn btn-login fw-bold px-3 py-1" href="{% url 'login' %}">Iniciar Sesión</a></li>
-                  <li class="nav-item"><a href="{% url 'registro' %}" class="btn-register px-3 py-1">Regístrate</a></li>
-               {% endif %}
-            </ul>
-         </div>
+               <!-- Usuario -->
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle btn-login px-3 py-2" href="#" id="userDropdown"
+                     role="button" data-bs-toggle="dropdown">
+                     {% if user.perfil.avatar %}
+                        <img src="{{ user.perfil.avatar.url }}" alt="avatar"
+                             style="width:28px; height:28px; border-radius:50%; object-fit:cover; margin-right:6px;" />
+                     {% else %}
+                        <i class="bi bi-person-circle me-1"></i>
+                     {% endif %}
+                     {{ user.username }}
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                     <li>
+                        <a class="dropdown-item" href="{% url 'ver_perfil' user.username %}">
+                           <i class="bi bi-person"></i> Mi Perfil
+                        </a>
+                     </li>
+                     <li>
+                        <a class="dropdown-item" href="{% url 'editar_perfil' %}">
+                           <i class="bi bi-pencil-square"></i> Editar Perfil
+                        </a>
+                     </li>
+                     <li><hr class="dropdown-divider" /></li>
+                     <li>
+                        <form method="POST" action="{% url 'logout' %}">
+                           {% csrf_token %}
+                           <button type="submit" class="dropdown-item text-danger">
+                              <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                           </button>
+                        </form>
+                     </li>
+                  </ul>
+               </li>
+            {% else %}
+               <li class="nav-item">
+                  <a class="btn btn-login fw-bold px-3 py-1" href="{% url 'login' %}">Iniciar Sesión</a>
+               </li>
+               <li class="nav-item">
+                  <a href="{% url 'registro' %}" class="btn-register px-3 py-1">Regístrate</a>
+               </li>
+            {% endif %}
+         </ul>
       </div>
-   </nav>
+   </div>
+</nav>
+
 
    <!-- 🔸 Submenú inferior -->
    <div class="subnav">
