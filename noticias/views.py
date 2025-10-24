@@ -517,8 +517,15 @@ def reaccionar_noticia(request, noticia_id):
 
 @login_required
 def enviar_mensaje(request):
+    para_username = request.GET.get('para')
+    receptor = None
+    if para_username:
+        receptor = get_object_or_404(User, username=para_username)
     if request.method == 'POST':
         form = MensajeForm(request.POST)
+        if receptor:
+            form.data = form.data.copy()
+            form.data['receptor'] = receptor.id
         if form.is_valid():
             mensaje = form.save(commit=False)
             mensaje.remitente = request.user
@@ -529,21 +536,15 @@ def enviar_mensaje(request):
                 contenido=f"📩 Nuevo mensaje de {request.user.username}",
                 url=reverse('bandeja_entrada')
             )
+            messages.success(request, f"Mensaje enviado correctamente a {mensaje.receptor.username}")
             return redirect('bandeja_entrada')
+        else:
+            messages.error(request, "Hubo un error al enviar el mensaje")
     else:
-        form = MensajeForm()
-    return render(request, 'noticias/enviar.html', {'form': form})
+        form = MensajeForm(initial={'receptor': receptor})
+    return render(request, 'noticias/enviar.html', {'form': form, 'receptor': receptor})
 
 
-@login_required
-def enviar_a_usuario(request, username):
-    receptor = get_object_or_404(User, username=username)
-    if request.method == 'POST':
-        contenido = request.POST.get('contenido')
-        if contenido:
-            Mensaje.objects.create(remitente=request.user, receptor=receptor, contenido=contenido)
-            return redirect('bandeja_entrada')
-    return render(request, 'noticias/enviar_directo.html', {'receptor': receptor})
 
 @login_required
 def bandeja_entrada(request):

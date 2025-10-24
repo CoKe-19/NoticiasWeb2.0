@@ -1,5 +1,5 @@
 {% extends "noticias/base.html" %}
-{% load static %}
+{% load static humanize %}
 {% block title %}Perfil de {{ perfil.user.username }}{% endblock %}
 
 {% block content %}
@@ -29,14 +29,30 @@
          <h2 class="fw-bold mb-1">{{ perfil.user.username }}</h2>
          <p>{{ perfil.user.email }}</p>
 
+         <!-- 🟢 Estado y última conexión -->
+         {% if perfil.esta_en_linea %}
+            <p class="mt-2 fw-semibold text-success">● En línea</p>
+         {% else %}
+            <p class="text-secondary small mb-3">● Desconectado</p>
+            <p class="text-secondary small mb-3">
+               Última conexión: 
+               {% if perfil.ultima_actividad %}
+                  {{ perfil.ultima_actividad|timesince }} atrás
+               {% else %}
+                  <em>Desconocida</em>
+               {% endif %}
+            </p>
+         {% endif %}
+
+
          {% if perfil.sitio_web %}
             <p><a href="{{ perfil.sitio_web }}" target="_blank" class="perfil-link">{{ perfil.sitio_web }}</a></p>
          {% endif %}
 
          {% if request.user != perfil.user %}
-            <a href="{% url 'enviar_a_usuario' perfil.user.username %}" class="btn btn-outline-danger mt-2 px-4 py-2 fw-semibold">
-               <i class="bi bi-envelope-fill me-1"></i> Enviar mensaje
-            </a>
+         <a href="{% url 'enviar_mensaje' %}?para={{ perfil.user.username }}" class="btn btn-primary">
+            ✉️ Enviar mensaje
+         </a>
          {% endif %}
       </div>
 
@@ -61,7 +77,6 @@
       {% endif %}
 
       <!-- 🏷️ Rol -->
-<!-- 🏷️ Rol del usuario del perfil -->
       <div class="perfil-rol text-center mt-3">
          {% if perfil.user.is_superuser %}
             <span class="badge bg-danger text-white px-3 py-2 me-1">Administrador</span>
@@ -74,7 +89,6 @@
          {% endif %}
       </div>
 
-
       <!-- 📰 Noticias -->
       <div class="perfil-noticias mt-5 px-4 pb-4">
          <h4 class="fw-bold mb-3 text-center">📰 Noticias publicadas</h4>
@@ -86,7 +100,7 @@
                   </a>
                </li>
             {% empty %}
-               <p class="text-center text-muted">Este usuario aún no ha publicado noticias.</p>
+               <p class="text-secondary small mb-3">Este usuario aún no ha publicado noticias.</p>
             {% endfor %}
          </ul>
       </div>

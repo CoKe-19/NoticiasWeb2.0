@@ -68,6 +68,7 @@ class Perfil(models.Model):
     bio = models.TextField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatares/', blank=True, null=True)
     banner = models.ImageField(upload_to='banners/', blank=True, null=True)
+    ultima_actividad = models.DateTimeField(default=timezone.now)
     twitter = models.URLField(max_length=200, blank=True, null=True)
     github = models.URLField(max_length=200, blank=True, null=True)
     instagram = models.URLField(max_length=200, blank=True, null=True)
@@ -79,6 +80,9 @@ class Perfil(models.Model):
         choices=[('autor', 'Autor'), ('admin', 'Administrador')],
         default='autor'
     )
+    
+    def esta_en_linea(self):
+        return timezone.now() - self.ultima_actividad < timezone.timedelta(minutes=5)
 
     def __str__(self):
         return f"Perfil de {self.user.username}"

@@ -91,3 +91,7 @@ body.dark-mode .reporte-info small { color:#bbb; }
   .perfil-noticias { background:linear-gradient(180deg,#2a2a2a,#1e1e1e); border:1px solid #333; } 
   .perfil-noticia-link { color:#e63946; } 
 }
+
+.text-success::before { content: "🟢 "; }
+.text-muted::before { content: "⚫ "; }
+.text-secondary { opacity: 0.8; }
